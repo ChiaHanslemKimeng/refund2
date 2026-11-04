@@ -1,0 +1,19 @@
+{
+  "name": "Nexis Cyber Recovery",
+  "short_name": "Nexis Recovery",
+  "description": "Nexis Cyber Recovery Case Management & Forensics Gateway",
+  "start_url": "/admin/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#080c14",
+  "theme_color": "#06b6d4",
+  "icons": [
+    {
+      "src": "/static/img/nexis_icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

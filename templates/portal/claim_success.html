@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Claim Submitted{% endblock %}
+
+{% block content %}
+<div class="container py-5 mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card border-0 shadow-lg text-center p-5">
+                <div class="mb-4">
+                    <div class="rounded-circle bg-success text-white d-flex align-items-center justify-content-center mx-auto"
+                        style="width: 80px; height: 80px;">
+                        <i class="fas fa-check fa-3x"></i>
+                    </div>
+                </div>
+                <h2 class="fw-bold text-navy mb-3">Claim Submitted Successfully!</h2>
+                <p class="lead text-muted">Thank you {{ claim.full_name }}. We have received your claim details.</p>
+
+                <div class="bg-light p-4 rounded-3 my-4 border border-warning">
+                    <p class="mb-1 text-muted small text-uppercase fw-bold">Your Claim ID</p>
+                    <h1 class="display-6 fw-bold text-navy mb-0 tracking-widest">{{ claim.claim_id }}</h1>
+                </div>
+
+                <p class="text-muted mb-4">Please save this Claim ID. You will need it to track the status of your
+                    refund.</p>
+
+                <div class="d-grid gap-2">
+                    <a href="{% url 'check_status' %}" class="btn btn-navy btn-lg">Check Status</a>
+                    <a href="{% url 'home' %}" class="btn btn-outline-dark">Return Home</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

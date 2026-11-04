@@ -1,0 +1,1011 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container py-4 py-lg-5">
+    <div class="row g-4">
+        <!-- Sidebar (Unified Master Sidebar) -->
+        {% include 'accounts/sidebar.html' with active_page='dashboard' %}
+
+        <!-- Main Content Area -->
+        <div class="col-lg-9">
+            <!-- Header Banner -->
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4 p-3 p-md-4 rounded-4 shadow-sm" style="background: linear-gradient(135deg, #0a192f 0%, #112240 100%); color: white; max-width: 100%; overflow: hidden;">
+                <div class="w-100">
+                    <div class="d-flex align-items-center gap-2 mb-1">
+                        <span class="badge bg-warning text-dark fw-bold px-2 py-1 rounded-pill" style="font-size: 0.75rem;">
+                            <i class="fas fa-shield-alt me-1"></i> 256-Bit Encrypted Portal
+                        </span>
+                        <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1 rounded-pill" style="font-size: 0.75rem;">
+                            <i class="fas fa-bolt me-1"></i> Live Resolution Active
+                        </span>
+                    </div>
+                    <h3 class="fw-bold mb-1">Welcome back, {{ request.user.first_name|default:request.user.username }}</h3>
+                    <p class="text-light opacity-75 small mb-2">Track real-time case investigations, evidence filings, and recovered financial assets.</p>
+                    <div class="d-flex flex-wrap align-items-center gap-2 bg-white bg-opacity-10 px-3 py-2 rounded-3 border border-white border-opacity-15 w-100" style="max-width: 100%; word-break: break-word;">
+                        <span class="small text-light opacity-75"><i class="fas fa-id-card text-gold me-1"></i> Account Number:</span>
+                        <strong class="font-monospace text-white fs-6" id="dashboardAccountNo">{{ profile.account_no }}</strong>
+                        <button type="button" class="btn btn-sm text-gold p-0 ms-1" onclick="navigator.clipboard.writeText('{{ profile.account_no }}'); alert('Account Number {{ profile.account_no }} copied to clipboard!');" title="Copy Account Number">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                        <span class="text-white-50 mx-1">|</span>
+                        <span class="small text-light opacity-75">Min. Withdrawal Requirement:</span>
+                        <strong class="text-gold small">${{ profile.min_withdrawal_amount|floatformat:2 }}</strong>
+                    </div>
+                </div>
+                <div class="text-md-end bg-white bg-opacity-10 p-3 rounded-3 border border-white border-opacity-10">
+                    <p class="small text-light opacity-75 mb-0"><i class="far fa-calendar-alt me-1"></i> {% now "l, d F Y" %}</p>
+                    <h5 class="fw-bold mb-0 text-gold" id="clock" style="font-family: monospace; letter-spacing: 1px;">00:00:00</h5>
+                </div>
+            </div>
+
+            <!-- KYC Verification Requirement Notice -->
+            {% if not profile.is_kyc_verified %}
+            <div class="alert alert-danger border-danger shadow-sm rounded-3 mb-4 d-flex align-items-center justify-content-between flex-wrap gap-2" style="background: #fef2f2; border: 1px solid #fca5a5;">
+                <div class="d-flex align-items-center">
+                    <div class="bg-danger text-white rounded-circle p-2 me-3 d-flex align-items-center justify-content-center" style="width: 44px; height: 44px;">
+                        <i class="fas fa-user-shield fa-lg"></i>
+                    </div>
+                    <div>
+                        <strong class="text-danger">Mandatory KYC Verification Required:</strong>
+                        <div class="small text-secondary">
+                            {% if kyc.status == 'PENDING' %}
+                            Your identity verification application is locked under compliance review. Transactions and claim lodgments remain pending administrative approval.
+                            {% elif kyc.status == 'REJECTED' %}
+                            Your KYC submission requires correction. Please review compliance feedback and re-submit your documents.
+                            {% else %}
+                            In compliance with international AML regulations, you must complete identity verification before initiating transactions, local transfers, or recovery claims.
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <a href="{% url 'kyc_verification' %}" class="btn btn-danger btn-sm rounded-pill fw-bold text-white px-4">
+                    {% if kyc.status == 'PENDING' %}
+                    <i class="fas fa-clock me-1"></i> View Review Status
+                    {% elif kyc.status == 'REJECTED' %}
+                    <i class="fas fa-redo me-1"></i> Update KYC
+                    {% else %}
+                    <i class="fas fa-id-card me-1"></i> Complete KYC Now
+                    {% endif %}
+                </a>
+            </div>
+            {% endif %}
+
+            <!-- Notice for Processing Fee if Pending -->
+            {% if not profile.is_charge_paid and profile.charge_amount > 0 %}
+            <div class="alert alert-warning border-warning shadow-sm rounded-3 mb-4 d-flex align-items-center justify-content-between flex-wrap gap-2">
+                <div class="d-flex align-items-center">
+                    <div class="bg-warning text-dark rounded-circle p-2 me-3 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                        <i class="fas fa-exclamation-triangle fa-lg"></i>
+                    </div>
+                    <div>
+                        <strong class="text-dark">Regulatory Settlement Clearance Notice:</strong>
+                        <div class="small text-dark opacity-85">A statutory clearance processing charge applies prior to restitution disbursement. Our administration team will communicate any required charges directly when they contact you.</div>
+                    </div>
+                </div>
+                <a href="{% url 'support' %}" class="btn btn-navy btn-sm rounded-pill fw-bold text-white px-3">
+                    <i class="fas fa-envelope-open-text me-1"></i> Contact Administration
+                </a>
+            </div>
+            {% endif %}
+
+            <!-- Notice to Add Payment Card if none registered -->
+            {% if not request.user.credit_cards.exists %}
+            <div class="alert alert-info border-info shadow-sm rounded-3 mb-4 d-flex align-items-center justify-content-between flex-wrap gap-2" style="background: #f0f9ff; border: 1px solid #bae6fd;">
+                <div class="d-flex align-items-center">
+                    <div class="bg-primary text-white rounded-circle p-2 me-3 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                        <i class="fas fa-credit-card fa-lg"></i>
+                    </div>
+                    <div>
+                        <strong class="text-navy">Payment Method Required:</strong>
+                        <div class="small text-secondary">A verified credit or debit card is required on file before lodging new recovery claims or receiving restitution funds.</div>
+                    </div>
+                </div>
+                <a href="{% url 'my_cards' %}" class="btn btn-navy btn-sm rounded-pill fw-bold text-white px-3">
+                    <i class="fas fa-plus-circle me-1"></i> Add Card Now
+                </a>
+            </div>
+            {% endif %}
+
+            <!-- 4 Metric KPI Cards (Clickable for instant table filtering) -->
+            <div class="row g-3 mb-4">
+                <!-- Balance Card (Visible only when user is KYC Verified) -->
+                <div class="col-sm-6 col-xl-3">
+                    <div class="card border-0 shadow-sm h-100 kpi-card" style="border-radius: 12px; border-left: 4px solid #d4af37 !important;">
+                        <div class="card-body p-3">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="small text-uppercase fw-bold text-muted" style="font-size: 0.75rem;">Recovered Balance</span>
+                                <div class="bg-warning bg-opacity-10 text-warning rounded-circle p-2 d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;">
+                                    <i class="fas fa-wallet"></i>
+                                </div>
+                            </div>
+                            {% if profile.is_kyc_verified %}
+                            <h4 class="fw-bold text-navy mb-1">${{ profile.balance|floatformat:2 }}</h4>
+                            <div class="small text-muted d-flex justify-content-between align-items-center" style="font-size: 0.78rem;">
+                                <span><i class="fas fa-check-circle text-success me-1"></i> {{ profile.get_account_type_display }}</span>
+                                <span class="font-monospace text-navy fw-semibold" title="Account Number">Acc #{{ profile.account_no }}</span>
+                            </div>
+                            {% else %}
+                            <h4 class="fw-bold text-muted mb-1"><i class="fas fa-lock text-warning me-1"></i> Locked</h4>
+                            <div class="small text-danger d-flex justify-content-between align-items-center" style="font-size: 0.78rem;">
+                                <span><i class="fas fa-shield-alt me-1"></i> KYC Required to view</span>
+                                <a href="{% url 'kyc_verification' %}" class="text-danger fw-bold text-decoration-none">Verify</a>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Active Claims Card (Click to filter table to Active claims) -->
+                <div class="col-sm-6 col-xl-3">
+                    <div class="card border-0 shadow-sm h-100 kpi-card cursor-pointer" id="kpiActiveClaims" style="border-radius: 12px; border-left: 4px solid #0d6efd !important;" title="Click to filter table to active claims">
+                        <div class="card-body p-3">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="small text-uppercase fw-bold text-muted" style="font-size: 0.75rem;">Active Claims</span>
+                                <div class="bg-primary bg-opacity-10 text-primary rounded-circle p-2 d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;">
+                                    <i class="fas fa-folder-open"></i>
+                                </div>
+                            </div>
+                            <h4 class="fw-bold text-navy mb-1">{{ active_claims_count }} <span class="text-muted fs-6 fw-normal">/ {{ total_claims_count }}</span></h4>
+                            <div class="small text-primary" style="font-size: 0.78rem;">
+                                <span class="fw-semibold">{{ review_claims_count }} in forensic audit</span> <i class="fas fa-arrow-down ms-1" style="font-size: 0.7rem;"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Total Claimed Volume (Click to filter table to Approved/Completed claims) -->
+                <div class="col-sm-6 col-xl-3">
+                    <div class="card border-0 shadow-sm h-100 kpi-card cursor-pointer" id="kpiApprovedClaims" style="border-radius: 12px; border-left: 4px solid #198754 !important;" title="Click to filter table to approved claims">
+                        <div class="card-body p-3">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="small text-uppercase fw-bold text-muted" style="font-size: 0.75rem;">Total Claimed</span>
+                                <div class="bg-success bg-opacity-10 text-success rounded-circle p-2 d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;">
+                                    <i class="fas fa-chart-line"></i>
+                                </div>
+                            </div>
+                            <h4 class="fw-bold text-navy mb-1">${{ total_claimed_amount|floatformat:2 }}</h4>
+                            <div class="small text-success" style="font-size: 0.78rem;">
+                                <span class="fw-semibold">{{ approved_claims_count }} approved claims</span> <i class="fas fa-arrow-down ms-1" style="font-size: 0.7rem;"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Case Officer Card -->
+                <div class="col-sm-6 col-xl-3">
+                    <div class="card border-0 shadow-sm h-100 kpi-card" style="border-radius: 12px; border-left: 4px solid #0a192f !important;">
+                        <div class="card-body p-3">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="small text-uppercase fw-bold text-muted" style="font-size: 0.75rem;">Officer Assigned</span>
+                                <div class="bg-navy bg-opacity-10 text-navy rounded-circle p-2 d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;">
+                                    <i class="fas fa-user-check"></i>
+                                </div>
+                            </div>
+                            <h6 class="fw-bold text-navy mb-1 text-truncate" title="{{ assigned_specialist }}">{{ assigned_specialist }}</h6>
+                            <div class="small text-muted" style="font-size: 0.78rem;">
+                                <span class="badge bg-info-subtle text-info">Forensic Unit</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Action Buttons -->
+            <div class="card border-0 shadow-sm mb-4" style="border-radius: 14px;">
+                <div class="card-body p-3 d-flex flex-wrap gap-2 justify-content-between align-items-center">
+                    <div class="d-flex align-items-center gap-2">
+                        <div class="bg-light p-2 rounded-circle text-navy">
+                            <i class="fas fa-bolt text-warning"></i>
+                        </div>
+                        <span class="fw-bold text-navy small">Quick Actions:</span>
+                    </div>
+                    <div class="d-flex flex-wrap gap-2">
+                        <a href="{% url 'deposit' %}" class="btn btn-outline-primary btn-sm rounded-pill px-3 py-2 fw-semibold">
+                            <i class="fas fa-arrow-circle-down me-1"></i> Deposit Funds
+                        </a>
+                        <a href="{% url 'withdraw' %}" class="btn btn-primary btn-sm rounded-pill px-3 py-2 fw-semibold text-white shadow-sm" style="background-color: #0052cc !important; border-color: #0052cc !important;">
+                            <i class="fas fa-arrow-circle-up me-1"></i> Withdraw Funds
+                        </a>
+                        <a href="{% url 'loan_request' %}" class="btn btn-outline-navy btn-sm rounded-pill px-3 py-2 fw-semibold">
+                            <i class="fas fa-file-invoice-dollar me-1"></i> Loan Request
+                        </a>
+                        <a href="{% url 'international_wire' %}" class="btn btn-outline-navy btn-sm rounded-pill px-3 py-2 fw-semibold">
+                            <i class="fas fa-globe me-1"></i> International Wire
+                        </a>
+                        <a href="{% url 'submit_claim' %}" class="btn btn-navy btn-sm rounded-pill px-3 py-2 fw-semibold text-white">
+                            <i class="fas fa-plus-circle me-1"></i> Submit New Claim
+                        </a>
+                        <a href="{% url 'my_cards' %}" class="btn btn-outline-navy btn-sm rounded-pill px-3 py-2 fw-semibold">
+                            <i class="fas fa-credit-card me-1"></i> Manage Cards
+                        </a>
+                        <form action="{% url 'receive_money' %}" method="post" class="d-inline">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-gold btn-sm rounded-pill px-3 py-2 fw-bold">
+                                <i class="fas fa-hand-holding-usd me-1"></i> Receive Restitution Funds
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Active Case Stepper Pipeline -->
+            {% if latest_claim %}
+            <div class="card border-0 shadow-sm mb-4" style="border-radius: 14px; overflow: hidden;">
+                <div class="card-header bg-navy text-white py-3 px-4 d-flex flex-wrap justify-content-between align-items-center gap-2">
+                    <div>
+                        <span class="badge bg-gold text-dark fw-bold px-2 py-1 rounded me-2">Latest Active Case</span>
+                        <strong class="text-white fs-6">{{ latest_claim.claim_id }}</strong>
+                        <span class="text-light opacity-75 small ms-2">({{ latest_claim.company_name }} &bull; {{ latest_claim.get_refund_type_display }})</span>
+                    </div>
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="badge 
+                            {% if latest_claim.status == 'PENDING' %}bg-warning text-dark
+                            {% elif latest_claim.status == 'REVIEW' %}bg-info text-dark
+                            {% elif latest_claim.status == 'APPROVED' %}bg-success text-white
+                            {% elif latest_claim.status == 'COMPLETED' %}bg-primary text-white
+                            {% else %}bg-secondary text-white{% endif %} px-3 py-1 rounded-pill fw-semibold">
+                            {{ latest_claim.get_status_display }}
+                        </span>
+                        <button class="btn btn-outline-light btn-sm rounded-pill px-3 btn-view-claim"
+                            data-claim-id="{{ latest_claim.claim_id }}"
+                            data-type="{{ latest_claim.get_refund_type_display }}"
+                            data-company="{{ latest_claim.company_name }}"
+                            data-amount="${{ latest_claim.amount_lost|floatformat:2 }}"
+                            data-date="{{ latest_claim.transaction_date|date:'d M, Y' }}"
+                            data-status="{{ latest_claim.get_status_display }}"
+                            data-status-code="{{ latest_claim.status }}"
+                            data-agent="{{ latest_claim.assigned_agent|default:'Senior Case Officer' }}"
+                            data-est="{{ latest_claim.estimated_completion_date|date:'d M, Y'|default:'In Forensic Review' }}"
+                            data-desc="{{ latest_claim.description|escapejs }}"
+                            data-notes="{{ latest_claim.agent_notes|default:'Investigation in progress. Evidence review underway.'|escapejs }}"
+                            data-proof="{% if latest_claim.proof_file %}{{ latest_claim.proof_file.url }}{% endif %}">
+                            <i class="fas fa-eye me-1"></i> Full Case Dossier
+                        </button>
+                    </div>
+                </div>
+
+                <div class="card-body p-4">
+                    <!-- Progress Bar Header -->
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="small fw-bold text-navy"><i class="fas fa-tasks me-1 text-gold"></i> Case Resolution Milestone Progress</span>
+                        <span class="badge bg-navy text-gold fw-bold px-2 py-1 rounded-pill">{{ latest_claim_progress.percent }}% Completed</span>
+                    </div>
+
+                    <div class="progress mb-4" style="height: 8px; border-radius: 10px; background-color: #e2e8f0;">
+                        <div class="progress-bar bg-gold" role="progressbar" style="width: {{ latest_claim_progress.percent }}%;" aria-valuenow="{{ latest_claim_progress.percent }}" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+
+                    <!-- 4 Stepper Items -->
+                    <div class="row text-center position-relative g-2 mb-3">
+                        <!-- Step 1 -->
+                        <div class="col-3 stepper-step {% if latest_claim_progress.step >= 1 %}step-done{% endif %}">
+                            <div class="stepper-circle mx-auto mb-2 {% if latest_claim_progress.step > 1 %}bg-success text-white{% elif latest_claim_progress.step == 1 %}bg-warning text-dark border-pulse{% else %}bg-light text-muted{% endif %}">
+                                {% if latest_claim_progress.step > 1 %}<i class="fas fa-check"></i>{% else %}1{% endif %}
+                            </div>
+                            <div class="stepper-title fw-bold text-navy small">Intake &amp; Verification</div>
+                            <div class="stepper-desc text-muted d-none d-md-block" style="font-size: 0.72rem;">Evidence received &amp; logged</div>
+                        </div>
+
+                        <!-- Step 2 -->
+                        <div class="col-3 stepper-step {% if latest_claim_progress.step >= 2 %}step-done{% endif %}">
+                            <div class="stepper-circle mx-auto mb-2 {% if latest_claim_progress.step > 2 %}bg-success text-white{% elif latest_claim_progress.step == 2 %}bg-warning text-dark border-pulse{% else %}bg-light text-muted{% endif %}">
+                                {% if latest_claim_progress.step > 2 %}<i class="fas fa-check"></i>{% else %}2{% endif %}
+                            </div>
+                            <div class="stepper-title fw-bold text-navy small">Forensic Audit</div>
+                            <div class="stepper-desc text-muted d-none d-md-block" style="font-size: 0.72rem;">Blockchain/Banking analysis</div>
+                        </div>
+
+                        <!-- Step 3 -->
+                        <div class="col-3 stepper-step {% if latest_claim_progress.step >= 3 %}step-done{% endif %}">
+                            <div class="stepper-circle mx-auto mb-2 {% if latest_claim_progress.step > 3 %}bg-success text-white{% elif latest_claim_progress.step == 3 %}bg-warning text-dark border-pulse{% else %}bg-light text-muted{% endif %}">
+                                {% if latest_claim_progress.step > 3 %}<i class="fas fa-check"></i>{% else %}3{% endif %}
+                            </div>
+                            <div class="stepper-title fw-bold text-navy small">Dispute Lodged</div>
+                            <div class="stepper-desc text-muted d-none d-md-block" style="font-size: 0.72rem;">Chargeback &amp; legal demands</div>
+                        </div>
+
+                        <!-- Step 4 -->
+                        <div class="col-3 stepper-step {% if latest_claim_progress.step >= 4 %}step-done{% endif %}">
+                            <div class="stepper-circle mx-auto mb-2 {% if latest_claim_progress.step == 4 %}bg-success text-white border-pulse{% else %}bg-light text-muted{% endif %}">
+                                {% if latest_claim_progress.step == 4 %}<i class="fas fa-check-double"></i>{% else %}4{% endif %}
+                            </div>
+                            <div class="stepper-title fw-bold text-navy small">Restitution Release</div>
+                            <div class="stepper-desc text-muted d-none d-md-block" style="font-size: 0.72rem;">Funds cleared &amp; deposited</div>
+                        </div>
+                    </div>
+
+                    <!-- Officer Note & Meta Box -->
+                    <div class="p-3 rounded-3 mt-3" style="background: #f8fafc; border-left: 4px solid #0a192f;">
+                        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-2">
+                            <div>
+                                <span class="fw-bold text-navy small"><i class="fas fa-user-shield text-gold me-1"></i> Case Officer Note:</span>
+                                <span class="text-secondary small ms-1">{{ latest_claim.agent_notes|default:"Your claim file has been reviewed by the forensic recoveries unit. Ongoing inquiries with payment gateway counterparties." }}</span>
+                            </div>
+                            <div class="text-nowrap small text-muted">
+                                <i class="far fa-clock me-1"></i> Target Date: <strong>{{ latest_claim.estimated_completion_date|date:"d M, Y"|default:"Est. 7-14 Business Days" }}</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Unified Real-Time Activity Feed with Functional Filtering -->
+            <div class="card border-0 shadow-sm mb-4" style="border-radius: 14px;">
+                <div class="card-header bg-white py-3 px-4 border-0 d-flex flex-wrap justify-content-between align-items-center gap-2">
+                    <div>
+                        <h5 class="fw-bold text-navy mb-0"><i class="fas fa-history text-gold me-2"></i>Activity &amp; Audit Trail</h5>
+                        <p class="text-muted small mb-0">Track case milestones, correspondence, and security verifications.</p>
+                    </div>
+
+                    <!-- Category Filter Pills -->
+                    <div class="overflow-x-auto w-100 w-md-auto py-1" style="overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch;">
+                        <div class="btn-group btn-group-sm rounded-pill p-1 bg-light flex-nowrap" role="group" id="activityFilters">
+                            <button type="button" class="btn btn-sm rounded-pill fw-semibold active-filter px-3 text-nowrap" data-filter="all">
+                                All Events (<span id="countActAll">{{ recent_activities|length }}</span>)
+                            </button>
+                            <button type="button" class="btn btn-sm rounded-pill fw-semibold px-3 text-nowrap" data-filter="claim">
+                                Claims (<span id="countActClaim">0</span>)
+                            </button>
+                            <button type="button" class="btn btn-sm rounded-pill fw-semibold px-3 text-nowrap" data-filter="support">
+                                Support (<span id="countActSupport">0</span>)
+                            </button>
+                            <button type="button" class="btn btn-sm rounded-pill fw-semibold px-3 text-nowrap" data-filter="security">
+                                Security &amp; Cards (<span id="countActSecurity">0</span>)
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body p-4 pt-1">
+                    <div class="activity-feed" id="activityList">
+                        {% for item in recent_activities %}
+                        <div class="activity-item gap-3 py-3 border-bottom position-relative" data-category="{{ item.type }}">
+                            <!-- Icon Indicator -->
+                            <div class="activity-icon-wrap flex-shrink-0">
+                                <div class="activity-icon rounded-circle d-flex align-items-center justify-content-center shadow-xs
+                                    {% if item.type == 'claim' %}bg-primary-subtle text-primary
+                                    {% elif item.type == 'support' %}bg-warning-subtle text-warning
+                                    {% elif item.type == 'financial' %}bg-info-subtle text-info
+                                    {% else %}bg-success-subtle text-success{% endif %}" style="width: 42px; height: 42px;">
+                                    <i class="{{ item.icon }}"></i>
+                                </div>
+                            </div>
+
+                            <!-- Activity Details -->
+                            <div class="flex-grow-1">
+                                <div class="d-flex flex-wrap justify-content-between align-items-center gap-1 mb-1">
+                                    <h6 class="fw-bold text-navy mb-0">{{ item.title }}</h6>
+                                    <span class="text-muted small" style="font-size: 0.78rem;">
+                                        <i class="far fa-clock me-1"></i>{{ item.timestamp|date:"d M, Y - H:i" }}
+                                    </span>
+                                </div>
+                                <p class="text-secondary small mb-2">{{ item.description }}</p>
+                                <div class="d-flex align-items-center gap-2">
+                                    <span class="badge bg-light text-secondary border px-2 py-1 rounded" style="font-size: 0.72rem;">
+                                        {{ item.category_label }}
+                                    </span>
+                                    <span class="badge 
+                                        {% if item.status_code == 'APPROVED' or item.status_code == 'COMPLETED' %}bg-success-subtle text-success
+                                        {% elif item.status_code == 'REVIEW' or item.status_code == 'DELIVERED' %}bg-info-subtle text-info
+                                        {% elif item.status_code == 'PENDING' or item.status_code == 'UNREAD' %}bg-warning-subtle text-warning
+                                        {% else %}bg-secondary-subtle text-secondary{% endif %} rounded-pill px-2 py-1" style="font-size: 0.72rem;">
+                                        {{ item.status }}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        {% empty %}
+                        <div class="text-center py-5 text-muted">
+                            <i class="fas fa-clipboard-list fa-3x mb-3 text-secondary opacity-50"></i>
+                            <p class="mb-0">No recorded activities yet. Submit a recovery claim to initialize tracking.</p>
+                        </div>
+                        {% endfor %}
+                        <div id="noActivitiesMatch" class="text-center py-4 text-muted" style="display: none;">
+                            <i class="fas fa-search fa-2x mb-2 text-secondary opacity-50 d-block"></i>
+                            <span>No activity events found in this category.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Complete Claims Register Table with Functional Filtering & Search -->
+            <div class="card border-0 shadow-sm" id="claimsRegisterCard" style="border-radius: 14px;">
+                <div class="card-header bg-white py-3 px-4 border-0">
+                    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+                        <div>
+                            <h5 class="fw-bold text-navy mb-0"><i class="fas fa-file-invoice text-gold me-2"></i>My Recovery Claims Register</h5>
+                            <p class="text-muted small mb-0">Detailed catalog of all dispute dossiers logged under your account.</p>
+                        </div>
+                        <a href="{% url 'submit_claim' %}" class="btn btn-navy btn-sm rounded-pill fw-semibold px-3 text-white">
+                            <i class="fas fa-plus me-1"></i> New Claim
+                        </a>
+                    </div>
+
+                    <!-- Comprehensive Claims Filter Bar -->
+                    <div class="d-flex flex-column flex-md-row justify-content-between align-items-stretch align-items-md-center gap-2 pt-2 border-top">
+                        <!-- Status Tabs -->
+                        <div class="overflow-x-auto w-100 py-1" style="overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch;">
+                            <div class="btn-group btn-group-sm rounded-pill p-1 bg-light flex-nowrap" role="group" id="claimStatusFilterGroup">
+                                <button type="button" class="btn btn-sm rounded-pill fw-semibold active-claim-filter px-3 text-nowrap" data-status-filter="all">
+                                    All ({{ total_claims_count }})
+                                </button>
+                                <button type="button" class="btn btn-sm rounded-pill fw-semibold px-3 text-nowrap" data-status-filter="PENDING">
+                                    Pending ({{ pending_claims_count }})
+                                </button>
+                                <button type="button" class="btn btn-sm rounded-pill fw-semibold px-3 text-nowrap" data-status-filter="REVIEW">
+                                    Forensic Audit ({{ review_claims_count }})
+                                </button>
+                                <button type="button" class="btn btn-sm rounded-pill fw-semibold px-3 text-nowrap" data-status-filter="APPROVED">
+                                    Approved ({{ approved_claims_count }})
+                                </button>
+                                <button type="button" class="btn btn-sm rounded-pill fw-semibold px-3 text-nowrap" data-status-filter="COMPLETED">
+                                    Restitution Granted
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Search & Dropdown Filter -->
+                        <div class="d-flex align-items-center gap-2 flex-wrap w-100 w-md-auto">
+                            <div class="input-group input-group-sm flex-grow-1" style="min-width: 140px;">
+                                <span class="input-group-text bg-light border-end-0"><i class="fas fa-search text-muted"></i></span>
+                                <input type="text" id="claimsSearchInput" class="form-control border-start-0" placeholder="Search claims...">
+                            </div>
+
+                            <select id="claimsTypeFilter" class="form-select form-select-sm rounded-pill flex-grow-1" style="width: auto; min-width: 130px;">
+                                <option value="all">All Dispute Types</option>
+                                <option value="SCAM">Scam Recovery</option>
+                                <option value="CHARGEBACK">Chargeback Assistance</option>
+                                <option value="CRYPTO">Crypto Scam</option>
+                                <option value="DISPUTE">Purchase Dispute</option>
+                                <option value="SUBSCRIPTION">Subscription</option>
+                                <option value="OTHER">Other</option>
+                            </select>
+
+                            <button type="button" id="btnResetClaimFilters" class="btn btn-outline-secondary btn-sm rounded-pill px-2 d-none" title="Clear all filters">
+                                <i class="fas fa-times-circle me-1"></i> Clear
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0" id="claimsTable">
+                            <thead class="bg-light">
+                                <tr>
+                                    <th class="border-0 px-4 py-3 small text-uppercase text-muted">Claim ID</th>
+                                    <th class="border-0 px-3 py-3 small text-uppercase text-muted">Type</th>
+                                    <th class="border-0 px-3 py-3 small text-uppercase text-muted">Merchant / Entity</th>
+                                    <th class="border-0 px-3 py-3 small text-uppercase text-muted">Amount</th>
+                                    <th class="border-0 px-3 py-3 small text-uppercase text-muted">Status</th>
+                                    <th class="border-0 px-3 py-3 small text-uppercase text-muted">Filed Date</th>
+                                    <th class="border-0 px-4 py-3 small text-uppercase text-muted text-end">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for claim in my_claims %}
+                                <tr class="claim-row" 
+                                    data-status="{{ claim.status }}" 
+                                    data-type="{{ claim.refund_type }}" 
+                                    data-search="{{ claim.claim_id|lower }} {{ claim.company_name|lower }} {{ claim.get_refund_type_display|lower }} {{ claim.amount_lost }}">
+                                    <td class="px-4 py-3 fw-bold text-navy">
+                                        <i class="fas fa-shield-alt text-gold me-1"></i> {{ claim.claim_id }}
+                                    </td>
+                                    <td class="px-3 py-3 small fw-semibold text-secondary">{{ claim.get_refund_type_display }}</td>
+                                    <td class="px-3 py-3 small">{{ claim.company_name }}</td>
+                                    <td class="px-3 py-3 fw-bold text-navy">${{ claim.amount_lost|floatformat:2 }}</td>
+                                    <td class="px-3 py-3">
+                                        {% if claim.status == 'PENDING' %}
+                                        <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-1">Pending Review</span>
+                                        {% elif claim.status == 'REVIEW' %}
+                                        <span class="badge bg-info-subtle text-info border border-info-subtle rounded-pill px-3 py-1">Forensic Audit</span>
+                                        {% elif claim.status == 'APPROVED' %}
+                                        <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-3 py-1">Approved</span>
+                                        {% elif claim.status == 'REJECTED' %}
+                                        <span class="badge bg-danger-subtle text-danger border border-danger-subtle rounded-pill px-3 py-1">Rejected</span>
+                                        {% elif claim.status == 'COMPLETED' %}
+                                        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-1">Restitution Granted</span>
+                                        {% endif %}
+                                    </td>
+                                    <td class="px-3 py-3 text-muted small">{{ claim.created_at|date:"d M, Y" }}</td>
+                                    <td class="px-4 py-3 text-end">
+                                        <button class="btn btn-outline-navy btn-sm rounded-pill px-3 fw-semibold btn-view-claim"
+                                            data-claim-id="{{ claim.claim_id }}"
+                                            data-type="{{ claim.get_refund_type_display }}"
+                                            data-company="{{ claim.company_name }}"
+                                            data-amount="${{ claim.amount_lost|floatformat:2 }}"
+                                            data-date="{{ claim.transaction_date|date:'d M, Y' }}"
+                                            data-status="{{ claim.get_status_display }}"
+                                            data-status-code="{{ claim.status }}"
+                                            data-agent="{{ claim.assigned_agent|default:'Senior Case Officer' }}"
+                                            data-est="{{ claim.estimated_completion_date|date:'d M, Y'|default:'Under Forensic Review' }}"
+                                            data-desc="{{ claim.description|escapejs }}"
+                                            data-notes="{{ claim.agent_notes|default:'Investigation ongoing. Evidence undergoing forensic cross-referencing.'|escapejs }}"
+                                            data-proof="{% if claim.proof_file %}{{ claim.proof_file.url }}{% endif %}">
+                                            <i class="fas fa-file-alt me-1"></i> Details
+                                        </button>
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="7" class="text-center py-5 text-muted">
+                                        <i class="fas fa-folder-open fa-2x mb-3 text-secondary opacity-50"></i>
+                                        <p class="mb-2">No claims filed under your verified account yet.</p>
+                                        <a href="{% url 'submit_claim' %}" class="btn btn-gold btn-sm rounded-pill fw-bold px-4">
+                                            <i class="fas fa-plus me-1"></i> Start New Recovery Claim
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+
+                                <!-- Dynamic Row for Zero Filter Matches -->
+                                <tr id="noClaimsMatchRow" style="display: none;">
+                                    <td colspan="7" class="text-center py-5 text-muted">
+                                        <i class="fas fa-filter fa-2x mb-3 text-secondary opacity-50 d-block"></i>
+                                        <h6 class="fw-bold text-navy mb-1">No recovery claims match your filter criteria</h6>
+                                        <p class="small text-muted mb-2">Try adjusting your search query, status tab, or category dropdown.</p>
+                                        <button type="button" class="btn btn-sm btn-outline-navy rounded-pill px-3" id="linkResetFilters">
+                                            <i class="fas fa-redo me-1"></i> Reset Filters
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Comprehensive Claim Dossier Details -->
+<div class="modal fade" id="claimDetailsModal" tabindex="-1" aria-labelledby="claimDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content border-0 shadow-lg" style="border-radius: 16px; overflow: hidden;">
+            <div class="modal-header bg-navy text-white px-4 py-3">
+                <div class="d-flex align-items-center gap-2">
+                    <div class="bg-gold text-dark rounded-circle d-flex align-items-center justify-content-center" style="width: 38px; height: 38px;">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div>
+                        <h5 class="modal-title fw-bold mb-0 text-white" id="claimDetailsModalLabel">Claim Dossier: <span id="modalClaimId" class="text-gold"></span></h5>
+                        <div class="small text-light opacity-75">Forensic Case File &amp; Recovery Status</div>
+                    </div>
+                </div>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+                <!-- Top Status Banner -->
+                <div class="d-flex flex-wrap justify-content-between align-items-center p-3 rounded-3 mb-4" style="background: #f8fafc; border: 1px solid #e2e8f0;">
+                    <div>
+                        <span class="text-muted small d-block">Current Investigation Status</span>
+                        <span class="badge px-3 py-2 rounded-pill fw-bold" id="modalClaimStatusBadge"></span>
+                    </div>
+                    <div>
+                        <span class="text-muted small d-block">Amount In Dispute</span>
+                        <h4 class="fw-bold text-navy mb-0" id="modalClaimAmount"></h4>
+                    </div>
+                    <div>
+                        <span class="text-muted small d-block">Incident Date</span>
+                        <strong class="text-secondary" id="modalClaimDate"></strong>
+                    </div>
+                </div>
+
+                <div class="row g-3 mb-4">
+                    <div class="col-md-6">
+                        <div class="p-3 border rounded-3 h-100">
+                            <span class="text-muted small d-block mb-1">Target Entity / Merchant</span>
+                            <h6 class="fw-bold text-navy mb-2" id="modalClaimCompany"></h6>
+                            <span class="text-muted small d-block mb-1">Recovery Category</span>
+                            <span class="badge bg-light text-navy border fw-semibold" id="modalClaimType"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="p-3 border rounded-3 h-100">
+                            <span class="text-muted small d-block mb-1">Assigned Investigator</span>
+                            <h6 class="fw-bold text-navy mb-2" id="modalClaimAgent"></h6>
+                            <span class="text-muted small d-block mb-1">Estimated Resolution Target</span>
+                            <span class="badge bg-light text-secondary border fw-semibold" id="modalClaimEst"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Incident Description -->
+                <div class="mb-4">
+                    <h6 class="fw-bold text-navy mb-2"><i class="fas fa-align-left text-gold me-1"></i> Case Description &amp; Incident Report</h6>
+                    <div class="p-3 bg-light rounded-3 text-secondary small" id="modalClaimDesc" style="white-space: pre-line; line-height: 1.6;"></div>
+                </div>
+
+                <!-- Case Officer Official Notes -->
+                <div class="mb-4">
+                    <h6 class="fw-bold text-navy mb-2"><i class="fas fa-clipboard-check text-success me-1"></i> Forensic Officer Notes &amp; Updates</h6>
+                    <div class="p-3 rounded-3 small" style="background: #eff6ff; border-left: 4px solid #3b82f6;" id="modalClaimNotes"></div>
+                </div>
+
+                <!-- Proof Document Attachment -->
+                <div>
+                    <h6 class="fw-bold text-navy mb-2"><i class="fas fa-paperclip text-muted me-1"></i> Supporting Evidence Document</h6>
+                    <div id="modalClaimProofWrap">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer bg-light px-4 py-3 d-flex justify-content-between">
+                <a href="{% url 'support' %}" class="btn btn-outline-navy rounded-pill fw-semibold">
+                    <i class="fas fa-comment-dots me-1"></i> Message Assigned Officer
+                </a>
+                <button type="button" class="btn btn-navy rounded-pill fw-semibold px-4 text-white" data-bs-dismiss="modal">Close Dossier</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .bg-navy { background-color: #0a192f !important; }
+    .text-navy { color: #0a192f !important; }
+    .btn-navy { background-color: #0a192f; color: white; border: none; }
+    .btn-navy:hover { background-color: #172a45; color: white; }
+    .btn-outline-navy { border: 2px solid #0a192f; color: #0a192f; background: transparent; }
+    .btn-outline-navy:hover { background-color: #0a192f; color: white; }
+    .bg-gold { background-color: #d4af37 !important; }
+    .text-gold { color: #d4af37 !important; }
+    .btn-gold { background-color: #d4af37; color: #0a192f; border: none; }
+    .btn-gold:hover { background-color: #c5a028; color: #0a192f; }
+
+    .cursor-pointer { cursor: pointer; }
+
+    .kpi-card {
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .kpi-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 25px rgba(10, 25, 47, 0.08) !important;
+    }
+
+    /* Stepper Styling */
+    .stepper-circle {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+    }
+    .border-pulse {
+        box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.25);
+        animation: pulseRing 2s infinite;
+    }
+    @keyframes pulseRing {
+        0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.4); }
+        70% { box-shadow: 0 0 0 8px rgba(212, 175, 55, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
+    }
+
+    /* Filter Buttons Styling */
+    #activityFilters .btn, #claimStatusFilterGroup .btn {
+        color: #64748b;
+        background: transparent;
+        border: none;
+        transition: all 0.2s ease;
+        white-space: nowrap;
+    }
+    #activityFilters .btn.active-filter, #claimStatusFilterGroup .btn.active-claim-filter {
+        background: #0a192f !important;
+        color: #ffffff !important;
+        box-shadow: 0 2px 6px rgba(10, 25, 47, 0.2);
+    }
+
+    .activity-item {
+        display: flex !important;
+        transition: background-color 0.2s ease;
+    }
+    .activity-item.is-hidden {
+        display: none !important;
+    }
+</style>
+
+<script>
+    // Live Clock
+    function updateClock() {
+        const now = new Date();
+        const clockElem = document.getElementById('clock');
+        if (clockElem) {
+            clockElem.innerText = now.toLocaleTimeString();
+        }
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    document.addEventListener('DOMContentLoaded', function () {
+        // ==========================================
+        // 1. ACTIVITY FEED CATEGORY FILTERING
+        // ==========================================
+        const actFilterBtns = document.querySelectorAll('#activityFilters [data-filter]');
+        const actItems = document.querySelectorAll('.activity-item');
+        const noActMsg = document.getElementById('noActivitiesMatch');
+
+        // Dynamic category count calculation
+        let cClaim = 0, cSupport = 0, cSecurity = 0;
+        actItems.forEach(item => {
+            const cat = (item.getAttribute('data-category') || '').trim();
+            if (cat === 'claim') cClaim++;
+            else if (cat === 'support') cSupport++;
+            else if (cat === 'security' || cat === 'financial') cSecurity++;
+        });
+
+        const spanClaim = document.getElementById('countActClaim');
+        if (spanClaim) spanClaim.innerText = cClaim;
+        const spanSupport = document.getElementById('countActSupport');
+        if (spanSupport) spanSupport.innerText = cSupport;
+        const spanSecurity = document.getElementById('countActSecurity');
+        if (spanSecurity) spanSecurity.innerText = cSecurity;
+
+        actFilterBtns.forEach(btn => {
+            btn.addEventListener('click', function () {
+                actFilterBtns.forEach(b => b.classList.remove('active-filter'));
+                this.classList.add('active-filter');
+
+                const filter = this.getAttribute('data-filter');
+                let visibleCount = 0;
+
+                actItems.forEach(item => {
+                    const category = (item.getAttribute('data-category') || '').trim();
+                    let match = false;
+                    if (filter === 'all') {
+                        match = true;
+                    } else if (filter === 'security') {
+                        match = (category === 'security' || category === 'financial');
+                    } else {
+                        match = (category === filter);
+                    }
+
+                    if (match) {
+                        item.classList.remove('is-hidden', 'd-none');
+                        item.style.setProperty('display', 'flex', 'important');
+                        visibleCount++;
+                    } else {
+                        item.classList.add('is-hidden', 'd-none');
+                        item.style.setProperty('display', 'none', 'important');
+                    }
+                });
+
+                if (noActMsg) {
+                    if (visibleCount === 0 && actItems.length > 0) {
+                        noActMsg.classList.remove('d-none');
+                        noActMsg.style.setProperty('display', 'block', 'important');
+                    } else {
+                        noActMsg.classList.add('d-none');
+                        noActMsg.style.setProperty('display', 'none', 'important');
+                    }
+                }
+            });
+        });
+
+        // ==========================================
+        // 2. CLAIMS REGISTER TABLE COMPREHENSIVE FILTERING
+        // ==========================================
+        const statusFilterBtns = document.querySelectorAll('#claimStatusFilterGroup [data-status-filter]');
+        const searchInput = document.getElementById('claimsSearchInput');
+        const typeSelect = document.getElementById('claimsTypeFilter');
+        const resetBtn = document.getElementById('btnResetClaimFilters');
+        const linkReset = document.getElementById('linkResetFilters');
+        const claimRows = document.querySelectorAll('.claim-row');
+        const noMatchRow = document.getElementById('noClaimsMatchRow');
+
+        let currentStatusFilter = 'all';
+
+        function applyClaimsFiltering() {
+            const query = searchInput ? searchInput.value.trim().toLowerCase() : '';
+            const selectedType = typeSelect ? typeSelect.value : 'all';
+            let visibleCount = 0;
+
+            const isFiltered = (currentStatusFilter !== 'all' || query !== '' || selectedType !== 'all');
+            if (resetBtn) {
+                if (isFiltered) {
+                    resetBtn.classList.remove('d-none');
+                } else {
+                    resetBtn.classList.add('d-none');
+                }
+            }
+
+            claimRows.forEach(row => {
+                const status = row.getAttribute('data-status');
+                const type = row.getAttribute('data-type');
+                const searchData = row.getAttribute('data-search') || '';
+
+                // Status Match
+                let statusMatch = false;
+                if (currentStatusFilter === 'all') {
+                    statusMatch = true;
+                } else if (currentStatusFilter === 'ACTIVE') {
+                    statusMatch = (status === 'PENDING' || status === 'REVIEW' || status === 'APPROVED');
+                } else {
+                    statusMatch = (status === currentStatusFilter);
+                }
+
+                // Type Match
+                let typeMatch = false;
+                if (selectedType === 'all' || type === selectedType) {
+                    typeMatch = true;
+                }
+
+                // Query Match
+                let queryMatch = false;
+                if (query === '' || searchData.includes(query)) {
+                    queryMatch = true;
+                }
+
+                if (statusMatch && typeMatch && queryMatch) {
+                    row.style.display = '';
+                    visibleCount++;
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+
+            if (noMatchRow) {
+                if (visibleCount === 0 && claimRows.length > 0) {
+                    noMatchRow.style.display = '';
+                } else {
+                    noMatchRow.style.display = 'none';
+                }
+            }
+        }
+
+        // Status Tabs click handler
+        statusFilterBtns.forEach(btn => {
+            btn.addEventListener('click', function () {
+                statusFilterBtns.forEach(b => b.classList.remove('active-claim-filter'));
+                this.classList.add('active-claim-filter');
+                currentStatusFilter = this.getAttribute('data-status-filter');
+                applyClaimsFiltering();
+            });
+        });
+
+        // Search Input handler
+        if (searchInput) {
+            searchInput.addEventListener('input', applyClaimsFiltering);
+        }
+
+        // Type dropdown handler
+        if (typeSelect) {
+            typeSelect.addEventListener('change', applyClaimsFiltering);
+        }
+
+        // Reset Filter Function
+        function resetAllClaimFilters() {
+            currentStatusFilter = 'all';
+            statusFilterBtns.forEach(b => {
+                if (b.getAttribute('data-status-filter') === 'all') {
+                    b.classList.add('active-claim-filter');
+                } else {
+                    b.classList.remove('active-claim-filter');
+                }
+            });
+            if (searchInput) searchInput.value = '';
+            if (typeSelect) typeSelect.value = 'all';
+            applyClaimsFiltering();
+        }
+
+        if (resetBtn) resetBtn.addEventListener('click', resetAllClaimFilters);
+        if (linkReset) linkReset.addEventListener('click', resetAllClaimFilters);
+
+        // ==========================================
+        // 3. KPI METRIC CARD CLICK-TO-FILTER
+        // ==========================================
+        const kpiActive = document.getElementById('kpiActiveClaims');
+        const kpiApproved = document.getElementById('kpiApprovedClaims');
+        const claimsCard = document.getElementById('claimsRegisterCard');
+
+        if (kpiActive) {
+            kpiActive.addEventListener('click', function () {
+                // Activate Forensic Review tab or filter active
+                const reviewBtn = document.querySelector('#claimStatusFilterGroup [data-status-filter="REVIEW"]');
+                if (reviewBtn) {
+                    reviewBtn.click();
+                }
+                if (claimsCard) {
+                    claimsCard.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        }
+
+        if (kpiApproved) {
+            kpiApproved.addEventListener('click', function () {
+                const approvedBtn = document.querySelector('#claimStatusFilterGroup [data-status-filter="APPROVED"]');
+                if (approvedBtn) {
+                    approvedBtn.click();
+                }
+                if (claimsCard) {
+                    claimsCard.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        }
+
+        // ==========================================
+        // 4. CLAIM DETAILS MODAL POPULATOR
+        // ==========================================
+        const modalElem = document.getElementById('claimDetailsModal');
+        const viewButtons = document.querySelectorAll('.btn-view-claim');
+
+        viewButtons.forEach(btn => {
+            btn.addEventListener('click', function () {
+                const claimId = this.getAttribute('data-claim-id');
+                const type = this.getAttribute('data-type');
+                const company = this.getAttribute('data-company');
+                const amount = this.getAttribute('data-amount');
+                const date = this.getAttribute('data-date');
+                const status = this.getAttribute('data-status');
+                const statusCode = this.getAttribute('data-status-code');
+                const agent = this.getAttribute('data-agent');
+                const est = this.getAttribute('data-est');
+                const desc = this.getAttribute('data-desc');
+                const notes = this.getAttribute('data-notes');
+                const proof = this.getAttribute('data-proof');
+
+                document.getElementById('modalClaimId').innerText = claimId;
+                document.getElementById('modalClaimType').innerText = type;
+                document.getElementById('modalClaimCompany').innerText = company;
+                document.getElementById('modalClaimAmount').innerText = amount;
+                document.getElementById('modalClaimDate').innerText = date;
+                document.getElementById('modalClaimAgent').innerText = agent;
+                document.getElementById('modalClaimEst').innerText = est;
+                document.getElementById('modalClaimDesc').innerText = desc || 'No specific description provided.';
+                document.getElementById('modalClaimNotes').innerText = notes || 'Forensic investigation ongoing. No formal notes logged.';
+
+                // Status Badge styling
+                const badge = document.getElementById('modalClaimStatusBadge');
+                badge.innerText = status;
+                badge.className = 'badge px-3 py-2 rounded-pill fw-bold ';
+                if (statusCode === 'APPROVED' || statusCode === 'COMPLETED') {
+                    badge.classList.add('bg-success', 'text-white');
+                } else if (statusCode === 'REVIEW') {
+                    badge.classList.add('bg-info', 'text-dark');
+                } else if (statusCode === 'PENDING') {
+                    badge.classList.add('bg-warning', 'text-dark');
+                } else if (statusCode === 'REJECTED') {
+                    badge.classList.add('bg-danger', 'text-white');
+                } else {
+                    badge.classList.add('bg-secondary', 'text-white');
+                }
+
+                // Proof container
+                const proofWrap = document.getElementById('modalClaimProofWrap');
+                if (proof && proof.trim() !== '') {
+                    proofWrap.innerHTML = `
+                        <div class="d-flex align-items-center justify-content-between p-3 bg-light rounded-3 border">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-file-invoice fa-2x text-primary me-3"></i>
+                                <div>
+                                    <strong class="d-block text-navy">Transaction Proof Document</strong>
+                                    <span class="text-muted small">Uploaded case exhibit</span>
+                                </div>
+                            </div>
+                            <a href="${proof}" target="_blank" class="btn btn-navy btn-sm rounded-pill px-3">
+                                <i class="fas fa-external-link-alt me-1"></i> Inspect File
+                            </a>
+                        </div>
+                    `;
+                } else {
+                    proofWrap.innerHTML = `
+                        <div class="p-3 bg-light rounded-3 text-muted small border">
+                            <i class="fas fa-info-circle me-1"></i> No proof document was attached during submission. Additional evidence can be sent via Support.
+                        </div>
+                    `;
+                }
+
+                if (window.bootstrap && bootstrap.Modal) {
+                    const bsModal = bootstrap.Modal.getOrCreateInstance(modalElem);
+                    bsModal.show();
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

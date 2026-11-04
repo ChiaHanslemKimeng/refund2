@@ -1,0 +1,380 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% block title %}Nexis Cyber Recovery Admin | Case Management & Restitution Portal{% endblock %}
+
+{% block branding %}
+<div id="site-name" style="display: flex; align-items: center; gap: 12px; padding: 6px 0;">
+    <img src="{% static 'img/nexis_logo.svg' %}" alt="Nexis Logo" style="height: 38px; width: auto; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.25);">
+    <div style="line-height: 1.2;">
+        <a href="{% url 'admin:index' %}" style="font-weight: 800; color: #ffffff; text-decoration: none; font-size: 17px; letter-spacing: 0.8px;">
+            NEXIS CYBER RECOVERY
+        </a>
+        <div style="font-size: 11px; color: #00f2fe; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 700; margin-top: 2px;">
+            Executive Compliance &amp; Restitution Gateway
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extrahead %}
+{{ block.super }}
+<!-- PWA & Mobile Web App Manifest -->
+<link rel="manifest" href="/manifest.json">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Nexis Admin">
+<meta name="theme-color" content="#06b6d4">
+<link rel="apple-touch-icon" href="{% static 'img/nexis_logo.svg' %}">
+
+<style>
+  /* Header styling and push control bar */
+  #header {
+      background: linear-gradient(135deg, #080c14 0%, #0f172a 100%) !important;
+      border-bottom: 2px solid #00f2fe !important;
+  }
+  .push-control-wrapper {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-left: 15px;
+      vertical-align: middle;
+  }
+  .btn-push-subscribe {
+      background: #06b6d4;
+      color: #ffffff !important;
+      border: 1px solid #3b82f6;
+      border-radius: 20px;
+      padding: 5px 14px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.25);
+      transition: all 0.2s ease;
+      text-decoration: none !important;
+  }
+  .btn-push-subscribe:hover {
+      background: #003e99;
+      transform: translateY(-1px);
+  }
+  .btn-ios-push {
+      background: #dc2626 !important;
+      color: #ffffff !important;
+      border: 1px solid #ef4444 !important;
+      border-radius: 20px;
+      padding: 5px 14px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      animation: pulseAlert 2s infinite;
+  }
+  @keyframes pulseAlert {
+      0% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.7); }
+      70% { box-shadow: 0 0 0 8px rgba(220, 38, 38, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0); }
+  }
+  .push-active-badge {
+      background: #16a34a;
+      color: #ffffff;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      border: 1px solid #22c55e;
+  }
+  .btn-test-alert {
+      background: rgba(255,255,255,0.15);
+      color: #ffffff !important;
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 12px;
+      padding: 2px 8px;
+      font-size: 11px;
+      cursor: pointer;
+      margin-left: 6px;
+  }
+  .btn-test-alert:hover {
+      background: rgba(255,255,255,0.25);
+  }
+  /* iOS instructions modal */
+  .ios-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      z-index: 99999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(4px);
+  }
+  .ios-modal-card {
+      background: #ffffff;
+      color: #1e293b;
+      max-width: 480px;
+      width: 100%;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+  }
+  .ios-modal-header {
+      background: #080c14;
+      color: #ffffff;
+      padding: 20px 24px;
+      border-bottom: 2px solid #00f2fe;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+  }
+  .ios-modal-body {
+      padding: 24px;
+      font-size: 14px;
+      line-height: 1.6;
+  }
+  .ios-step {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 16px;
+      align-items: flex-start;
+  }
+  .ios-step-num {
+      background: #06b6d4;
+      color: white;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      flex-shrink: 0;
+  }
+</style>
+
+<script>
+(function() {
+    const vapidPublicKey = "{{ VAPID_PUBLIC_KEY|default:'' }}";
+
+    function urlB64ToUint8Array(base64String) {
+        const padding = '='.repeat((4 - base64String.length % 4) % 4);
+        const base64 = (base64String + padding)
+            .replace(/\-/g, '+')
+            .replace(/_/g, '/');
+        const rawData = window.atob(base64);
+        const outputArray = new Uint8Array(rawData.length);
+        for (let i = 0; i < rawData.length; ++i) {
+            outputArray[i] = rawData.charCodeAt(i);
+        }
+        return outputArray;
+    }
+
+    function isIosDevice() {
+        const ua = window.navigator.userAgent;
+        return !!ua.match(/iPad/i) || !!ua.match(/iPhone/i) || !!ua.match(/iPod/i);
+    }
+
+    async function initPushManager() {
+        const container = document.getElementById('push-notification-control');
+        if (!container) return;
+
+        // 1. CRUCIAL IOS SAFARI LOGIC:
+        // iOS Safari removes 'Notification' completely unless installed as a PWA on Home Screen!
+        // DO NOT hide the button. Show the setup button instructing user to Add to Home Screen.
+        if (!('Notification' in window)) {
+            container.innerHTML = `
+                <button type="button" id="btn-ios-setup" class="btn-ios-push" title="Tap to setup WhatsApp-style background push alerts on iOS">
+                    ⚠️ Setup iOS Push Alerts
+                </button>
+            `;
+            const btn = document.getElementById('btn-ios-setup');
+            if (btn) btn.addEventListener('click', openIosModal);
+            return;
+        }
+
+        // 2. Service Worker check
+        if (!('serviceWorker' in navigator)) {
+            container.innerHTML = `<span style="color:#94a3b8;font-size:11px;">Service Workers not supported.</span>`;
+            return;
+        }
+
+        // Register service worker at root scope
+        try {
+            const reg = await navigator.serviceWorker.register('/sw.js', { scope: '/' });
+            const sub = await reg.pushManager.getSubscription();
+
+            if (sub && Notification.permission === 'granted') {
+                renderActivePush(container);
+            } else {
+                renderEnableButton(container);
+            }
+        } catch (e) {
+            console.warn('Push manager init warning:', e);
+            renderEnableButton(container);
+        }
+    }
+
+    function renderEnableButton(container) {
+        container.innerHTML = `
+            <button type="button" id="btn-subscribe-push" class="btn-push-subscribe" title="Receive background alerts with sound & vibration on PC and mobile">
+                🔔 Turn On Push Notifications
+            </button>
+        `;
+        const btn = document.getElementById('btn-subscribe-push');
+        if (btn) btn.addEventListener('click', subscribeToPushManager);
+    }
+
+    function renderActivePush(container) {
+        container.innerHTML = `
+            <div style="display:inline-flex; align-items:center;">
+                <span class="push-active-badge">
+                    🟢 Push Alerts Active
+                </span>
+                <button type="button" id="btn-send-test-push" class="btn-test-alert" title="Test instant sound, vibration, and background alert">
+                    ⚡ Test Alert
+                </button>
+            </div>
+        `;
+        const testBtn = document.getElementById('btn-send-test-push');
+        if (testBtn) testBtn.addEventListener('click', triggerTestAlert);
+    }
+
+    async function subscribeToPushManager() {
+        if (!('Notification' in window)) {
+            openIosModal();
+            return;
+        }
+
+        try {
+            const permission = await Notification.requestPermission();
+            if (permission !== 'granted') {
+                alert('Notification permission was ' + permission + '. Please enable notifications in your browser or device settings.');
+                return;
+            }
+
+            const reg = await navigator.serviceWorker.ready;
+            const convertedKey = urlB64ToUint8Array(vapidPublicKey);
+
+            let sub = await reg.pushManager.getSubscription();
+            if (!sub) {
+                sub = await reg.pushManager.subscribe({
+                    userVisibleOnly: true,
+                    applicationServerKey: convertedKey
+                });
+            }
+
+            const res = await fetch('/api/push/subscribe/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(sub.toJSON())
+            });
+
+            const data = await res.json();
+            if (data.status === 'success') {
+                const container = document.getElementById('push-notification-control');
+                if (container) renderActivePush(container);
+
+                try {
+                    const audio = new Audio('/static/sounds/notification.wav');
+                    audio.play().catch(() => {});
+                } catch (e) {}
+
+                alert('✅ Web Push Alerts Activated!\n\nThis device is now registered to receive native background alerts with sound and vibration exactly like WhatsApp even when the browser or app is closed.');
+            } else {
+                alert('Subscription failed: ' + (data.message || 'Unknown error'));
+            }
+        } catch (err) {
+            console.error('Subscription error:', err);
+            alert('Push subscription error: ' + err.message);
+        }
+    }
+
+    async function triggerTestAlert() {
+        try {
+            const res = await fetch('/api/push/test/');
+            const data = await res.json();
+            if (data.status === 'success') {
+                try {
+                    const audio = new Audio('/static/sounds/notification.wav');
+                    audio.play().catch(() => {});
+                } catch (e) {}
+            } else {
+                alert('Test alert failed: ' + data.message);
+            }
+        } catch (e) {
+            alert('Failed to trigger test: ' + e.message);
+        }
+    }
+
+    function openIosModal() {
+        const modal = document.getElementById('ios-push-modal');
+        if (modal) modal.style.display = 'flex';
+    }
+
+    window.closeIosModal = function() {
+        const modal = document.getElementById('ios-push-modal');
+        if (modal) modal.style.display = 'none';
+    };
+
+    window.addEventListener('DOMContentLoaded', initPushManager);
+})();
+</script>
+{% endblock %}
+
+{% block userlinks %}
+<div class="push-control-wrapper">
+    <div id="push-notification-control"></div>
+</div>
+{{ block.super }}
+
+<!-- iOS Safari Push Setup Guide Modal -->
+<div id="ios-push-modal" class="ios-modal-overlay">
+    <div class="ios-modal-card">
+        <div class="ios-modal-header">
+            <div style="font-weight: 800; font-size: 16px; color: #ffffff; display: flex; align-items: center; gap: 8px;">
+                <span>📱 Setup iOS Push Alerts (WhatsApp Style)</span>
+            </div>
+            <button type="button" onclick="closeIosModal()" style="background: transparent; border: none; color: #ffffff; font-size: 20px; cursor: pointer;">&times;</button>
+        </div>
+        <div class="ios-modal-body">
+            <p style="color: #475569; margin-bottom: 20px;">
+                Apple iOS Safari requires adding this web portal to your <strong>Home Screen</strong> as a Progressive Web App (PWA) to unlock native background push notifications, custom sounds, and vibration.
+            </p>
+            <div class="ios-step">
+                <div class="ios-step-num">1</div>
+                <div>
+                    <strong>Tap the Share Button</strong><br>
+                    In Safari's toolbar at the bottom of your iPhone/iPad, tap the <strong>Share icon</strong> (the square with an arrow pointing upward).
+                </div>
+            </div>
+            <div class="ios-step">
+                <div class="ios-step-num">2</div>
+                <div>
+                    <strong>Select "Add to Home Screen"</strong><br>
+                    Scroll down in the Share sheet and tap <strong>Add to Home Screen</strong>, then tap <strong>Add</strong> at top right.
+                </div>
+            </div>
+            <div class="ios-step">
+                <div class="ios-step-num">3</div>
+                <div>
+                    <strong>Open from Home Screen &amp; Enable</strong><br>
+                    Open the new <strong>Nexis Admin</strong> app icon from your Home Screen. Tap <strong>Turn On Push Notifications</strong> to allow background alerts with vibration!
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 24px;">
+                <button type="button" onclick="closeIosModal()" style="background: #06b6d4; color: #ffffff; border: none; border-radius: 20px; padding: 10px 24px; font-weight: bold; cursor: pointer; font-size: 14px;">
+                    Got it, I understand!
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

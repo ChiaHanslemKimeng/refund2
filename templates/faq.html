@@ -1,0 +1,194 @@
+{% extends 'base.html' %}
+
+{% block title %}FAQ | Knowledgebase & Restitution Intelligence{% endblock %}
+
+{% block content %}
+<!-- FAQ Hero Header -->
+<div class="bg-navy py-5 text-white mb-5 position-relative">
+    <div class="container text-center py-4">
+        <span class="badge bg-warning text-dark px-3 py-2 rounded-pill fw-bold text-uppercase mb-3 hero-badge-animate animate-float">
+            <i class="fas fa-circle-question me-1"></i> Restitution Knowledgebase
+        </span>
+        <h1 class="display-4 fw-bold hero-title-animate">Frequently Asked Questions</h1>
+        <p class="lead opacity-75 hero-text-animate mx-auto" style="max-width: 720px;">
+            In-depth answers regarding our forensic investigative methodology, blockchain tracing protocols, banking arbitrations, and statutory client rights.
+        </p>
+    </div>
+</div>
+
+<div class="container pb-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-9">
+            <div class="accordion" id="faqAccordion">
+
+                <!-- FAQ 1 -->
+                <div class="accordion-item border-0 mb-3 shadow-sm rounded-4 overflow-hidden">
+                    <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button fw-bold text-navy" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            How does Nexis Cyber Recovery trace and recover stolen cryptocurrency?
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+                        data-bs-parent="#faqAccordion">
+                        <div class="accordion-body text-muted leading-relaxed">
+                            While blockchain transactions cannot be deleted from a distributed ledger, their pseudonymous nature can be unmasked. Nexis deploys proprietary graph clustering heuristics, peel-chain parsing, and cross-chain bridge tracking across Bitcoin, Ethereum, Solana, and Layer-2 networks. We trace the movement of illicit tokens until they touch centralized Virtual Asset Service Providers (VASPs) or over-the-counter (OTC) desks with mandatory KYC protocols. We then serve formal forensic compliance dossiers, prompting emergency asset freezing orders before bad actors can liquidate to fiat.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ 2 -->
+                <div class="accordion-item border-0 mb-3 shadow-sm rounded-4 overflow-hidden">
+                    <h2 class="accordion-header" id="headingTwo">
+                        <button class="accordion-button collapsed fw-bold text-navy" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            What happens if my card issuer or bank has already rejected my initial fraud dispute?
+                        </button>
+                    </h2>
+                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+                        data-bs-parent="#faqAccordion">
+                        <div class="accordion-body text-muted leading-relaxed">
+                            First-level disputes are commonly evaluated by automated retail banking algorithms that routinely misclassify complex scams as 'friendly fraud' or 'authorized transactions.' Our dispute arbiters escalate contested claims directly to second-level pre-arbitration under Visa Core Rules Section 11 and Mastercard Dispute Resolution bylaws. We compile authoritative forensic briefs that substantiate deceptive merchant conduct, forcing the merchant acquirer to reverse their initial rejection and credit the cardholder.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ 3 -->
+                <div class="accordion-item border-0 mb-3 shadow-sm rounded-4 overflow-hidden">
+                    <h2 class="accordion-header" id="headingThree">
+                        <button class="accordion-button collapsed fw-bold text-navy" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                            How quickly must a fraudulent wire transfer or BEC diversion be reported?
+                        </button>
+                    </h2>
+                    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
+                        data-bs-parent="#faqAccordion">
+                        <div class="accordion-body text-muted leading-relaxed">
+                            Time is critical. While domestic ACH or Fedwires execute rapidly, cross-border SWIFT transactions pass through intermediary correspondent institutions and automated clearing windows. If engaged early, Nexis initiates emergency SWIFT MT199/MT299 recall queries and coordinates directly with receiving bank AML compliance teams to place an administrative freeze on the beneficiary account before funds are disbursed.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ 4 -->
+                <div class="accordion-item border-0 mb-3 shadow-sm rounded-4 overflow-hidden">
+                    <h2 class="accordion-header" id="headingFour">
+                        <button class="accordion-button collapsed fw-bold text-navy" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                            What is Nexis Cyber Recovery's fee model and pricing structure?
+                        </button>
+                    </h2>
+                    <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour"
+                        data-bs-parent="#faqAccordion">
+                        <div class="accordion-body text-muted leading-relaxed">
+                            We operate on a transparent performance-oriented model. Every submission begins with a complimentary algorithmic triage to determine legal and forensic viability. For accepted claims, a standardized administrative docket fee covers hard forensic tracing expenses, while our primary compensation is a contingent recovery percentage collected solely when capital has been successfully retrieved and settled into your custody.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ 5 -->
+                <div class="accordion-item border-0 mb-3 shadow-sm rounded-4 overflow-hidden">
+                    <h2 class="accordion-header" id="headingFive">
+                        <button class="accordion-button collapsed fw-bold text-navy" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                            How do you hold offshore CFD, forex, or binary option platforms accountable?
+                        </button>
+                    </h2>
+                    <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive"
+                        data-bs-parent="#faqAccordion">
+                        <div class="accordion-body text-muted leading-relaxed">
+                            Rogue brokerages frequently operate behind shell companies in offshore jurisdictions (e.g., Saint Vincent, Seychelles, Marshall Islands). However, their operational capital flows through licensed third-party payment processors (PSPs), European acquiring banks, and cryptocurrency settlement gateways. We target these regulated intermediaries, proving they are facilitating unauthorized financial services, which compels them to freeze broker settlement reserves to satisfy our restitution demands.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ 6 -->
+                <div class="accordion-item border-0 mb-3 shadow-sm rounded-4 overflow-hidden">
+                    <h2 class="accordion-header" id="headingSix">
+                        <button class="accordion-button collapsed fw-bold text-navy" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                            Can fake courier delivery and freight escrow deposits be recovered?
+                        </button>
+                    </h2>
+                    <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="headingSix"
+                        data-bs-parent="#faqAccordion">
+                        <div class="accordion-body text-muted leading-relaxed">
+                            Yes. Logistics fraud—including cloned freight tracking portals, fictitious customs clearance SMS demands, and fake automotive transport holding escrows—routinely relies on domestic payment gateways or merchant accounts registered under shell identities. Our investigators identify the underlying bank routing data, dismantle the host server infrastructure, and recover the hijacked deposits via carrier indemnity and merchant clawback procedures.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ 7 -->
+                <div class="accordion-item border-0 mb-3 shadow-sm rounded-4 overflow-hidden">
+                    <h2 class="accordion-header" id="headingSeven">
+                        <button class="accordion-button collapsed fw-bold text-navy" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
+                            What security and confidentiality protocols protect my case documentation?
+                        </button>
+                    </h2>
+                    <div id="collapseSeven" class="accordion-collapse collapse" aria-labelledby="headingSeven"
+                        data-bs-parent="#faqAccordion">
+                        <div class="accordion-body text-muted leading-relaxed">
+                            All evidence, chat transcripts, bank records, and transaction hashes submitted to Nexis Cyber Recovery are encrypted at rest using AES-256 military-grade encryption and transmitted over TLS 1.3 tunnels. Access is compartmentalized and restricted strictly to authorized forensic examiners under binding institutional non-disclosure covenants in full alignment with GDPR and CCPA data sovereignty standards.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ 8 -->
+                <div class="accordion-item border-0 mb-3 shadow-sm rounded-4 overflow-hidden">
+                    <h2 class="accordion-header" id="headingEight">
+                        <button class="accordion-button collapsed fw-bold text-navy" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseEight" aria-expanded="false" aria-controls="collapseEight">
+                            What documentation is required to initiate a preliminary case assessment?
+                        </button>
+                    </h2>
+                    <div id="collapseEight" class="accordion-collapse collapse" aria-labelledby="headingEight"
+                        data-bs-parent="#faqAccordion">
+                        <div class="accordion-body text-muted leading-relaxed">
+                            To ensure same-day triage, submit all relevant transaction receipts, bank wire confirmations, credit card billing statements, cryptocurrency transaction hashes (TXIDs), and communications with the fraudulent counterparty (emails, WhatsApp, Telegram, or portal chat logs). The more detailed your chronological timeline, the faster our investigative units can establish jurisdictional liability.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ 9 -->
+                <div class="accordion-item border-0 mb-3 shadow-sm rounded-4 overflow-hidden">
+                    <h2 class="accordion-header" id="headingNine">
+                        <button class="accordion-button collapsed fw-bold text-navy" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseNine" aria-expanded="false" aria-controls="collapseNine">
+                            How does the Pre-Settlement Capital Bridge loan work?
+                        </button>
+                    </h2>
+                    <div id="collapseNine" class="accordion-collapse collapse" aria-labelledby="headingNine"
+                        data-bs-parent="#faqAccordion">
+                        <div class="accordion-body text-muted leading-relaxed">
+                            Because cross-border asset freezing and inter-bank clearing can require several weeks, our Capital Bridge Desk offers non-recourse bridge financing from $1,000 to $250,000 backed directly by the verified recovery value of your open claim. It incurs no credit bureau checks, fixed interest from 3.5% APR, and flexible terms from 6 to 60 months with zero prepayment penalties.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ 10 -->
+                <div class="accordion-item border-0 mb-3 shadow-sm rounded-4 overflow-hidden">
+                    <h2 class="accordion-header" id="headingTen">
+                        <button class="accordion-button collapsed fw-bold text-navy" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseTen" aria-expanded="false" aria-controls="collapseTen">
+                            How are recovered funds disbursed to clients upon successful case settlement?
+                        </button>
+                    </h2>
+                    <div id="collapseTen" class="accordion-collapse collapse" aria-labelledby="headingTen"
+                        data-bs-parent="#faqAccordion">
+                        <div class="accordion-body text-muted leading-relaxed">
+                            Recovered capital is cleared through segregated custodial escrow accounts and credited to your verified Nexis dashboard balance. From there, you may disburse funds via direct international SWIFT/SEPA wire to your commercial bank account or load capital onto an encrypted Nexis restitution payment card for global spending and cash access.
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="text-center mt-5 p-4 bg-light rounded-4 border">
+                <h5 class="fw-bold text-navy mb-2">Have a Specialized Question Not Covered Here?</h5>
+                <p class="text-muted small mb-3">Our senior forensic dispute analysts are available for confidential consultations.</p>
+                <a href="{% url 'contact' %}" class="btn btn-navy px-4 py-2 rounded-pill fw-bold">Contact Our Investigative Desk</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

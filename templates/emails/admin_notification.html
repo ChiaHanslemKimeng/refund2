@@ -1,0 +1,73 @@
+{% extends "emails/base_email.html" %}
+
+{% block email_title %}[ADMIN ACTION] {{ email_subject }}{% endblock %}
+
+{% block preheader %}{{ preheader|default:"Admin Action Required - Nexis Compliance Portal" }}{% endblock %}
+
+{% block content %}
+<!-- Administrative Alert Header -->
+<div style="margin-bottom: 24px;">
+  <span style="display: inline-block; padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; background-color: #fee2e2; color: #b91c1c; border: 1px solid #fecaca;">
+    {{ status_label|default:"ADMIN ACTION REQUIRED" }}
+  </span>
+  <h2 style="color: #0a2540; font-size: 20px; font-weight: 700; margin: 12px 0 6px 0; line-height: 1.3;">
+    {{ heading }}
+  </h2>
+  <p style="color: #64748b; font-size: 14px; margin: 0;">
+    System Docket Ref: <strong style="color: #0a2540;">{{ reference_id }}</strong> &bull; Received: {{ event_date }}
+  </p>
+</div>
+
+<!-- Admin Greeting -->
+<p style="margin-top: 0; margin-bottom: 16px; font-size: 15px; color: #334155;">
+  Dear <strong>Compliance Officer / System Administrator</strong>,
+</p>
+
+<!-- Admin Instructions -->
+<div style="font-size: 15px; line-height: 1.6; color: #334155; margin-bottom: 24px;">
+  {{ message_body|safe }}
+</div>
+
+<!-- Applicant & Record Profile Table -->
+{% if details %}
+<table class="data-table" border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; margin-bottom: 24px; font-size: 14px;">
+  <tr>
+    <td colspan="2" style="padding: 12px 16px; background-color: #991b1b; color: #ffffff; font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; border-top-left-radius: 7px; border-top-right-radius: 7px;">
+      Administrative Audit &amp; Applicant Dossier
+    </td>
+  </tr>
+  {% for item in details %}
+  <tr>
+    <td class="data-label" width="38%" style="padding: 10px 16px; color: #64748b; border-bottom: 1px solid #e2e8f0; font-weight: 600;">
+      {{ item.label }}
+    </td>
+    <td class="data-value" width="62%" style="padding: 10px 16px; color: #0f172a; border-bottom: 1px solid #e2e8f0; font-weight: 600;">
+      {{ item.value }}
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+{% endif %}
+
+<!-- Admin Compliance Callout -->
+{% if extra_note %}
+<div style="background-color: #fef2f2; border-left: 4px solid #ef4444; padding: 14px 16px; margin-bottom: 24px; border-radius: 4px; font-size: 13px; color: #991b1b; line-height: 1.5;">
+  <strong>Compliance Directive:</strong> {{ extra_note }}
+</div>
+{% endif %}
+
+<!-- Direct Admin Review CTA Button -->
+<div style="text-align: center; margin: 28px 0 20px 0;">
+  <a href="{{ admin_url }}" style="background-color: #b91c1c; color: #ffffff; font-size: 14px; font-weight: 700; text-decoration: none; padding: 13px 30px; border-radius: 6px; display: inline-block; box-shadow: 0 2px 8px rgba(185, 28, 28, 0.25);">
+    Review &amp; Clear in Admin Panel &rarr;
+  </a>
+</div>
+
+<p style="font-size: 12px; color: #64748b; text-align: center; margin-top: 10px;">
+  Direct Link: <a href="{{ admin_url }}" style="color: #0052cc;">{{ admin_url }}</a>
+</p>
+
+<p style="font-size: 13px; color: #64748b; line-height: 1.5; margin-top: 24px; border-top: 1px solid #f1f5f9; padding-top: 16px;">
+  This notification is confidential and restricted strictly to authorized Nexis Cyber Recovery compliance staff.
+</p>
+{% endblock %}

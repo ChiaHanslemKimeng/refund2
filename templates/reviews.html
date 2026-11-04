@@ -1,0 +1,290 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Client Reviews & Verified Testimonials{% endblock %}
+
+{% block content %}
+<!-- Reviews Hero Header -->
+<div class="bg-navy py-5 text-white position-relative">
+    <div class="container text-center py-4">
+        <span class="badge bg-warning text-dark px-3 py-2 rounded-pill fw-bold text-uppercase mb-3 hero-badge-animate animate-float">
+            <i class="fas fa-certificate me-1"></i> 100% Verified Case Settlements
+        </span>
+        <h1 class="display-4 fw-bold hero-title-animate">Client Restitution Dossiers & Verified Reviews</h1>
+        <p class="lead opacity-75 mx-auto hero-text-animate" style="max-width: 720px;">
+            Documented evidentiary outcomes from real fraud victims. Discover how our forensic blockchain investigators and cross-border banking dispute arbiters have restituted capital across 70+ sovereign jurisdictions.
+        </p>
+    </div>
+</div>
+
+<!-- Aggregated Rating Dashboard -->
+<div class="container my-5">
+    <div class="card border-0 shadow-sm p-4 p-lg-5 reveal reveal-up" style="border-radius: 16px; margin-top: -50px; background: white;">
+        <div class="row align-items-center g-4">
+            <!-- Overall Score -->
+            <div class="col-lg-4 text-center border-lg-end border-light">
+                <div class="display-3 fw-bold text-navy mb-1">{{ average_rating }}</div>
+                <div class="mb-2 text-warning fs-5">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+                <p class="text-muted mb-0 small">Overall Client Satisfaction</p>
+                <p class="fw-bold text-navy small mb-0">Based on {{ total_reviews }} verified reviews</p>
+            </div>
+
+            <!-- Rating Bars -->
+            <div class="col-lg-5">
+                <div class="d-flex align-items-center mb-2">
+                    <span class="small fw-bold text-muted me-2" style="width: 55px;">5 Stars</span>
+                    <div class="progress flex-grow-1" style="height: 10px;">
+                        <div class="progress-bar bg-warning" role="progressbar" style="width: 62%;"></div>
+                    </div>
+                    <span class="small text-muted ms-2" style="width: 35px;">{{ five_star_count }}</span>
+                </div>
+                <div class="d-flex align-items-center mb-2">
+                    <span class="small fw-bold text-muted me-2" style="width: 55px;">4 Stars</span>
+                    <div class="progress flex-grow-1" style="height: 10px;">
+                        <div class="progress-bar bg-warning" role="progressbar" style="width: 29%;"></div>
+                    </div>
+                    <span class="small text-muted ms-2" style="width: 35px;">{{ four_star_count }}</span>
+                </div>
+                <div class="d-flex align-items-center">
+                    <span class="small fw-bold text-muted me-2" style="width: 55px;">3 Stars</span>
+                    <div class="progress flex-grow-1" style="height: 10px;">
+                        <div class="progress-bar bg-warning" role="progressbar" style="width: 9%;"></div>
+                    </div>
+                    <span class="small text-muted ms-2" style="width: 35px;">{{ three_star_count }}</span>
+                </div>
+            </div>
+
+            <!-- Trust Badges -->
+            <div class="col-lg-3 text-center text-lg-start">
+                <div class="p-3 bg-light rounded-3">
+                    <div class="d-flex align-items-center mb-2">
+                        <i class="fas fa-shield-check text-success fs-4 me-2"></i>
+                        <div>
+                            <div class="fw-bold small text-navy">Identity Verified</div>
+                            <small class="text-muted" style="font-size: 11px;">All reviewers have confirmed case files</small>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-award text-gold fs-4 me-2"></i>
+                        <div>
+                            <div class="fw-bold small text-navy">No Incentivized Posts</div>
+                            <small class="text-muted" style="font-size: 11px;">Independent client submissions only</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filter Buttons -->
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
+        <div class="btn-group filter-btn-group" role="group" aria-label="Review Filters">
+            <button type="button" class="btn btn-outline-navy active filter-btn" data-filter="all">All Reviews ({{ total_reviews }})</button>
+            <button type="button" class="btn btn-outline-navy filter-btn" data-filter="5">5 Stars</button>
+            <button type="button" class="btn btn-outline-navy filter-btn" data-filter="4">4 Stars</button>
+            <button type="button" class="btn btn-outline-navy filter-btn" data-filter="3">3 Stars</button>
+        </div>
+
+        <div class="d-flex flex-wrap gap-2">
+            <span class="badge bg-light text-navy border py-2 px-3 filter-cat-badge active-cat cursor-pointer" data-category="all">All Categories</span>
+            <span class="badge bg-light text-navy border py-2 px-3 filter-cat-badge cursor-pointer" data-category="crypto"><i class="fab fa-bitcoin me-1 text-gold"></i> Crypto</span>
+            <span class="badge bg-light text-navy border py-2 px-3 filter-cat-badge cursor-pointer" data-category="chargeback"><i class="fas fa-credit-card me-1 text-gold"></i> Chargebacks</span>
+            <span class="badge bg-light text-navy border py-2 px-3 filter-cat-badge cursor-pointer" data-category="forex"><i class="fas fa-chart-line me-1 text-gold"></i> Forex/Broker</span>
+            <span class="badge bg-light text-navy border py-2 px-3 filter-cat-badge cursor-pointer" data-category="wire"><i class="fas fa-university me-1 text-gold"></i> Wire Scams</span>
+            <span class="badge bg-light text-navy border py-2 px-3 filter-cat-badge cursor-pointer" data-category="courier"><i class="fas fa-shipping-fast me-1 text-gold"></i> Courier & Delivery</span>
+            <span class="badge bg-light text-navy border py-2 px-3 filter-cat-badge cursor-pointer" data-category="ecommerce"><i class="fas fa-shopping-bag me-1 text-gold"></i> E-Commerce</span>
+        </div>
+    </div>
+
+    <!-- Reviews Grid -->
+    <div class="row g-4" id="reviewsContainer">
+        {% for review in reviews %}
+        <div class="col-md-6 col-lg-4 review-card-wrapper" data-rating="{{ review.rating|floatformat:0 }}" data-category="{{ review.category_badge }}">
+            <div class="card h-100 p-4 border-0 shadow-sm review-card position-relative">
+                <div class="card-body d-flex flex-column p-0">
+                    <!-- Top row: Stars & Badge -->
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div class="text-warning">
+                            {% for i in review.stars_range %}
+                            <i class="fas fa-star"></i>
+                            {% endfor %}
+                            {% if review.half_star %}
+                            <i class="fas fa-star-half-alt"></i>
+                            {% endif %}
+                            {% for i in review.empty_stars %}
+                            <i class="far fa-star"></i>
+                            {% endfor %}
+                            <span class="ms-1 fw-bold text-dark small">{{ review.rating_display }}</span>
+                        </div>
+                        <span class="badge bg-light text-navy border small">
+                            {{ review.category }}
+                        </span>
+                    </div>
+
+                    <!-- Headline -->
+                    <h5 class="fw-bold text-navy mb-2 fs-6">"{{ review.headline }}"</h5>
+
+                    <!-- Review Text -->
+                    <p class="text-muted small flex-grow-1 mb-4" style="line-height: 1.6;">
+                        {{ review.review }}
+                    </p>
+
+                    <!-- Recovery Info Strip -->
+                    <div class="p-2 mb-3 bg-light rounded d-flex justify-content-between align-items-center small">
+                        <span class="text-muted"><i class="fas fa-shield-alt text-success me-1"></i> {{ review.case_id }}</span>
+                        <span class="fw-bold text-navy">Recovered: <span class="text-success">{{ review.amount_recovered }}</span></span>
+                    </div>
+
+                    <!-- Reviewer Info -->
+                    <div class="d-flex align-items-center pt-3 border-top mt-auto">
+                        <div class="rounded-circle bg-navy text-gold fw-bold d-flex align-items-center justify-content-center me-3 flex-shrink-0"
+                            style="width: 44px; height: 44px; font-size: 1.1rem;">
+                            {{ review.avatar_initial }}
+                        </div>
+                        <div class="flex-grow-1 overflow-hidden">
+                            <h6 class="fw-bold mb-0 text-navy text-truncate">{{ review.name }}</h6>
+                            <small class="text-muted d-block text-truncate">
+                                <i class="fas fa-map-marker-alt text-gold me-1"></i>{{ review.location }}
+                            </small>
+                        </div>
+                        <div class="text-end ms-2">
+                            <span class="badge bg-success-subtle text-success small rounded-pill px-2 py-1">
+                                <i class="fas fa-check-circle me-1"></i>Verified
+                            </span>
+                            <div class="text-muted" style="font-size: 11px;">{{ review.date }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Empty Filter Notice -->
+    <div id="noReviewsNotice" class="text-center py-5 d-none">
+        <i class="fas fa-filter fa-3x text-muted mb-3"></i>
+        <h4 class="fw-bold text-navy">No reviews match the selected filter</h4>
+        <p class="text-muted">Try choosing a different rating or category.</p>
+        <button class="btn btn-outline-navy btn-sm rounded-pill px-4" id="resetFilters">Reset Filters</button>
+    </div>
+
+    <!-- Call to action card -->
+    <div class="card border-0 bg-navy text-white p-5 text-center mt-5 shadow-lg" style="border-radius: 16px;">
+        <h3 class="fw-bold mb-3">Have You Lost Capital to Unauthorized Transactions or Online Syndicates?</h3>
+        <p class="lead opacity-75 mb-4 mx-auto" style="max-width: 650px;">
+            Join thousands of satisfied clients who reclaimed their money. Our team provides an initial forensic assessment at zero risk.
+        </p>
+        <div>
+            <a href="{% url 'submit_claim' %}" class="btn btn-gold btn-lg px-5 py-3 fw-bold rounded-pill shadow-sm">
+                Submit Your Claim Today <i class="fas fa-arrow-right ms-2"></i>
+            </a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .btn-outline-navy {
+        border-color: #0a192f;
+        color: #0a192f;
+        font-weight: 500;
+    }
+    .btn-outline-navy:hover, .btn-outline-navy.active {
+        background-color: #0a192f;
+        color: #fbbf24;
+        border-color: #0a192f;
+    }
+    .cursor-pointer {
+        cursor: pointer;
+    }
+    .filter-cat-badge {
+        transition: all 0.2s ease;
+    }
+    .filter-cat-badge:hover, .filter-cat-badge.active-cat {
+        background-color: #0a192f !important;
+        color: #fbbf24 !important;
+        border-color: #0a192f !important;
+    }
+    .review-card {
+        border-radius: 14px;
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .review-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 25px rgba(10, 25, 47, 0.1) !important;
+    }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const categoryBadges = document.querySelectorAll('.filter-cat-badge');
+    const cards = document.querySelectorAll('.review-card-wrapper');
+    const noReviewsNotice = document.getElementById('noReviewsNotice');
+    const resetBtn = document.getElementById('resetFilters');
+
+    let currentRating = 'all';
+    let currentCategory = 'all';
+
+    function applyFilters() {
+        let visibleCount = 0;
+
+        cards.forEach(card => {
+            const cardRating = card.getAttribute('data-rating');
+            const cardCategory = card.getAttribute('data-category');
+
+            const matchesRating = (currentRating === 'all' || cardRating === currentRating);
+            const matchesCategory = (currentCategory === 'all' || cardCategory === currentCategory);
+
+            if (matchesRating && matchesCategory) {
+                card.classList.remove('d-none');
+                visibleCount++;
+            } else {
+                card.classList.add('d-none');
+            }
+        });
+
+        if (visibleCount === 0) {
+            noReviewsNotice.classList.remove('d-none');
+        } else {
+            noReviewsNotice.classList.add('d-none');
+        }
+    }
+
+    filterButtons.forEach(btn => {
+        btn.addEventListener('click', function () {
+            filterButtons.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            currentRating = this.getAttribute('data-filter');
+            applyFilters();
+        });
+    });
+
+    categoryBadges.forEach(badge => {
+        badge.addEventListener('click', function () {
+            categoryBadges.forEach(b => b.classList.remove('active-cat'));
+            this.classList.add('active-cat');
+            currentCategory = this.getAttribute('data-category');
+            applyFilters();
+        });
+    });
+
+    if (resetBtn) {
+        resetBtn.addEventListener('click', function () {
+            filterButtons.forEach(b => b.classList.remove('active'));
+            document.querySelector('.filter-btn[data-filter="all"]').classList.add('active');
+            categoryBadges.forEach(b => b.classList.remove('active-cat'));
+            document.querySelector('.filter-cat-badge[data-category="all"]').classList.add('active-cat');
+            currentRating = 'all';
+            currentCategory = 'all';
+            applyFilters();
+        });
+    }
+});
+</script>
+{% endblock %}

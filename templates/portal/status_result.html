@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+
+{% block title %}Status: {{ claim.claim_id }}{% endblock %}
+
+{% block content %}
+<div class="container py-5 mt-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <a href="{% url 'check_status' %}" class="text-decoration-none text-muted"><i
+                    class="fas fa-arrow-left me-2"></i>Back to Search</a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-header bg-navy text-white d-flex justify-content-between align-items-center py-3">
+                    <h5 class="mb-0 fw-bold">Claim Details</h5>
+                    <span class="badge bg-gold text-navy">{{ claim.get_status_display }}</span>
+                </div>
+                <div class="card-body p-4">
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <p class="text-muted small mb-1">Claim ID</p>
+                            <h5 class="fw-bold">{{ claim.claim_id }}</h5>
+                        </div>
+                        <div class="col-md-6 text-md-end">
+                            <p class="text-muted small mb-1">Submitted On</p>
+                            <h5 class="fw-bold">{{ claim.created_at|date:"M d, Y" }}</h5>
+                        </div>
+                    </div>
+
+                    <h6 class="fw-bold text-navy border-bottom pb-2 mb-3">Current Status</h6>
+
+                    <!-- Status Timeline -->
+                    <ul class="timeline-horizontal">
+                        <li class="timeline-item">
+                            <div class="timeline-badge primary"><i class="fas fa-file-alt"></i></div>
+                            <div class="timeline-panel">
+                                <small class="text-muted">Submitted</small>
+                            </div>
+                        </li>
+                        <li class="timeline-item">
+                            <div
+                                class="timeline-badge {% if claim.status != 'PENDING' %}primary{% else %}active{% endif %}">
+                                <i class="fas fa-search"></i>
+                            </div>
+                            <div class="timeline-panel">
+                                <small class="text-muted">Review</small>
+                            </div>
+                        </li>
+                        <li class="timeline-item">
+                            <div
+                                class="timeline-badge {% if claim.status == 'APPROVED' or claim.status == 'COMPLETED' %}primary{% elif claim.status == 'REJECTED' %}danger{% else %}secondary{% endif %}">
+                                <i class="fas fa-gavel"></i>
+                            </div>
+                            <div class="timeline-panel">
+                                <small class="text-muted">Decision</small>
+                            </div>
+                        </li>
+                        <li class="timeline-item">
+                            <div
+                                class="timeline-badge {% if claim.status == 'COMPLETED' %}success{% else %}secondary{% endif %}">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <div class="timeline-panel">
+                                <small class="text-muted">Completed</small>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <div class="alert alert-info mt-4">
+                        <h6 class="fw-bold"><i class="fas fa-info-circle me-2"></i>Latest Update</h6>
+                        <p class="mb-0">
+                            {% if claim.agent_notes %}
+                            {{ claim.agent_notes }}
+                            {% else %}
+                            Your claim is currently being processed. No specific notes have been added yet.
+                            {% endif %}
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-body p-4">
+                    <h5 class="fw-bold text-navy mb-3">Claim Summary</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2 d-flex justify-content-between">
+                            <span class="text-muted">Refund Type:</span>
+                            <span class="fw-bold">{{ claim.get_refund_type_display }}</span>
+                        </li>
+                        <li class="mb-2 d-flex justify-content-between">
+                            <span class="text-muted">Amount Lost:</span>
+                            <span class="fw-bold text-danger">${{ claim.amount_lost }}</span>
+                        </li>
+                        <li class="mb-2 d-flex justify-content-between">
+                            <span class="text-muted">Assigned Agent:</span>
+                            <span class="fw-bold">{% if claim.assigned_agent %}
+                                {{ claim.assigned_agent }}
+                                {% else %}
+                                Pending Assignment
+                                {% endif %}
+                            </span>
+                        </li>
+                        <li class="mb-2 d-flex justify-content-between">
+                            <span class="text-muted">Est. Completion:</span>
+                            <span class="fw-bold">{% if claim.estimated_completion_date %}
+                                {{ claim.estimated_completion_date }}
+                                {% else %}
+                                TBD
+                                {% endif %}
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card border-0 shadow-sm bg-navy text-white">
+                <div class="card-body p-4">
+                    <h5 class="fw-bold text-gold mb-3">Need Help?</h5>
+                    <p class="small opacity-75">If you have questions about your claim status, please contact us
+                        ensuring you reference your Claim ID.</p>
+                    <a href="{% url 'contact' %}" class="btn btn-outline-light btn-sm w-100">Contact Support</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,526 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid p-0 overflow-hidden" style="min-height: 100vh; background: #f8f9fa;">
+    <div class="row g-0">
+        <!-- Left Sidebar (Branding) -->
+        <div class="col-lg-5 d-none d-lg-flex bg-navy text-white flex-column justify-content-center px-5 py-5 position-relative reveal reveal-left"
+            style="background: linear-gradient(135deg, #0a192f 0%, #172a45 100%);">
+            <div class="mb-5">
+                <div class="d-flex align-items-center mb-4 gap-3">
+                    <img src="{% static 'img/nexis_logo.svg' %}" alt="Nexis Cyber Recovery Logo" height="60" class="rounded shadow">
+                    <div>
+                        <h3 class="fw-bold mb-0 text-white tracking-wider" style="letter-spacing: 1.5px;">NEXIS</h3>
+                        <span class="text-gold text-uppercase fw-semibold" style="font-size: 0.8rem; letter-spacing: 2px;">Refund Services</span>
+                    </div>
+                </div>
+                <h1 class="display-4 fw-bold mb-4">Start Recovery<br>&amp; Settlement</h1>
+                <p class="lead mb-5 opacity-75">Create your Nexis Cyber Recovery account in just a few steps to initiate claims and receive restitution settlements.</p>
+
+                <div class="d-flex align-items-start mb-4">
+                    <div class="bg-gold rounded-circle p-2 me-3"><i class="fas fa-check text-navy"></i></div>
+                    <div>
+                        <h6 class="fw-bold mb-1">Encrypted Recovery Platform</h6>
+                        <p class="small opacity-75 mb-0">Bank-grade security protocols ensuring end-to-end data encryption.</p>
+                    </div>
+                </div>
+                <div class="d-flex align-items-start mb-4">
+                    <div class="bg-gold rounded-circle p-2 me-3"><i class="fas fa-check text-navy"></i></div>
+                    <div>
+                        <h6 class="fw-bold mb-1">Forensic Asset Tracing</h6>
+                        <p class="small opacity-75 mb-0">International financial intelligence tracking and dispute filings.</p>
+                    </div>
+                </div>
+                <div class="d-flex align-items-start mb-4">
+                    <div class="bg-gold rounded-circle p-2 me-3"><i class="fas fa-check text-navy"></i></div>
+                    <div>
+                        <h6 class="fw-bold mb-1">24/7 Portal &amp; Specialist Access</h6>
+                        <p class="small opacity-75 mb-0">Track real-time case investigations and settlement clearance.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-auto pt-5 border-top border-secondary">
+                <div class="d-flex align-items-center">
+                    <img src="https://flagcdn.com/w20/us.png" alt="US" class="me-2">
+                    <span class="small">EN <i class="fas fa-chevron-up ms-1"></i></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Side (Form) -->
+        <div class="col-lg-7 d-flex align-items-center justify-content-center py-5 reveal reveal-right">
+            <div class="card border-0 shadow-lg" style="width: 100%; max-width: 650px; border-radius: 16px;">
+                <div class="card-body p-4 p-md-5">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h3 class="fw-bold mb-0">Create Your Account</h3>
+                        <span class="text-muted small" id="step-indicator">Step 1 of 4</span>
+                    </div>
+
+                    <!-- Progress Bar -->
+                    <div class="progress mb-4" style="height: 6px;">
+                        <div id="progress-bar" class="progress-bar bg-navy" role="progressbar" style="width: 25%;"
+                            aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+
+                    <!-- Step Names -->
+                    <div class="row text-center mb-5 small g-0">
+                        <div class="col step-title active text-primary fw-bold" data-step="1">Personal Info</div>
+                        <div class="col step-title text-muted" data-step="2">Contact Details</div>
+                        <div class="col step-title text-muted" data-step="3">Account Setup</div>
+                        <div class="col step-title text-muted" data-step="4">Security</div>
+                    </div>
+
+                    <form method="post" id="multiStepForm">
+                        {% csrf_token %}
+
+                        {% if user_form.errors or profile_form.errors %}
+                        <div class="alert alert-danger">
+                            Please correct the errors below.
+                        </div>
+                        {% endif %}
+
+                        <!-- Step 1: Personal Info -->
+                        <div class="step-content" id="step-1">
+                            <div class="text-center mb-4">
+                                <div class="bg-light rounded-circle p-4 d-inline-block mb-3">
+                                    <i class="fas fa-user-circle fa-4x text-primary"></i>
+                                </div>
+                                <h5 class="fw-bold">Personal Information</h5>
+                                <p class="text-muted small">Please provide your legal name as it appears on official
+                                    documents</p>
+                            </div>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-bold">Legal First Name *</label>
+                                    <input type="text" name="first_name" class="form-control py-2" placeholder="John"
+                                        required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-bold">Middle Name</label>
+                                    <input type="text" name="middle_name" class="form-control py-2" placeholder="David">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-bold">Legal Last Name *</label>
+                                    <input type="text" name="last_name" class="form-control py-2" placeholder="Smith"
+                                        required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-bold">Username *</label>
+                                    <input type="text" name="username" class="form-control py-2"
+                                        placeholder="johnsmith123" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 2: Contact Details -->
+                        <div class="step-content d-none" id="step-2">
+                            <div class="text-center mb-4">
+                                <div class="bg-light rounded-circle p-4 d-inline-block mb-3">
+                                    <i class="fas fa-envelope fa-4x text-primary"></i>
+                                </div>
+                                <h5 class="fw-bold">Contact Details</h5>
+                                <p class="text-muted small">How can we reach you regarding your account?</p>
+                            </div>
+                            <div class="row g-3">
+                                <div class="col-12">
+                                    <label class="form-label small fw-bold">Email Address *</label>
+                                    <input type="email" name="email" class="form-control py-2"
+                                        placeholder="john@example.com" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-bold">Phone Number *</label>
+                                    <input type="tel" name="phone" class="form-control py-2"
+                                        placeholder="+1 (555) 000-0000" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-bold">Country *</label>
+                                    <select name="country" class="form-select py-2" required>
+                                        <option value="" disabled {% if not profile_form.country.value %}selected{% endif %}>Select your country</option>
+                                        {% for code, name in country_choices %}
+                                        {% if code %}
+                                        <option value="{{ name }}" {% if profile_form.country.value == name %}selected{% endif %}>{{ name }}</option>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 3: Account Setup -->
+                        <div class="step-content d-none" id="step-3">
+                            <div class="text-center mb-4">
+                                <div class="bg-light rounded-circle p-4 d-inline-block mb-3">
+                                    <i class="fas fa-university fa-4x text-primary"></i>
+                                </div>
+                                <h5 class="fw-bold">Account Setup</h5>
+                                <p class="text-muted small">Select your preferred account type</p>
+                            </div>
+                            <div class="row g-3">
+                                <div class="col-12">
+                                    <label class="form-label small fw-bold mb-3">Select Account Type *</label>
+
+                                    <div class="account-type-grid">
+                                        <!-- Fixed Deposit -->
+                                        <div class="account-type-item">
+                                            <input type="radio" name="account_type" id="acc_fixed" value="FIXED_DEPOSIT"
+                                                class="d-none" required>
+                                            <label for="acc_fixed" class="card border p-3 h-100 cursor-pointer">
+                                                <div class="d-flex align-items-center">
+                                                    <div
+                                                        class="icon-box bg-primary bg-opacity-10 text-primary rounded-circle p-3 me-3">
+                                                        <i class="fas fa-calendar-alt fa-lg"></i>
+                                                    </div>
+                                                    <div>
+                                                        <h6 class="fw-bold mb-0">Fixed Deposit Account</h6>
+                                                        <p class="small text-muted mb-0">Highest interest rates for
+                                                            fixed terms</p>
+                                                    </div>
+                                                </div>
+                                            </label>
+                                        </div>
+
+                                        <!-- Current Account -->
+                                        <div class="account-type-item">
+                                            <input type="radio" name="account_type" id="acc_current" value="CURRENT"
+                                                class="d-none">
+                                            <label for="acc_current" class="card border p-3 h-100 cursor-pointer">
+                                                <div class="d-flex align-items-center">
+                                                    <div
+                                                        class="icon-box bg-info bg-opacity-10 text-info rounded-circle p-3 me-3">
+                                                        <i class="fas fa-briefcase fa-lg"></i>
+                                                    </div>
+                                                    <div>
+                                                        <h6 class="fw-bold mb-0">Current Account</h6>
+                                                        <p class="small text-muted mb-0">For everyday business
+                                                            transactions</p>
+                                                    </div>
+                                                </div>
+                                            </label>
+                                        </div>
+
+                                        <!-- Crypto -->
+                                        <div class="account-type-item">
+                                            <input type="radio" name="account_type" id="acc_crypto" value="CRYPTO"
+                                                class="d-none">
+                                            <label for="acc_crypto" class="card border p-3 h-100 cursor-pointer">
+                                                <div class="d-flex align-items-center">
+                                                    <div
+                                                        class="icon-box bg-warning bg-opacity-10 text-warning rounded-circle p-3 me-3">
+                                                        <i class="fab fa-bitcoin fa-lg"></i>
+                                                    </div>
+                                                    <div>
+                                                        <h6 class="fw-bold mb-0">Crypto Currency Account</h6>
+                                                        <p class="small text-muted mb-0">For digital currency management
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </label>
+                                        </div>
+
+                                        <!-- Business -->
+                                        <div class="account-type-item">
+                                            <input type="radio" name="account_type" id="acc_business" value="BUSINESS"
+                                                class="d-none">
+                                            <label for="acc_business" class="card border p-3 h-100 cursor-pointer">
+                                                <div class="d-flex align-items-center">
+                                                    <div
+                                                        class="icon-box bg-secondary bg-opacity-10 text-secondary rounded-circle p-3 me-3">
+                                                        <i class="fas fa-building fa-lg"></i>
+                                                    </div>
+                                                    <div>
+                                                        <h6 class="fw-bold mb-0">Business Account</h6>
+                                                        <p class="small text-muted mb-0">For small to medium businesses
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </label>
+                                        </div>
+
+                                        <!-- Non Resident -->
+                                        <div class="account-type-item">
+                                            <input type="radio" name="account_type" id="acc_nonresident"
+                                                value="NON_RESIDENT" class="d-none">
+                                            <label for="acc_nonresident" class="card border p-3 h-100 cursor-pointer">
+                                                <div class="d-flex align-items-center">
+                                                    <div
+                                                        class="icon-box bg-success bg-opacity-10 text-success rounded-circle p-3 me-3">
+                                                        <i class="fas fa-globe fa-lg"></i>
+                                                    </div>
+                                                    <div>
+                                                        <h6 class="fw-bold mb-0">Non Resident Account</h6>
+                                                        <p class="small text-muted mb-0">For international customers</p>
+                                                    </div>
+                                                </div>
+                                            </label>
+                                        </div>
+
+                                        <!-- Corporate -->
+                                        <div class="account-type-item">
+                                            <input type="radio" name="account_type" id="acc_corporate" value="CORPORATE"
+                                                class="d-none">
+                                            <label for="acc_corporate" class="card border p-3 h-100 cursor-pointer">
+                                                <div class="d-flex align-items-center">
+                                                    <div
+                                                        class="icon-box bg-danger bg-opacity-10 text-danger rounded-circle p-3 me-3">
+                                                        <i class="fas fa-university fa-lg"></i>
+                                                    </div>
+                                                    <div>
+                                                        <h6 class="fw-bold mb-0">Corporate Business Account</h6>
+                                                        <p class="small text-muted mb-0">For large corporations</p>
+                                                    </div>
+                                                </div>
+                                            </label>
+                                        </div>
+
+                                        <!-- Investment -->
+                                        <div class="account-type-item">
+                                            <input type="radio" name="account_type" id="acc_investment"
+                                                value="INVESTMENT" class="d-none">
+                                            <label for="acc_investment" class="card border p-3 h-100 cursor-pointer">
+                                                <div class="d-flex align-items-center">
+                                                    <div
+                                                        class="icon-box bg-info bg-opacity-10 text-info rounded-circle p-3 me-3">
+                                                        <i class="fas fa-chart-line fa-lg"></i>
+                                                    </div>
+                                                    <div>
+                                                        <h6 class="fw-bold mb-0">Investment Account</h6>
+                                                        <p class="small text-muted mb-0">For stocks and securities</p>
+                                                    </div>
+                                                </div>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 4: Security -->
+                        <div class="step-content d-none" id="step-4">
+                            <div class="text-center mb-4">
+                                <div class="bg-light rounded-circle p-4 d-inline-block mb-3">
+                                    <i class="fas fa-lock fa-4x text-primary"></i>
+                                </div>
+                                <h5 class="fw-bold">Security</h5>
+                                <p class="text-muted small">Secure your account with a strong password</p>
+                            </div>
+                            <div class="row g-3">
+                                <div class="col-12">
+                                    <label class="form-label small fw-bold">Password *</label>
+                                    <div class="position-relative">
+                                        <input type="password" name="password" id="id_password" class="form-control py-2 pe-5" required>
+                                        <button type="button" class="btn position-absolute top-50 end-0 translate-middle-y border-0 bg-transparent text-muted toggle-password" data-target="id_password" style="z-index: 10;">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label small fw-bold">Confirm Password *</label>
+                                    <div class="position-relative">
+                                        <input type="password" name="confirm_password" id="id_confirm_password" class="form-control py-2 pe-5" required>
+                                        <button type="button" class="btn position-absolute top-50 end-0 translate-middle-y border-0 bg-transparent text-muted toggle-password" data-target="id_confirm_password" style="z-index: 10;">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Navigation Buttons -->
+                        <div class="mt-5 d-flex justify-content-between">
+                            <button type="button" class="btn btn-outline-secondary px-4 d-none"
+                                id="prevBtn">Back</button>
+                            <button type="button" class="btn btn-navy px-5 ms-auto" id="nextBtn">Next <i
+                                    class="fas fa-chevron-right ms-1"></i></button>
+                            <button type="submit" class="btn btn-primary px-5 d-none" id="submitBtn">Create
+                                Account</button>
+                        </div>
+                    </form>
+
+                    <div class="text-center mt-4 pt-4 border-top">
+                        <p class="small text-muted mb-0">Already have an account? <a href="{% url 'login' %}"
+                                class="fw-bold text-navy text-decoration-none">Sign In</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .bg-navy {
+        background-color: #0a192f !important;
+    }
+
+    .text-navy {
+        color: #0a192f !important;
+    }
+
+    .btn-navy {
+        background-color: #0a192f;
+        color: #fff;
+        border: none;
+    }
+
+    .btn-navy:hover {
+        background-color: #172a45;
+        color: #fff;
+    }
+
+    .step-title.active {
+        color: #0066ff !important;
+        border-bottom: 2px solid #0066ff;
+        padding-bottom: 5px;
+    }
+
+    .form-control:focus,
+    .form-select:focus {
+        border-color: #0066ff;
+        box-shadow: 0 0 0 0.25rem rgba(0, 102, 255, 0.1);
+    }
+
+    .cursor-pointer {
+        cursor: pointer;
+    }
+
+    .account-type-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .account-type-item input:checked+label {
+        border-color: #0066ff !important;
+        background-color: #f0f7ff !important;
+        box-shadow: 0 0 0 0.25rem rgba(0, 102, 255, 0.05);
+    }
+
+    .account-type-item label:hover {
+        border-color: #0066ff !important;
+    }
+
+    .icon-box {
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+    .toggle-password:focus {
+        box-shadow: none;
+        outline: none;
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        let currentStep = 1;
+        const totalSteps = 4;
+        const form = document.getElementById('multiStepForm');
+        const nextBtn = document.getElementById('nextBtn');
+        const prevBtn = document.getElementById('prevBtn');
+        const submitBtn = document.getElementById('submitBtn');
+        const progressBar = document.getElementById('progress-bar');
+        const stepIndicator = document.getElementById('step-indicator');
+        const stepTitles = document.querySelectorAll('.step-title');
+
+        nextBtn.addEventListener('click', () => {
+            if (validateStep(currentStep)) {
+                if (currentStep < totalSteps) {
+                    document.getElementById(`step-${currentStep}`).classList.add('d-none');
+                    currentStep++;
+                    document.getElementById(`step-${currentStep}`).classList.remove('d-none');
+                    updateUI();
+                }
+            }
+        });
+
+        prevBtn.addEventListener('click', () => {
+            if (currentStep > 1) {
+                document.getElementById(`step-${currentStep}`).classList.add('d-none');
+                currentStep--;
+                document.getElementById(`step-${currentStep}`).classList.remove('d-none');
+                updateUI();
+            }
+        });
+
+        function validateStep(step) {
+            const currentStepDiv = document.getElementById(`step-${step}`);
+            const inputs = currentStepDiv.querySelectorAll('input[required], select[required]');
+            let valid = true;
+            inputs.forEach(input => {
+                if (!input.value) {
+                    input.classList.add('is-invalid');
+                    valid = false;
+                } else {
+                    input.classList.remove('is-invalid');
+                }
+            });
+            return valid;
+        }
+
+        function updateUI() {
+            // Update progress bar
+            const percent = (currentStep / totalSteps) * 100;
+            progressBar.style.width = percent + '%';
+            progressBar.setAttribute('aria-valuenow', percent);
+
+            // Update step indicator
+            stepIndicator.innerText = `Step ${currentStep} of ${totalSteps}`;
+
+            // Update buttons
+            if (currentStep === 1) {
+                prevBtn.classList.add('d-none');
+            } else {
+                prevBtn.classList.remove('d-none');
+            }
+
+            if (currentStep === totalSteps) {
+                nextBtn.classList.add('d-none');
+                submitBtn.classList.remove('d-none');
+            } else {
+                nextBtn.classList.remove('d-none');
+                submitBtn.classList.add('d-none');
+            }
+
+            // Update step titles
+            stepTitles.forEach(title => {
+                const step = parseInt(title.getAttribute('data-step'));
+                if (step === currentStep) {
+                    title.classList.add('active', 'text-primary', 'fw-bold');
+                    title.classList.remove('text-muted');
+                } else if (step < currentStep) {
+                    title.classList.remove('active', 'text-muted');
+                    title.classList.add('text-success');
+                } else {
+                    title.classList.remove('active', 'text-primary', 'fw-bold', 'text-success');
+                    title.classList.add('text-muted');
+                }
+            });
+        }
+
+        // Password visibility toggle logic
+        const toggleButtons = document.querySelectorAll('.toggle-password');
+        toggleButtons.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const targetId = this.getAttribute('data-target');
+                const passwordInput = document.getElementById(targetId);
+                const icon = this.querySelector('i');
+                
+                if (passwordInput.type === 'password') {
+                    passwordInput.type = 'text';
+                    icon.classList.remove('fa-eye');
+                    icon.classList.add('fa-eye-slash');
+                } else {
+                    passwordInput.type = 'password';
+                    icon.classList.remove('fa-eye-slash');
+                    icon.classList.add('fa-eye');
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

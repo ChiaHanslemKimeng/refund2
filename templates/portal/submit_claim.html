@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Submit a Claim{% endblock %}
+
+{% block content %}
+<!-- Claim Hero Header -->
+<div class="bg-navy py-5 text-white mb-5 position-relative">
+    <div class="container text-center py-4">
+        <span class="badge bg-warning text-dark px-3 py-2 rounded-pill fw-bold text-uppercase mb-3 hero-badge-animate animate-float">
+            <i class="fas fa-shield-alt me-1"></i> Encrypted Case Dossier Submission
+        </span>
+        <h1 class="display-4 fw-bold hero-title-animate">Submit an Asset Restitution Claim</h1>
+        <p class="lead opacity-75 hero-text-animate">Securely lodge your transaction evidence for rapid blockchain tracing, banking dispute interdiction, and capital restitution.</p>
+    </div>
+</div>
+
+<div class="container pb-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card claim-card shadow-lg border-0 reveal reveal-up">
+                <div class="card-body p-5">
+                    <div class="text-center mb-4">
+                        <i class="fas fa-file-signature fa-3x text-gold mb-3"></i>
+                        <h3 class="fw-bold text-navy">Claim Submission Form</h3>
+                        <p class="text-muted">Please provide accurate information to help us process your claim faster.
+                        </p>
+                    </div>
+
+                    {% if primary_card %}
+                    <div class="p-3 mb-4 rounded-3 d-flex flex-wrap justify-content-between align-items-center" style="background: #f0fdf4; border: 1px solid #bbf7d0;">
+                        <div class="d-flex align-items-center gap-2">
+                            <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <div>
+                                <div class="text-success fw-bold small">Authorized Payout Card on File</div>
+                                <div class="text-secondary small">
+                                    <i class="fas fa-credit-card me-1 text-muted"></i>
+                                    <strong>{{ primary_card.card_type }}</strong> ending in <strong>{{ primary_card.last_four }}</strong> (Exp: {{ primary_card.expiry }})
+                                </div>
+                            </div>
+                        </div>
+                        <a href="{% url 'my_cards' %}" class="btn btn-outline-success btn-sm rounded-pill px-3 fw-semibold">
+                            <i class="fas fa-sync-alt me-1"></i> Switch Card
+                        </a>
+                    </div>
+                    {% endif %}
+
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+
+                        <h5 class="text-navy border-bottom pb-2 mb-3"><i class="fas fa-user me-2"></i>Personal
+                            Information</h5>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                {{ form.full_name|as_crispy_field }}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                {{ form.email|as_crispy_field }}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                {{ form.phone|as_crispy_field }}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                {{ form.country|as_crispy_field }}
+                            </div>
+                            <div class="col-md-12 mb-3">
+                                {{ form.preferred_contact|as_crispy_field }}
+                            </div>
+                        </div>
+
+                        <h5 class="text-navy border-bottom pb-2 mb-3 mt-4"><i class="fas fa-info-circle me-2"></i>Claim
+                            Details</h5>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                {{ form.refund_type|as_crispy_field }}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                {{ form.amount_lost|as_crispy_field }}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                {{ form.transaction_date|as_crispy_field }}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                {{ form.company_name|as_crispy_field }}
+                            </div>
+                            <div class="col-md-12 mb-3">
+                                {{ form.description|as_crispy_field }}
+                            </div>
+                            <div class="col-md-12 mb-3">
+                                {{ form.proof_file|as_crispy_field }}
+                                <small class="text-muted"><i class="fas fa-lock me-1"></i> Your files are encrypted and
+                                    stored securely.</small>
+                            </div>
+                        </div>
+
+                        <div class="d-grid mt-4">
+                            <button type="submit" class="btn btn-gold btn-lg fw-bold">Submit Claim for Review</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

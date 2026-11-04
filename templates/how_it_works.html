@@ -1,0 +1,409 @@
+{% extends 'base.html' %}
+
+{% block title %}How It Works | Multi-Jurisdiction Restitution Workflow{% endblock %}
+
+{% block content %}
+<!-- Process Hero Header -->
+<div class="bg-navy py-5 text-white mb-5 position-relative">
+    <div class="container text-center py-4">
+        <span class="badge bg-warning text-dark px-3 py-2 rounded-pill fw-bold text-uppercase mb-3 hero-badge-animate animate-float">
+            <i class="fas fa-network-wired me-1"></i> Multi-Jurisdiction Restitution Protocol
+        </span>
+        <h1 class="display-4 fw-bold hero-title-animate">How Nexis Cyber Recovery Works</h1>
+        <p class="lead opacity-75 hero-text-animate mx-auto" style="max-width: 780px;">
+            End-to-end operational workflows for cyber forensics, blockchain tracing, card arbitrations, pre-settlement bridge advances, and custodial capital settlements.
+        </p>
+    </div>
+</div>
+
+<div class="container pb-5">
+
+    <!-- Interactive Process Filter Navigation Pills -->
+    <div class="d-flex justify-content-center mb-5">
+        <ul class="nav nav-pills p-2 bg-light rounded-pill border shadow-sm flex-nowrap overflow-x-auto" id="processTabs" role="tablist" style="max-width: 100%; -webkit-overflow-scrolling: touch;">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active rounded-pill fw-bold px-3 py-2 text-nowrap" id="claims-tab" data-bs-toggle="pill" data-bs-target="#claims-process" type="button" role="tab" aria-selected="true">
+                    <i class="fas fa-shield-halved me-1"></i> Digital Asset &amp; Claims Recovery
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link rounded-pill fw-bold px-3 py-2 text-nowrap" id="loans-tab" data-bs-toggle="pill" data-bs-target="#loans-process" type="button" role="tab" aria-selected="false">
+                    <i class="fas fa-hand-holding-dollar me-1"></i> Pre-Settlement Bridge Capital
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link rounded-pill fw-bold px-3 py-2 text-nowrap" id="cards-tab" data-bs-toggle="pill" data-bs-target="#cards-process" type="button" role="tab" aria-selected="false">
+                    <i class="fas fa-credit-card me-1"></i> Restitution Payment Cards
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link rounded-pill fw-bold px-3 py-2 text-nowrap" id="wires-tab" data-bs-toggle="pill" data-bs-target="#wires-process" type="button" role="tab" aria-selected="false">
+                    <i class="fas fa-globe me-1"></i> SWIFT International Wires
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link rounded-pill fw-bold px-3 py-2 text-nowrap" id="kyc-tab" data-bs-toggle="pill" data-bs-target="#kyc-process" type="button" role="tab" aria-selected="false">
+                    <i class="fas fa-id-card me-1"></i> Client Verification (KYC)
+                </button>
+            </li>
+        </ul>
+    </div>
+
+    <style>
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, #06b6d4 0%, #d4af37 100%);
+        }
+
+        .timeline-item {
+            padding-left: 60px;
+            position: relative;
+            margin-bottom: 45px;
+            transition: transform 0.3s ease;
+        }
+
+        .timeline-item:hover {
+            transform: translateX(6px);
+        }
+
+        .timeline-marker {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 42px;
+            height: 42px;
+            background: #0a192f;
+            border: 2px solid #06b6d4;
+            border-radius: 50%;
+            color: #06b6d4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            z-index: 1;
+            box-shadow: 0 0 0 4px rgba(6, 182, 212, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .timeline-item:hover .timeline-marker {
+            background: #06b6d4;
+            color: #0a192f;
+            box-shadow: 0 0 0 8px rgba(6, 182, 212, 0.35);
+            transform: scale(1.1);
+        }
+
+        .nav-pills .nav-link {
+            color: #0a192f;
+            transition: all 0.2s ease;
+        }
+
+        .nav-pills .nav-link.active {
+            background-color: #0a192f !important;
+            color: #06b6d4 !important;
+            box-shadow: 0 4px 12px rgba(10, 25, 47, 0.2);
+        }
+    </style>
+
+    <!-- Tab Contents -->
+    <div class="tab-content" id="processTabsContent">
+
+        <!-- ==========================================
+             1. FUND RECOVERY CLAIMS PROCESS
+             ========================================== -->
+        <div class="tab-pane fade show active" id="claims-process" role="tabpanel" aria-labelledby="claims-tab">
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <div class="text-center mb-5">
+                        <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-1 rounded-pill mb-2">Restitution Architecture</span>
+                        <h2 class="fw-bold text-navy">Asset Restitution &amp; Dispute Pipeline</h2>
+                        <p class="text-muted small">From evidence intake and on-chain mapping to cross-border freezing injunctions and settlement clawbacks.</p>
+                    </div>
+
+                    <div class="timeline position-relative">
+                        <div class="timeline-item reveal reveal-left delay-100">
+                            <div class="timeline-marker">1</div>
+                            <h4 class="fw-bold text-navy">Intake Dossier &amp; Cryptographic Evidence Submission</h4>
+                            <p class="text-muted">Submit your transaction hashes, bank wire slips, scam merchant communications, and payment gateway descriptors through our encrypted portal.</p>
+                            <ul class="list-unstyled text-muted small">
+                                <li><i class="fas fa-check text-success me-2"></i>Identification of loss amounts, transaction IDs, and counterparty routing</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Encrypted upload of receipts, chat logs, email headers, and wallet addresses</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Instant issuance of a unique Nexis docket reference code (NCR-XXXX)</li>
+                            </ul>
+                        </div>
+
+                        <div class="timeline-item reveal reveal-left delay-200">
+                            <div class="timeline-marker">2</div>
+                            <h4 class="fw-bold text-navy">Forensic Chain Graphing &amp; Intermediary Mapping</h4>
+                            <p class="text-muted">Our certified forensic examiners de-anonymize transaction hops across blockchains or inter-bank clearing conduits, pinpointing licensed off-ramps, VASPs, and beneficial account owners.</p>
+                            <div class="alert alert-light border-start border-4 border-info shadow-sm small">
+                                <i class="fas fa-info-circle text-info me-2"></i> Dedicated forensic investigators deliver preliminary viability findings within 24 to 48 hours.
+                            </div>
+                        </div>
+
+                        <div class="timeline-item reveal reveal-left delay-300">
+                            <div class="timeline-marker">3</div>
+                            <h4 class="fw-bold text-navy">Multi-Jurisdictional Injunctions &amp; Arbitration Filing</h4>
+                            <p class="text-muted">We file formal dispute briefs under Visa/Mastercard Core Rules, SWIFT MT199/MT299 anti-fraud recall orders, and emergency compliance freezes with exchange operators.</p>
+                        </div>
+
+                        <div class="timeline-item reveal reveal-left delay-400">
+                            <div class="timeline-marker"><i class="fas fa-check-double"></i></div>
+                            <h4 class="fw-bold text-navy">Restitution Repatriation &amp; Direct Vault Clearance</h4>
+                            <p class="text-muted">Cleared restitution capital is disbursed through segregated custodial escrow accounts into your verified Nexis balance for instantaneous withdrawal via SWIFT wire or encrypted payment card.</p>
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <a href="{% url 'submit_claim' %}" class="btn btn-gold btn-lg fw-bold px-5 rounded-pill shadow-sm">
+                            <i class="fas fa-shield-halved me-2"></i>Initiate Case Review Now
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==========================================
+             2. CAPITAL ADVANCE & LOAN PROCESS
+             ========================================== -->
+        <div class="tab-pane fade" id="loans-process" role="tabpanel" aria-labelledby="loans-tab">
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <div class="text-center mb-5">
+                        <span class="badge bg-warning text-dark px-3 py-1 rounded-pill mb-2 fw-bold">Liquidity Facility</span>
+                        <h2 class="fw-bold text-navy">Pre-Settlement Capital Bridge Workflow</h2>
+                        <p class="text-muted small">Bridge financing secured directly against your pending case restitution, eliminating wait times for international clearance.</p>
+                    </div>
+
+                    <div class="timeline position-relative">
+                        <div class="timeline-item">
+                            <div class="timeline-marker">1</div>
+                            <h4 class="fw-bold text-navy">Application &amp; Bridge Sizing</h4>
+                            <p class="text-muted">Select desired advance financing ($1,000 to $250,000) and choose flexible non-recourse repayment terms from 6 to 60 months with dynamic calculation.</p>
+                            <ul class="list-unstyled text-muted small">
+                                <li><i class="fas fa-check text-success me-2"></i>Fixed 3.5% APR calculation with zero hidden maintenance fees</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Linked directly to your active Nexis claim docket</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Zero credit score inquiry or consumer rating impact</li>
+                            </ul>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-marker">2</div>
+                            <h4 class="fw-bold text-navy">Underwriting Committee Evidentiary Review</h4>
+                            <p class="text-muted">Our risk committee evaluates the forensic strength and verified asset recovery potential of your open docket to structure your non-recourse advance.</p>
+                            <div class="alert alert-light border-start border-4 border-warning shadow-sm small">
+                                <i class="fas fa-shield-halved text-warning me-2"></i> Rapid 24 to 48-hour underwriting decisions on all pre-settlement advances.
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-marker">3</div>
+                            <h4 class="fw-bold text-navy">Facility Term Structuring &amp; Authorization</h4>
+                            <p class="text-muted">Upon underwriting approval, you receive a transparent disclosure summary detailing repayment milestones, principal, and zero prepayment penalties.</p>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-marker"><i class="fas fa-coins"></i></div>
+                            <h4 class="fw-bold text-navy">Immediate Liquidity Disbursement</h4>
+                            <p class="text-muted">Approved advance funds are instantly credited to your Nexis ledger balance, ready for immediate international wire transfer or card provisioning.</p>
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <a href="{% url 'loan_request' %}" class="btn btn-navy btn-lg fw-bold px-5 rounded-pill shadow-sm">
+                            <i class="fas fa-hand-holding-dollar me-2 text-gold"></i>Apply for Capital Bridge Loan
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==========================================
+             3. RESTITUTION PAYMENT CARD PROCESS
+             ========================================== -->
+        <div class="tab-pane fade" id="cards-process" role="tabpanel" aria-labelledby="cards-tab">
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <div class="text-center mb-5">
+                        <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-1 rounded-pill mb-2 fw-bold">Settlement Channel</span>
+                        <h2 class="fw-bold text-navy">Restitution Card Provisioning &amp; Issuance</h2>
+                        <p class="text-muted small">Direct debit and virtual credit credentials linked to your recovery vault for frictionless global spending.</p>
+                    </div>
+
+                    <div class="timeline position-relative">
+                        <div class="timeline-item">
+                            <div class="timeline-marker">1</div>
+                            <h4 class="fw-bold text-navy">Card Tier &amp; Denomination Selection</h4>
+                            <p class="text-muted">Select card specifications (Visa Platinum, Mastercard Executive, or Custom Restitution Card) and currency denomination (USD, EUR, GBP).</p>
+                            <ul class="list-unstyled text-muted small">
+                                <li><i class="fas fa-check text-success me-2"></i>Choose Instant Virtual or Physical EMV card delivery</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Customized cardholder imprint name and billing address</li>
+                                <li><i class="fas fa-check text-success me-2"></i>PCI-DSS 256-bit encrypted credential generation</li>
+                            </ul>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-marker">2</div>
+                            <h4 class="fw-bold text-navy">Compliance &amp; Scheme Verification</h4>
+                            <p class="text-muted">Our compliance desk cross-references card registration with your verified KYC dossier to ensure card network licensing requirements.</p>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-marker">3</div>
+                            <h4 class="fw-bold text-navy">Virtual Provisioning &amp; Physical Dispatch</h4>
+                            <p class="text-muted">Virtual cards are instantly ready in your dashboard with full 16-digit PAN, CVV, and expiration. Physical EMV chip cards are couriered with worldwide tracking.</p>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-marker"><i class="fas fa-wallet"></i></div>
+                            <h4 class="fw-bold text-navy">Instant Restitution Spending &amp; ATM Access</h4>
+                            <p class="text-muted">Spend or withdraw recovered restitution funds at over 40 million merchants and ATMs worldwide with zero currency conversion markups.</p>
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <a href="{% url 'my_cards' %}" class="btn btn-navy btn-lg fw-bold px-5 rounded-pill shadow-sm">
+                            <i class="fas fa-credit-card me-2 text-gold"></i>Manage &amp; Request Cards
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==========================================
+             4. INTERNATIONAL WIRE PROCESS
+             ========================================== -->
+        <div class="tab-pane fade" id="wires-process" role="tabpanel" aria-labelledby="wires-tab">
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <div class="text-center mb-5">
+                        <span class="badge bg-info-subtle text-info border border-info-subtle px-3 py-1 rounded-pill mb-2 fw-bold">Global Banking</span>
+                        <h2 class="fw-bold text-navy">Cross-Border SWIFT &amp; SEPA Wire Protocol</h2>
+                        <p class="text-muted small">Direct correspondent banking conduits for secure, high-value capital settlements and restitution transfers.</p>
+                    </div>
+
+                    <div class="timeline position-relative">
+                        <div class="timeline-item">
+                            <div class="timeline-marker">1</div>
+                            <h4 class="fw-bold text-navy">Beneficiary Coordinate Verification</h4>
+                            <p class="text-muted">Provide destination bank institution, SWIFT/BIC code, IBAN/Account number, and intermediary routing codes via our encrypted banking interface.</p>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-marker">2</div>
+                            <h4 class="fw-bold text-navy">AML &amp; International Regulatory Clearance</h4>
+                            <p class="text-muted">Wire instructions undergo automated clearing against FATF AML lists and OFAC/EU sanctions registries to guarantee unimpeded cross-border transit.</p>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-marker">3</div>
+                            <h4 class="fw-bold text-navy">Correspondent SWIFT MT103 Transmission</h4>
+                            <p class="text-muted">Our treasury desk broadcasts an official SWIFT MT103 wire with dedicated restitution reference tags to prevent recipient bank compliance holds.</p>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-marker"><i class="fas fa-building-columns"></i></div>
+                            <h4 class="fw-bold text-navy">Settlement Credit &amp; Official Release</h4>
+                            <p class="text-muted">Capital credits to your destination bank account within 24 to 72 business hours accompanied by official banking clearance documentation.</p>
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <a href="{% url 'international_wire' %}" class="btn btn-navy btn-lg fw-bold px-5 rounded-pill shadow-sm">
+                            <i class="fas fa-globe me-2 text-gold"></i>Go to International Wire Desk
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==========================================
+             5. KYC VERIFICATION PROCESS
+             ========================================== -->
+        <div class="tab-pane fade" id="kyc-process" role="tabpanel" aria-labelledby="kyc-tab">
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <div class="text-center mb-5">
+                        <span class="badge bg-danger-subtle text-danger border border-danger-subtle px-3 py-1 rounded-pill mb-2 fw-bold">Compliance Standard</span>
+                        <h2 class="fw-bold text-navy">Client Identity Certification (KYC) Workflow</h2>
+                        <p class="text-muted small">Bank-grade identity certification ensuring secure client authentication, regulatory compliance, and legal claim standing.</p>
+                    </div>
+
+                    <div class="timeline position-relative">
+                        <div class="timeline-item">
+                            <div class="timeline-marker">1</div>
+                            <h4 class="fw-bold text-navy">Government Identity Credential Upload</h4>
+                            <p class="text-muted">Upload high-resolution scans of your Passport, National ID, or Driver's License alongside front and back validation scans.</p>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-marker">2</div>
+                            <h4 class="fw-bold text-navy">Biometric Live Verification</h4>
+                            <p class="text-muted">Submit a real-time verification portrait with your identity document to prevent synthetic identity theft and unauthorized proxy submissions.</p>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-marker">3</div>
+                            <h4 class="fw-bold text-navy">Payment Method &amp; Residency Binding</h4>
+                            <p class="text-muted">Register your settlement payment card and billing address to certify payment ownership under Visa/Mastercard dispute rules.</p>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-marker"><i class="fas fa-user-check"></i></div>
+                            <h4 class="fw-bold text-navy">Compliance Clearance &amp; Full Access</h4>
+                            <p class="text-muted">Upon compliance officer review, your account is certified as Verified Status, unlocking all recovery claims, vault disbursements, and cards.</p>
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <a href="{% url 'kyc_verification' %}" class="btn btn-navy btn-lg fw-bold px-5 rounded-pill shadow-sm">
+                            <i class="fas fa-id-card me-2 text-gold"></i>Complete KYC Verification
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Universal Client Requirements Checklist -->
+    <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 mt-5 bg-light reveal reveal-up">
+        <h3 class="fw-bold text-navy text-center mb-2">Documentation Checklist for Same-Day Docket Assignment</h3>
+        <p class="text-muted text-center small mb-4">Having these verified records ready ensures immediate triage and assignment across our investigative units.</p>
+        <div class="row g-4">
+            <div class="col-md-6">
+                <ul class="list-group list-group-flush bg-transparent">
+                    <li class="list-group-item bg-transparent px-0"><i class="fas fa-check-circle text-success me-2"></i>
+                        <strong>Official Identification:</strong> Valid passport, driver's license, or national identity card.</li>
+                    <li class="list-group-item bg-transparent px-0"><i class="fas fa-check-circle text-success me-2"></i>
+                        <strong>Transaction Records:</strong> Official bank debit statements, SWIFT confirmations, or card receipts.</li>
+                    <li class="list-group-item bg-transparent px-0"><i class="fas fa-check-circle text-success me-2"></i>
+                        <strong>Perpetrator Communications:</strong> Email headers, WhatsApp/Telegram chat logs, or false agreements.</li>
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <ul class="list-group list-group-flush bg-transparent">
+                    <li class="list-group-item bg-transparent px-0"><i class="fas fa-check-circle text-success me-2"></i>
+                        <strong>Blockchain Transaction Hashes:</strong> On-chain explorer TX IDs (for digital asset claims).</li>
+                    <li class="list-group-item bg-transparent px-0"><i class="fas fa-check-circle text-success me-2"></i>
+                        <strong>Associated Payment Cards:</strong> Active debit or credit card to verify transaction authorization.</li>
+                    <li class="list-group-item bg-transparent px-0"><i class="fas fa-check-circle text-success me-2"></i>
+                        <strong>Chronological Event Log:</strong> Step-by-step chronology of events, counterparties, and amounts.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Final Call to Action -->
+    <div class="text-center mt-5">
+        <a href="{% url 'submit_claim' %}" class="btn btn-gold btn-lg fw-bold px-5 py-3 rounded-pill shadow-sm">
+            <i class="fas fa-arrow-right me-2"></i>Initialize Case Review Today
+        </a>
+    </div>
+
+</div>
+{% endblock %}

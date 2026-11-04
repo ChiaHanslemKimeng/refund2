@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>{% block email_title %}Nexis Cyber Recovery Notification{% endblock %}</title>
+  <style type="text/css">
+    /* Client-specific Resets */
+    body, table, td, a { -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
+    table, td { mso-table-lspace: 0pt; mso-table-rspace: 0pt; }
+    img { -ms-interpolation-mode: bicubic; border: 0; height: auto; line-height: 100%; outline: none; text-decoration: none; }
+    body { height: 100% !important; margin: 0 !important; padding: 0 !important; width: 100% !important; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #f1f5f9; color: #1e293b; }
+    /* Responsive styles */
+    @media screen and (max-width: 600px) {
+      .email-container { width: 100% !important; max-width: 100% !important; border-radius: 0 !important; }
+      .email-content { padding: 20px 16px !important; }
+      .header-padding { padding: 24px 16px !important; }
+      .data-table td { display: block !important; width: 100% !important; box-sizing: border-box; }
+      .data-table td.data-label { padding-bottom: 2px !important; font-weight: 700 !important; }
+      .data-table td.data-value { padding-top: 0 !important; padding-bottom: 12px !important; }
+    }
+  </style>
+</head>
+<body style="margin: 0; padding: 0; background-color: #f1f5f9; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased;">
+  <!-- Hidden Preheader -->
+  <div style="display: none; font-size: 1px; color: #fefefe; line-height: 1px; font-family: sans-serif; max-height: 0px; max-width: 0px; opacity: 0; overflow: hidden;">
+    {% block preheader %}Official Communication from Nexis Cyber Recovery.{% endblock %}
+  </div>
+
+  <!-- Outer wrapper table -->
+  <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #f1f5f9; table-layout: fixed;">
+    <tr>
+      <td align="center" style="padding: 28px 12px 40px 12px;">
+        <!-- Email Container (max 600px) -->
+        <table border="0" cellpadding="0" cellspacing="0" width="100%" class="email-container" style="max-width: 600px; background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08); border: 1px solid #e2e8f0;">
+          
+          <!-- Corporate Header -->
+          <tr>
+            <td align="center" class="header-padding" style="background: linear-gradient(135deg, #0a2540 0%, #001f3f 100%); padding: 32px 28px; border-bottom: 4px solid #d4af37;">
+              <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                <tr>
+                  <td align="center">
+                    <!-- Brand Title -->
+                    <div style="font-size: 24px; font-weight: 800; letter-spacing: 1.5px; color: #ffffff; text-transform: uppercase;">
+                      NEXIS
+                    </div>
+                    <div style="font-size: 11px; font-weight: 600; letter-spacing: 2px; color: #d4af37; text-transform: uppercase; margin-top: 4px;">
+                      Refund Services &bull; Asset Restitution
+                    </div>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Mode Badge (User vs Admin) -->
+          <tr>
+            <td style="padding: 0; background-color: {% if is_admin %}#fef2f2{% else %}#f8fafc{% endif %}; border-bottom: 1px solid #e2e8f0;">
+              <div style="padding: 10px 24px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: {% if is_admin %}#b91c1c{% else %}#0052cc{% endif %};">
+                {% if is_admin %}
+                  &#128274; INTERNAL COMPLIANCE ALERT &mdash; ADMIN AUDIT
+                {% else %}
+                  &#128737; SECURE CLIENT DISPATCH &bull; OFFICIAL RECEIPT
+                {% endif %}
+              </div>
+            </td>
+          </tr>
+
+          <!-- Email Main Body Content -->
+          <tr>
+            <td class="email-content" style="padding: 32px 30px 24px 30px; color: #1e293b; font-size: 15px; line-height: 1.6;">
+              {% block content %}
+              {% endblock %}
+            </td>
+          </tr>
+
+          <!-- Compliance & Security Assurance Strip -->
+          <tr>
+            <td style="padding: 18px 30px; background-color: #f8fafc; border-top: 1px solid #e2e8f0; font-size: 12px; color: #64748b; line-height: 1.5;">
+              <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                <tr>
+                  <td width="28" valign="top" style="padding-right: 10px; font-size: 18px; line-height: 1;">&#128272;</td>
+                  <td style="font-size: 12px; color: #64748b;">
+                    <strong>Security Verification:</strong> This dispatch was encrypted and delivered via Nexis 256-Bit SSL Secured Core. For security and anti-fraud purposes, never disclose your account credentials or payment PINs.
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Corporate Footer -->
+          <tr>
+            <td style="background-color: #0a2540; padding: 26px 30px; color: #94a3b8; font-size: 12px; line-height: 1.6; text-align: center;">
+              <div style="color: #ffffff; font-weight: 700; font-size: 14px; margin-bottom: 6px;">
+                Nexis Cyber Recovery
+              </div>
+              <div style="color: #cbd5e1; margin-bottom: 12px;">
+                Forensic Restitution &bull; Chargeback Investigation &bull; Merchant Dispute Resolution
+              </div>
+              <div style="padding: 10px 0; border-top: 1px solid #1e3a5f; border-bottom: 1px solid #1e3a5f; margin-bottom: 14px;">
+                <span style="color: #cbd5e1; margin: 0 10px;">
+                  &#9993; Email: <a href="mailto:support@nexisrecovery.com" style="color: #d4af37; text-decoration: none; font-weight: 600;">support@nexisrecovery.com</a>
+                </span>
+                <br style="display: block; margin: 6px 0;">
+                <span style="color: #cbd5e1; margin: 0 10px;">
+                  &#9742; Tel: <a href="tel:+18004927183" style="color: #d4af37; text-decoration: none; font-weight: 600;">+1 (800) 492-7183</a>
+                </span>
+                <br style="display: block; margin: 6px 0;">
+                <span style="color: #cbd5e1; margin: 0 10px;">
+                  &#127760; Official Domain: <a href="https://nexisrecovery.com" style="color: #d4af37; text-decoration: none; font-weight: 600;">nexisrecovery.com</a>
+                </span>
+              </div>
+              <div style="font-size: 11px; color: #64748b;">
+                &copy; 2026 Nexis Cyber Recovery. All rights reserved.<br>
+                Financial District, New York, NY &bull; Worldwide Forensic Restitution
+              </div>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>

@@ -1,0 +1,298 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Withdraw Funds - Nexis Cyber Recovery{% endblock %}
+
+{% block content %}
+<div class="container py-4 py-lg-5">
+    <div class="row g-4">
+        <!-- Master Unified Sidebar -->
+        {% include 'accounts/sidebar.html' with active_page='withdraw' %}
+
+        <!-- Main Content Area -->
+        <div class="col-lg-9">
+            <!-- Header Card -->
+            <div class="card border-0 shadow-sm rounded-4 mb-4" style="background: linear-gradient(135deg, #0a192f 0%, #112240 100%); color: white;">
+                <div class="card-body p-4 p-md-5">
+                    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="rounded-circle bg-white bg-opacity-10 text-gold p-3 d-flex align-items-center justify-content-center shadow-sm" style="width: 58px; height: 58px;">
+                                <i class="fas fa-hand-holding-usd fa-2x"></i>
+                            </div>
+                            <div>
+                                <h3 class="fw-bold mb-1 text-white">Withdrawal & Fund Disbursement</h3>
+                                <p class="text-light opacity-75 small mb-0">Restitution Capital Release & Settlement Authorization</p>
+                            </div>
+                        </div>
+                        <div class="bg-white bg-opacity-10 px-4 py-2 rounded-3 border border-white border-opacity-10 text-md-end">
+                            <span class="small text-light opacity-75 d-block">Current Available Balance</span>
+                            {% if profile.is_kyc_verified %}
+                            <span class="fs-4 fw-bold text-gold">${{ profile.balance|floatformat:2 }}</span>
+                            {% else %}
+                            <span class="fs-5 fw-bold text-white-50"><i class="fas fa-lock me-1 text-warning"></i> Locked (KYC Required)</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MANDATORY WITHDRAWAL PAGE NOTICE: ALWAYS ALERT USERS TO CONTACT ADMIN -->
+            <div class="alert alert-primary border-primary shadow-sm rounded-4 p-4 mb-4" style="background: #eff6ff; border: 1px solid #bfdbfe;">
+                <div class="d-flex align-items-start gap-3">
+                    <div class="bg-primary text-white rounded-circle p-2 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 44px; height: 44px;">
+                        <i class="fas fa-user-shield fa-lg"></i>
+                    </div>
+                    <div class="flex-grow-1">
+                        <h5 class="fw-bold text-navy mb-1">Administrative Authorization Required</h5>
+                        <p class="text-secondary small mb-2">
+                            To withdraw funds from your Nexis settlement balance, <strong>please contact the administration team</strong>. 
+                            Our treasury officers will verify your account status, confirm your settlement destination, and facilitate official clearance authorization.
+                        </p>
+                        <a href="{% url 'support' %}" class="btn btn-navy btn-sm rounded-pill px-4 fw-semibold text-white">
+                            <i class="fas fa-comment-dots me-1"></i> Message Administration Now
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- WITHDRAWAL CRITERIA STATUS CARD -->
+            <div class="card border-0 shadow-sm rounded-4 mb-4">
+                <div class="card-header bg-white py-3 px-4 border-bottom">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="fas fa-balance-scale text-primary"></i>
+                            <h5 class="fw-bold mb-0 text-navy">Withdrawal Criteria & Account Settlement Parameters</h5>
+                        </div>
+                        {% if attains_criteria and profile.is_kyc_verified %}
+                        <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-3 py-1">
+                            <i class="fas fa-check-circle me-1"></i> Criteria Attained
+                        </span>
+                        {% else %}
+                        <span class="badge bg-warning-subtle text-warning-emphasis border border-warning-subtle rounded-pill px-3 py-1">
+                            <i class="fas fa-exclamation-triangle me-1"></i> Criteria Pending
+                        </span>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="card-body p-4">
+                    <!-- Criteria Parameters Grid -->
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-4">
+                            <div class="p-3 rounded-3 border bg-light h-100">
+                                <span class="small text-muted d-block mb-1">Current Account Balance</span>
+                                {% if profile.is_kyc_verified %}
+                                <h4 class="fw-bold text-navy mb-0">${{ profile.balance|floatformat:2 }}</h4>
+                                <small class="text-muted">Assigned by Administration</small>
+                                {% else %}
+                                <h4 class="fw-bold text-muted mb-0"><i class="fas fa-lock text-warning me-1"></i> Locked</h4>
+                                <small class="text-danger">Verify KYC to view balance</small>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="p-3 rounded-3 border bg-light h-100">
+                                <span class="small text-muted d-block mb-1">Minimum Withdrawal Requirement</span>
+                                <h4 class="fw-bold text-navy mb-0">${{ profile.min_withdrawal_amount|floatformat:2 }}</h4>
+                                <small class="text-muted">Mandatory Threshold</small>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="p-3 rounded-3 border bg-light h-100">
+                                <span class="small text-muted d-block mb-1">Required Clearance Charges</span>
+                                <h6 class="fw-bold text-navy mb-1" style="font-size: 1rem;">Communicated via Admin</h6>
+                                <small class="text-secondary">
+                                    <i class="fas fa-user-shield me-1 text-primary"></i> Provided directly upon contact
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CRITERIA EVALUATION ALERTS -->
+                    {% if not profile.is_kyc_verified %}
+                    <div class="alert alert-warning border-warning rounded-3 p-3 mb-0" style="background: #fffbeb; border: 1px solid #fde68a;">
+                        <div class="d-flex align-items-start gap-3">
+                            <i class="fas fa-id-card fa-2x text-warning mt-1"></i>
+                            <div>
+                                <h6 class="fw-bold text-navy mb-1">KYC Verification Required to Unlock Balance</h6>
+                                <p class="small text-secondary mb-2">
+                                    In accordance with international regulatory guidelines, your ledger balance is currently locked. You must complete KYC verification before you can view your balance or initiate withdrawals.
+                                </p>
+                                <a href="{% url 'kyc_verification' %}" class="btn btn-warning btn-sm rounded-pill fw-bold text-dark px-3">
+                                    <i class="fas fa-shield-alt me-1"></i> Complete KYC Verification Now
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    {% elif not attains_criteria %}
+                    <div class="alert alert-danger border-danger rounded-3 p-3 mb-0" style="background: #fef2f2; border: 1px solid #f87171;">
+                        <div class="d-flex align-items-start gap-3">
+                            <i class="fas fa-times-circle fa-2x text-danger mt-1"></i>
+                            <div>
+                                <h6 class="fw-bold text-danger mb-1">Withdrawal Criteria Not Attained</h6>
+                                <p class="small text-secondary mb-2">
+                                    Your current account balance of <strong>${{ profile.balance|floatformat:2 }}</strong> is below the mandatory minimum withdrawal requirement of <strong>${{ profile.min_withdrawal_amount|floatformat:2 }}</strong>. 
+                                    You require an additional <strong>${{ shortfall|floatformat:2 }}</strong> in recognized recovered balance to reach withdrawal eligibility.
+                                </p>
+                                <p class="small text-muted mb-0">
+                                    <i class="fas fa-info-circle me-1"></i> <strong>Please contact the administration team</strong> to review your claim status and resolve the balance criteria.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="alert alert-success border-success rounded-3 p-3 mb-0" style="background: #f0fdf4; border: 1px solid #86efac;">
+                        <div class="d-flex align-items-start gap-3">
+                            <i class="fas fa-check-circle fa-2x text-success mt-1"></i>
+                            <div>
+                                <h6 class="fw-bold text-success mb-1">Withdrawal Criteria Attained!</h6>
+                                <p class="small text-secondary mb-2">
+                                    Your account balance of <strong>${{ profile.balance|floatformat:2 }}</strong> satisfies the minimum withdrawal threshold of <strong>${{ profile.min_withdrawal_amount|floatformat:2 }}</strong>.
+                                </p>
+                                <p class="small text-dark fw-semibold mb-0">
+                                    <i class="fas fa-bullhorn text-primary me-1"></i> Please <strong>contact the administration team immediately</strong>; our officers will communicate any required clearance charges and authorize release of your funds.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- WITHDRAWAL INQUIRY FORM -->
+            <div class="card border-0 shadow-sm rounded-4 mb-4">
+                <div class="card-header bg-white py-3 px-4 border-bottom">
+                    <div class="d-flex align-items-center gap-2">
+                        <i class="fas fa-file-signature text-primary"></i>
+                        <h5 class="fw-bold mb-0 text-navy">Submit Withdrawal Request / Inquiry</h5>
+                    </div>
+                </div>
+                <div class="card-body p-4 p-md-5">
+                    <form method="post" action="{% url 'withdraw' %}">
+                        {% csrf_token %}
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label small fw-bold">Requested Withdrawal Amount ($) *</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light fw-bold">$</span>
+                                    {{ inquiry_form.amount }}
+                                </div>
+                                <div class="form-text small">Minimum threshold: ${{ profile.min_withdrawal_amount|floatformat:2 }}</div>
+                                {% if inquiry_form.amount.errors %}
+                                <div class="text-danger small mt-1">{{ inquiry_form.amount.errors }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-bold">Preferred Payout Method *</label>
+                                {{ inquiry_form.payout_method }}
+                                {% if inquiry_form.payout_method.errors %}
+                                <div class="text-danger small mt-1">{{ inquiry_form.payout_method.errors }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-bold">Registered Contact Phone</label>
+                                <input type="text" class="form-control py-2 bg-light" readonly value="{{ profile.phone|default:'On File' }}">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-bold">Required Clearance Charges</label>
+                                <input type="text" class="form-control py-2 bg-light" readonly
+                                    value="Communicated directly by administration upon contact">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label small fw-bold">Specific Payout Instructions / Bank or Wallet Coordinates</label>
+                                {{ inquiry_form.payout_details }}
+                                {% if inquiry_form.payout_details.errors %}
+                                <div class="text-danger small mt-1">{{ inquiry_form.payout_details.errors }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="p-3 rounded-3 mb-4" style="background-color: #f1f5f9;">
+                            <div class="small text-secondary">
+                                <i class="fas fa-info-circle text-primary me-1"></i>
+                                Submitting this request sends an encrypted dossier to our administration team. 
+                                A case officer will review your request and contact you via your registered email or phone to confirm final authorization.
+                            </div>
+                        </div>
+
+                        <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+                            <a href="{% url 'support' %}" class="btn btn-outline-secondary rounded-pill px-4">
+                                <i class="fas fa-headset me-1"></i> Contact Administration (Email/Phone)
+                            </a>
+                            <button type="submit" class="btn btn-gold rounded-pill px-5 py-2 fw-bold text-dark shadow-sm">
+                                <i class="fas fa-arrow-circle-up me-2"></i> Submit Withdrawal Request
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- WITHDRAWAL REQUESTS HISTORY -->
+            <div class="card border-0 shadow-sm rounded-4">
+                <div class="card-header bg-white py-3 px-4 border-bottom d-flex justify-content-between align-items-center">
+                    <div class="d-flex align-items-center gap-2">
+                        <i class="fas fa-history text-primary"></i>
+                        <h5 class="fw-bold mb-0 text-navy">Withdrawal Request History</h5>
+                    </div>
+                    <span class="badge bg-light text-muted border">{{ recent_withdrawals.count }} Requests</span>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th class="ps-4">Reference ID</th>
+                                    <th>Date</th>
+                                    <th>Amount</th>
+                                    <th>Method</th>
+                                    <th>Status</th>
+                                    <th>Admin Notes</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for wdr in recent_withdrawals %}
+                                <tr>
+                                    <td class="ps-4 fw-bold text-navy">
+                                        <i class="fas fa-receipt text-primary me-1"></i> {{ wdr.request_id }}
+                                    </td>
+                                    <td class="small text-muted">{{ wdr.created_at|date:"M d, Y H:i" }}</td>
+                                    <td class="fw-bold text-primary">${{ wdr.amount|floatformat:2 }}</td>
+                                    <td><span class="badge bg-light text-dark border">{{ wdr.payout_method }}</span></td>
+                                    <td>
+                                        {% if wdr.status == 'APPROVED' %}
+                                        <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-3 py-1">
+                                            <i class="fas fa-check-circle me-1"></i> Disbursed
+                                        </span>
+                                        {% elif wdr.status == 'CONTACTED' %}
+                                        <span class="badge bg-info-subtle text-info border border-info-subtle rounded-pill px-3 py-1">
+                                            <i class="fas fa-user-check me-1"></i> Admin Contacted
+                                        </span>
+                                        {% elif wdr.status == 'REJECTED' %}
+                                        <span class="badge bg-danger-subtle text-danger border border-danger-subtle rounded-pill px-3 py-1">
+                                            <i class="fas fa-times-circle me-1"></i> Rejected
+                                        </span>
+                                        {% else %}
+                                        <span class="badge bg-warning-subtle text-warning-emphasis border border-warning-subtle rounded-pill px-3 py-1">
+                                            <i class="fas fa-clock me-1"></i> Under Review
+                                        </span>
+                                        {% endif %}
+                                    </td>
+                                    <td class="small text-muted">{{ wdr.admin_notes|default:"Contact admin for status update." }}</td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="6" class="text-center py-5 text-muted">
+                                        <div class="mb-2"><i class="fas fa-wallet fa-3x text-light opacity-50"></i></div>
+                                        <p class="mb-0">No withdrawal requests submitted yet.</p>
+                                        <small class="text-muted">Once submitted, your withdrawal requests and their admin clearance statuses will be displayed here.</small>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

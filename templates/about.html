@@ -1,0 +1,353 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}About Us | Digital Asset Forensics & Restitution Intelligence{% endblock %}
+
+{% block content %}
+<!-- About Hero Header -->
+<div class="bg-navy py-5 text-white mb-5 position-relative">
+    <div class="container text-center py-4">
+        <span class="badge bg-warning text-dark px-3 py-2 rounded-pill fw-bold text-uppercase mb-3 hero-badge-animate animate-float">
+            <i class="fas fa-fingerprint me-1"></i> Global Digital Asset &amp; Financial Intelligence Taskforce
+        </span>
+        <h1 class="display-4 fw-bold hero-title-animate">About Nexis Cyber Recovery</h1>
+        <p class="lead opacity-75 mx-auto hero-text-animate" style="max-width: 760px;">
+            A premier multi-jurisdictional cyber forensics, blockchain intelligence, and financial dispute restitution firm. We de-anonymize sophisticated fraud syndicates and enforce capital recovery for institutional and private clients worldwide.
+        </p>
+    </div>
+</div>
+
+<div class="container pb-5">
+    <!-- Story & Foundation Section -->
+    <div class="row align-items-center mb-5 pb-4">
+        <div class="col-lg-6 mb-4 mb-lg-0 reveal reveal-left">
+            <div class="position-relative">
+                <img src="{% static 'img/about-team.jpg' %}?v=20261103" alt="Nexis Cyber Recovery Global Operations Command" class="img-fluid rounded-4 shadow-lg w-100" style="object-fit: cover; max-height: 480px;" loading="lazy" decoding="async">
+                <div class="position-absolute bottom-0 start-0 m-4 p-3 bg-navy text-white rounded-3 shadow d-none d-sm-block" style="opacity: 0.95;">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-shield-halved text-gold fa-2x me-3 animate-float"></i>
+                        <div>
+                            <div class="fw-bold fs-6">Established 2018</div>
+                            <small class="text-white-50">Over 8 years of specialized financial &amp; cyber investigation</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 ps-lg-5 reveal reveal-right">
+            <span class="badge bg-light text-navy border px-3 py-2 rounded-pill fw-bold text-uppercase mb-3">
+                <i class="fas fa-landmark me-1 text-gold"></i> Institutional Heritage
+            </span>
+            <h2 class="display-6 fw-bold text-navy mb-3">Founded on Investigative Rigor, Cyber Intelligence, and Legal Precision</h2>
+            <p class="text-muted leading-relaxed">
+                In an era where financial crime has migrated into decentralized protocols, cross-chain mixers, and offshore payment conduits, traditional dispute avenues leave victims defenseless against evasive bad actors.
+            </p>
+            <p class="text-muted leading-relaxed">
+                Nexis Cyber Recovery was established by certified fraud examiners (CFE), chain-analysis researchers, and former banking dispute arbiters to build an aggressive, technologically superior restitution bridge. We combine proprietary on-chain graph heuristics with deep procedural mastery of inter-bank clearing frameworks to trace, freeze, and repatriate misappropriated capital.
+            </p>
+            <div class="row g-3 pt-2">
+                <div class="col-sm-6">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-check-circle text-gold fs-4 me-2"></i>
+                        <span class="fw-bold text-navy small">Multi-Chain Ledger Analytics</span>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-check-circle text-gold fs-4 me-2"></i>
+                        <span class="fw-bold text-navy small">Bank-Grade 256-Bit Vault</span>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-check-circle text-gold fs-4 me-2"></i>
+                        <span class="fw-bold text-navy small">Court-Admissible Evidence</span>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-check-circle text-gold fs-4 me-2"></i>
+                        <span class="fw-bold text-navy small">$68M+ Restituted Capital</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Core Pillars: Mission, Vision, Principles -->
+    <div class="row g-4 mb-5 text-center">
+        <div class="col-md-4">
+            <div class="card p-4 bg-light border-0 shadow-sm h-100 rounded-4">
+                <div class="feature-icon mx-auto mb-3">
+                    <i class="fas fa-bullseye fa-2x text-gold"></i>
+                </div>
+                <h3 class="h4 fw-bold text-navy mb-2">Our Mission</h3>
+                <p class="text-muted small mb-0">
+                    To dismantle the operational opacity exploited by cyber fraud syndicates through decisive forensic tracing, aggressive statutory interdiction, and persistent client advocacy.
+                </p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card p-4 bg-light border-0 shadow-sm h-100 rounded-4">
+                <div class="feature-icon mx-auto mb-3">
+                    <i class="fas fa-eye fa-2x text-gold"></i>
+                </div>
+                <h3 class="h4 fw-bold text-navy mb-2">Our Vision</h3>
+                <p class="text-muted small mb-0">
+                    A global financial ecosystem where digital borders provide zero shelter to illicit actors and where defrauded entities have direct access to institutional-tier recovery.
+                </p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card p-4 bg-light border-0 shadow-sm h-100 rounded-4">
+                <div class="feature-icon mx-auto mb-3">
+                    <i class="fas fa-scale-balanced fa-2x text-gold"></i>
+                </div>
+                <h3 class="h4 fw-bold text-navy mb-2">Our Values</h3>
+                <p class="text-muted small mb-0">
+                    Scientific objectivity in case screening, uncompromised confidentiality backed by bank-grade security, and unwavering determination against institutional resistance.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Forensic & Technological Recovery Capabilities -->
+    <div class="card border-0 bg-white shadow-sm p-4 p-lg-5 mb-5 rounded-4">
+        <div class="text-center mb-5">
+            <span class="badge bg-light text-navy border px-3 py-2 rounded-pill fw-bold text-uppercase mb-2">
+                <i class="fas fa-microscope text-gold me-1"></i> Technical Infrastructure
+            </span>
+            <h2 class="display-6 fw-bold text-navy">Our Forensic &amp; Investigative Capabilities</h2>
+            <p class="text-muted mx-auto" style="max-width: 680px;">
+                We combine proprietary blockchain heuristics with procedural expertise across international banking networks and card scheme bylaws.
+            </p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-3">
+                <div class="p-3 border rounded-3 h-100">
+                    <div class="text-gold mb-3">
+                        <i class="fas fa-coins fa-2x"></i>
+                    </div>
+                    <h5 class="fw-bold text-navy">Blockchain Analytics</h5>
+                    <p class="text-muted small mb-0">
+                        Multi-chain ledger tracking, clustering algorithms, and exchange attribution to identify centralized cash-out points and off-ramp wallets.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-3">
+                <div class="p-3 border rounded-3 h-100">
+                    <div class="text-gold mb-3">
+                        <i class="fas fa-building-columns fa-2x"></i>
+                    </div>
+                    <h5 class="fw-bold text-navy">SWIFT &amp; Wire Recalls</h5>
+                    <p class="text-muted small mb-0">
+                        Rapid deployment of MT199/MT299 queries and inter-bank freezing orders with beneficiary clearinghouses before funds dissipate.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-3">
+                <div class="p-3 border rounded-3 h-100">
+                    <div class="text-gold mb-3">
+                        <i class="fas fa-credit-card fa-2x"></i>
+                    </div>
+                    <h5 class="fw-bold text-navy">Card Network Arbitration</h5>
+                    <p class="text-muted small mb-0">
+                        Deep technical navigation of Visa Core Rules and Mastercard Chargeback Guides, escalating contested claims to second-level arbitration.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-3">
+                <div class="p-3 border rounded-3 h-100">
+                    <div class="text-gold mb-3">
+                        <i class="fas fa-fingerprint fa-2x"></i>
+                    </div>
+                    <h5 class="fw-bold text-navy">OSINT &amp; Entity Mapping</h5>
+                    <p class="text-muted small mb-0">
+                        Corporate veil piercing, identifying hidden ultimate beneficial owners (UBOs), offshore front companies, and unlicensed brokerage networks.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Executive Leadership & Specialist Taskforce -->
+    <div class="mb-5 pb-4">
+        <div class="text-center mb-5">
+            <span class="badge bg-light text-navy border px-3 py-2 rounded-pill fw-bold text-uppercase mb-2">
+                <i class="fas fa-user-shield text-gold me-1"></i> Core Taskforce
+            </span>
+            <h2 class="display-6 fw-bold text-navy">Executive Leadership &amp; Senior Investigators</h2>
+            <p class="text-muted mx-auto" style="max-width: 680px;">
+                Our multidisciplinary investigators bring decades of combined experience from cybersecurity firms, regulatory enforcement agencies, and forensic financial audit divisions.
+            </p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-3">
+                <div class="card border-0 shadow-sm rounded-4 overflow-hidden h-100 text-center">
+                    <img src="{% static 'img/team-1.jpg' %}?v=20261103" alt="Elena Vance" class="card-img-top" style="height: 280px; object-fit: cover;">
+                    <div class="card-body p-4 d-flex flex-column">
+                        <h5 class="fw-bold text-navy mb-1">Elena Vance</h5>
+                        <p class="text-gold small fw-bold text-uppercase mb-2">Head of Digital Asset Forensics</p>
+                        <p class="text-muted small mb-0 flex-grow-1">
+                            Specializes in on-chain transaction graph clustering, UTXO peel-chain analysis, and VASP subpoena compliance across EVM and Solana ecosystems.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-3">
+                <div class="card border-0 shadow-sm rounded-4 overflow-hidden h-100 text-center">
+                    <img src="{% static 'img/team-2.jpg' %}?v=20261103" alt="Marcus Thorne" class="card-img-top" style="height: 280px; object-fit: cover;">
+                    <div class="card-body p-4 d-flex flex-column">
+                        <h5 class="fw-bold text-navy mb-1">Marcus Thorne</h5>
+                        <p class="text-gold small fw-bold text-uppercase mb-2">Director of Cross-Border Disputes</p>
+                        <p class="text-muted small mb-0 flex-grow-1">
+                            Former banking ombudsman dispute litigator with over 15 years representing high-net-worth claimants in multilateral financial arbitration.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-3">
+                <div class="card border-0 shadow-sm rounded-4 overflow-hidden h-100 text-center">
+                    <img src="{% static 'img/team-3.jpg' %}?v=20261103" alt="Dr. Sarah Sterling" class="card-img-top" style="height: 280px; object-fit: cover;">
+                    <div class="card-body p-4 d-flex flex-column">
+                        <h5 class="fw-bold text-navy mb-1">Dr. Sarah Sterling</h5>
+                        <p class="text-gold small fw-bold text-uppercase mb-2">Lead Forensic Financial Auditor</p>
+                        <p class="text-muted small mb-0 flex-grow-1">
+                            Certified Fraud Examiner (CFE) specializing in corporate veil reconstruction, offshore shell company tracking, and court-admissible audit dossiers.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-3">
+                <div class="card border-0 shadow-sm rounded-4 overflow-hidden h-100 text-center">
+                    <img src="{% static 'img/team-4.jpg' %}?v=20261103" alt="Julian Bradley" class="card-img-top" style="height: 280px; object-fit: cover;">
+                    <div class="card-body p-4 d-flex flex-column">
+                        <h5 class="fw-bold text-navy mb-1">Julian Bradley</h5>
+                        <p class="text-gold small fw-bold text-uppercase mb-2">Director of Correspondent Banking</p>
+                        <p class="text-muted small mb-0 flex-grow-1">
+                            Directs emergency SWIFT wire recalls, MT199 fraud stop-payment orders, and regulatory interdiction with correspondent clearing houses.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Global Regulatory Alignment & Compliance -->
+    <div class="row align-items-center mb-5 pb-4">
+        <div class="col-lg-6 mb-4 mb-lg-0 order-lg-2">
+            <div class="p-4 bg-navy text-white rounded-4 shadow-sm">
+                <h4 class="fw-bold text-gold mb-3"><i class="fas fa-shield-halved me-2"></i>Institutional Standards</h4>
+                <div class="d-flex align-items-start mb-3">
+                    <i class="fas fa-check-circle text-gold mt-1 me-3"></i>
+                    <div>
+                        <h6 class="fw-bold mb-1">Anti-Money Laundering (AML) Compliance</h6>
+                        <p class="text-white-50 small mb-0">We operate under stringent international AML protocols to guarantee that all recovered assets are legally verified, unencumbered, and clean.</p>
+                    </div>
+                </div>
+                <div class="d-flex align-items-start mb-3">
+                    <i class="fas fa-check-circle text-gold mt-1 me-3"></i>
+                    <div>
+                        <h6 class="fw-bold mb-1">GDPR &amp; CCPA Data Sovereignty</h6>
+                        <p class="text-white-50 small mb-0">Your case files, transaction hashes, and bank communications are safeguarded with AES-256 military-grade encryption in secure segregated vaults.</p>
+                    </div>
+                </div>
+                <div class="d-flex align-items-start">
+                    <i class="fas fa-check-circle text-gold mt-1 me-3"></i>
+                    <div>
+                        <h6 class="fw-bold mb-1">Banking Ombudsman &amp; VASP Coordination</h6>
+                        <p class="text-white-50 small mb-0">Direct engagement with international regulatory bodies, consumer protection boards, and licensed digital asset exchange compliance divisions.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 pe-lg-5 order-lg-1">
+            <span class="badge bg-light text-navy border px-3 py-2 rounded-pill fw-bold text-uppercase mb-3">
+                <i class="fas fa-globe me-1 text-gold"></i> Worldwide Reach
+            </span>
+            <h2 class="display-6 fw-bold text-navy mb-3">Global Regulatory &amp; Cross-Border Framework</h2>
+            <p class="text-muted leading-relaxed">
+                Financial fraudsters routinely route misappropriated capital across multiple sovereign borders to exploit regional jurisdictional blind spots. Our team interfaces directly with foreign supervisory bodies, payment service providers (PSPs), and legal authorities across North America, the UK, Europe, the Middle East, and the Asia-Pacific region.
+            </p>
+            <p class="text-muted leading-relaxed">
+                By presenting fully documented forensic audit trails that meet statutory standards, we turn what are commonly dismissed as 'untraceable' transactions into compelling, actionable claims that financial institutions and exchange compliance units cannot ignore.
+            </p>
+        </div>
+    </div>
+
+    <!-- Agency Milestones & Evolution (Timeline) -->
+    <div class="mb-5">
+        <div class="text-center mb-5">
+            <span class="badge bg-light text-navy border px-3 py-2 rounded-pill fw-bold text-uppercase mb-2">
+                <i class="fas fa-history text-gold me-1"></i> Evolution
+            </span>
+            <h2 class="display-6 fw-bold text-navy">Our Journey &amp; Track Record</h2>
+            <p class="text-muted mx-auto" style="max-width: 600px;">
+                From foundational banking arbitrations in 2018 to recovering tens of millions annually across 70+ sovereign jurisdictions.
+            </p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-3">
+                <div class="card h-100 p-4 border-0 shadow-sm rounded-4 text-center">
+                    <span class="badge bg-navy text-gold py-2 px-3 rounded-pill fw-bold mb-3 mx-auto">2018</span>
+                    <h5 class="fw-bold text-navy">Agency Founded</h5>
+                    <p class="text-muted small mb-0">Established in New York with a focus on institutional merchant dispute arbitrations and financial fraud defense.</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card h-100 p-4 border-0 shadow-sm rounded-4 text-center">
+                    <span class="badge bg-navy text-gold py-2 px-3 rounded-pill fw-bold mb-3 mx-auto">2021</span>
+                    <h5 class="fw-bold text-navy">Crypto Forensics Unit</h5>
+                    <p class="text-muted small mb-0">Integrated proprietary blockchain clustering heuristics to track illicit transactions across DeFi pools, bridges, and centralized exchanges.</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card h-100 p-4 border-0 shadow-sm rounded-4 text-center">
+                    <span class="badge bg-navy text-gold py-2 px-3 rounded-pill fw-bold mb-3 mx-auto">2024</span>
+                    <h5 class="fw-bold text-navy">$50M+ Milestone</h5>
+                    <p class="text-muted small mb-0">Crossed $50,000,000 in cumulative client restitution and expanded cross-border correspondent legal agreements into 55 jurisdictions.</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card h-100 p-4 border-0 shadow-sm rounded-4 text-center">
+                    <span class="badge bg-navy text-gold py-2 px-3 rounded-pill fw-bold mb-3 mx-auto">Present</span>
+                    <h5 class="fw-bold text-navy">Global Authority</h5>
+                    <p class="text-muted small mb-0">Over $68M recovered, 14,800+ claims investigated, and an industry-leading 99.4% forensic attribution accuracy rate.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Client Charter & Ethics Promise -->
+    <div class="p-4 p-lg-5 bg-light rounded-4 border-0 shadow-sm mb-5">
+        <div class="row align-items-center g-4">
+            <div class="col-lg-8">
+                <h3 class="fw-bold text-navy mb-2"><i class="fas fa-handshake text-gold me-2"></i>The Nexis Cyber Recovery Client Charter</h3>
+                <p class="text-muted mb-3">
+                    We recognize that victims of complex financial fraud face immense stress. We hold ourselves to an uncompromising standard of ethics:
+                </p>
+                <ul class="text-muted small mb-0 list-unstyled">
+                    <li class="mb-2"><i class="fas fa-check text-gold me-2"></i><strong>Objective Case Screening:</strong> We never accept a claim unless our preliminary algorithmic triage identifies an enforceable recovery pathway.</li>
+                    <li class="mb-2"><i class="fas fa-check text-gold me-2"></i><strong>Transparent Fee Terms:</strong> Clear scopes of engagement with contingency alignments communicated in plain, unambiguous terms.</li>
+                    <li class="mb-2"><i class="fas fa-check text-gold me-2"></i><strong>Real-Time Milestone Visibility:</strong> 24/7 client portal access with regular investigative briefings as case milestones are achieved.</li>
+                    <li><i class="fas fa-check text-gold me-2"></i><strong>Absolute Client Discretion:</strong> Your identity, banking records, and sensitive communications remain protected under bank-grade encryption protocols.</li>
+                </ul>
+            </div>
+            <div class="col-lg-4 text-center text-lg-end">
+                <a href="{% url 'submit_claim' %}" class="btn btn-navy btn-lg rounded-pill px-4 fw-bold">
+                    Start Case Review <i class="fas fa-arrow-right ms-2"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

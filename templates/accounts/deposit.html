@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Deposit Funds | Nexis Cyber Recovery{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  <div class="row g-4">
+    <!-- Master Unified Sidebar -->
+    {% include 'accounts/sidebar.html' with active_page='deposit' %}
+
+    <!-- Main Content -->
+    <div class="col-lg-9">
+      <!-- Page Header -->
+      <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 pb-2 border-bottom">
+        <div>
+          <span class="badge bg-gold text-navy fw-bold px-3 py-2 rounded-pill text-uppercase mb-2">Treasury Operations</span>
+          <h2 class="fw-bold text-navy mb-1">Deposit Funds</h2>
+          <p class="text-muted small mb-0">Secure capital credit, statutory fee provisions, and escrow top-ups.</p>
+        </div>
+        <div class="mt-3 mt-md-0 text-end">
+          <div class="small text-muted">Ledger Balance</div>
+          {% if profile.is_kyc_verified %}
+          <div class="h4 fw-bold text-navy mb-0">${{ profile.balance|default:"0.00" }}</div>
+          {% else %}
+          <div class="h6 fw-bold text-warning mb-0"><i class="fas fa-lock me-1"></i> Locked (KYC Required)</div>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- Prominent Notice Required By System -->
+      <div class="alert alert-warning border-0 shadow-sm p-4 mb-4 rounded-4" style="background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%); border-left: 5px solid #ffb300 !important;">
+        <div class="d-flex align-items-start gap-3">
+          <div class="bg-warning text-dark rounded-circle p-3 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 52px; height: 52px;">
+            <i class="fas fa-exclamation-triangle fa-lg"></i>
+          </div>
+          <div class="flex-grow-1">
+            <h5 class="fw-bold text-dark mb-1">Deposit Gateway Notice</h5>
+            <p class="fs-5 text-dark fw-semibold mb-2">No payment methods are enabled at the moment. Please check back later.</p>
+            <p class="text-secondary small mb-0">
+              Our automated third-party merchant rails, direct card deposit gateways, and automated fiat on-ramps are undergoing mandatory security auditing and compliance re-certification.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Detailed Explanation & Assistance Cards -->
+      <div class="row g-4 mb-4">
+        <div class="col-md-7">
+          <div class="card border-0 shadow-sm rounded-4 h-100">
+            <div class="card-body p-4">
+              <h5 class="fw-bold text-navy mb-3">
+                <i class="fas fa-shield-alt text-gold me-2"></i>Gateway Security & Compliance
+              </h5>
+              <p class="text-muted small mb-3">
+                Nexis Cyber Recovery adheres to stringent Tier-1 AML/CTF (Anti-Money Laundering & Counter-Terrorist Financing) directives and sovereign asset recovery financial protocols. Direct public card deposits are temporarily disabled to ensure that all inbound recovery provisions are routed through verified legal escrow channels.
+              </p>
+
+              <div class="bg-light p-3 rounded-3 mb-3 border">
+                <div class="d-flex align-items-center gap-2 mb-2 text-navy fw-semibold small">
+                  <i class="fas fa-info-circle text-primary"></i> Need to settle an active statutory or clearance fee?
+                </div>
+                <p class="text-muted small mb-0">
+                  If an assigned specialist or official recovery order requires you to remit clearance charges or documentation deposits, please liaise directly with our administration support desk for designated institutional wire instructions.
+                </p>
+              </div>
+
+              <div class="d-flex flex-wrap gap-2">
+                <a href="{% url 'support' %}" class="btn btn-navy px-4 py-2 rounded-pill fw-semibold">
+                  <i class="fas fa-headset me-2"></i>Contact Recovery Specialist
+                </a>
+                <a href="{% url 'dashboard' %}" class="btn btn-outline-secondary px-4 py-2 rounded-pill">
+                  <i class="fas fa-arrow-left me-2"></i>Return to Dashboard
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-5">
+          <div class="card border-0 shadow-sm rounded-4 h-100 bg-white">
+            <div class="card-body p-4">
+              <h5 class="fw-bold text-navy mb-3">
+                <i class="fas fa-lock text-success me-2"></i>Supported Deposit Channels (Under Maintenance)
+              </h5>
+              
+              <ul class="list-unstyled mb-0">
+                <li class="d-flex align-items-center justify-content-between p-3 mb-2 bg-light rounded-3">
+                  <div class="d-flex align-items-center gap-3">
+                    <div class="text-primary"><i class="fas fa-university fa-lg"></i></div>
+                    <div>
+                      <div class="fw-bold small text-navy">SWIFT / SEPA Escrow</div>
+                      <div class="text-muted" style="font-size: 0.75rem;">Institutional Wire</div>
+                    </div>
+                  </div>
+                  <span class="badge bg-secondary-subtle text-secondary rounded-pill">Paused</span>
+                </li>
+
+                <li class="d-flex align-items-center justify-content-between p-3 mb-2 bg-light rounded-3">
+                  <div class="d-flex align-items-center gap-3">
+                    <div class="text-success"><i class="fas fa-credit-card fa-lg"></i></div>
+                    <div>
+                      <div class="fw-bold small text-navy">Visa / MasterCard</div>
+                      <div class="text-muted" style="font-size: 0.75rem;">Instant Debit/Credit</div>
+                    </div>
+                  </div>
+                  <span class="badge bg-secondary-subtle text-secondary rounded-pill">Paused</span>
+                </li>
+
+                <li class="d-flex align-items-center justify-content-between p-3 bg-light rounded-3">
+                  <div class="d-flex align-items-center gap-3">
+                    <div class="text-warning"><i class="fab fa-bitcoin fa-lg"></i></div>
+                    <div>
+                      <div class="fw-bold small text-navy">Digital Asset Escrow</div>
+                      <div class="text-muted" style="font-size: 0.75rem;">BTC / ETH / USDT</div>
+                    </div>
+                  </div>
+                  <span class="badge bg-secondary-subtle text-secondary rounded-pill">Paused</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+{% endblock %}

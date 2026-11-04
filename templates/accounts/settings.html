@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row g-4">
+        <!-- Master Unified Sidebar -->
+        {% include 'accounts/sidebar.html' with active_page='settings' %}
+
+        <!-- Main Content -->
+        <div class="col-lg-9">
+            <h2 class="fw-bold text-navy mb-4">Account Settings</h2>
+
+            {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show mb-4" role="alert"
+                style="border-radius: 12px;">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+            {% endif %}
+
+            <div class="card border-0 shadow-sm overflow-hidden" style="border-radius: 12px;">
+                <div class="card-header bg-white py-3">
+                    <h5 class="fw-bold mb-0">Profile Information</h5>
+                </div>
+                <div class="card-body p-4">
+                    <form method="post" action="{% url 'settings' %}">
+                        {% csrf_token %}
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label small fw-bold">First Name</label>
+                                <input type="text" name="first_name" class="form-control py-2"
+                                    value="{{ form.first_name.value|default:request.user.first_name }}">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-bold">Last Name</label>
+                                <input type="text" name="last_name" class="form-control py-2"
+                                    value="{{ form.last_name.value|default:request.user.last_name }}">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label small fw-bold">Email Address</label>
+                                <input type="email" name="email" class="form-control py-2"
+                                    value="{{ form.email.value|default:request.user.email }}">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-bold">Phone Number</label>
+                                <input type="text" name="phone" class="form-control py-2"
+                                    value="{{ form.phone.value|default:profile.phone }}">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-bold">Country</label>
+                                <input type="text" name="country" class="form-control py-2"
+                                    value="{{ form.country.value|default:profile.country }}">
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <button type="submit" class="btn btn-navy px-4">Update Profile</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="card border-0 shadow-sm mt-4 overflow-hidden" style="border-radius: 12px;">
+                <div class="card-header bg-white py-3">
+                    <h5 class="fw-bold mb-0">Security</h5>
+                </div>
+                <div class="card-body p-4">
+                    <p class="text-muted small mb-4">Update your password to keep your account secure.</p>
+                    <a href="{% url 'change_password' %}" class="btn btn-outline-dark px-4">Change Password</a>
+
+                    <div class="mt-4 pt-4 border-top">
+                        <h6 class="fw-bold text-danger">Deactivate Account</h6>
+                        <p class="text-muted small">Once you deactivate your account, there is no going back. Please be
+                            certain.</p>
+                        <form action="{% url 'deactivate_account' %}" method="post"
+                            onsubmit="return confirm('Are you sure you want to deactivate your account? This action cannot be undone.');">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-outline-danger btn-sm">Deactivate My Account</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .bg-navy {
+        background-color: #0a192f !important;
+    }
+
+    .text-navy {
+        color: #0a192f !important;
+    }
+
+    .btn-navy {
+        background-color: #0a192f;
+        color: #fff;
+        border: none;
+    }
+
+    .btn-navy:hover {
+        background-color: #172a45;
+        color: #fff;
+    }
+
+    .list-group-item.active {
+        background-color: #0a192f !important;
+        border-color: #0a192f !important;
+    }
+</style>
+{% endblock %}

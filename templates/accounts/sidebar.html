@@ -1,0 +1,123 @@
+{% load static %}
+<!-- Unified Master Portal Sidebar (Consistent Across All Accounts Pages) -->
+<div class="col-lg-3">
+    <div class="card border-0 shadow-sm mb-4" style="border-radius: 14px;">
+        <div class="card-body text-center p-4">
+            <div class="position-relative d-inline-block mb-3">
+                <div class="bg-navy text-gold rounded-circle d-flex align-items-center justify-content-center shadow-sm" style="width: 80px; height: 80px; font-size: 2rem; margin: 0 auto;">
+                    <i class="fas fa-user-shield"></i>
+                </div>
+                <span class="position-absolute bottom-0 end-0 bg-success border border-white rounded-circle p-1" style="width: 18px; height: 18px;" title="Online & Secured"></span>
+            </div>
+            <h5 class="fw-bold mb-1 text-navy">{{ request.user.get_full_name|default:request.user.username }}</h5>
+            <p class="text-muted small mb-2"><i class="fas fa-id-card me-1"></i> Acc #{{ request.user.profile.account_no }}</p>
+            
+            {% if request.user.profile.is_kyc_verified %}
+            <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-1 rounded-pill small">
+                <i class="fas fa-check-circle me-1"></i> Verified Client
+            </span>
+            {% elif request.user.kyc_application.status == 'PENDING' %}
+            <a href="{% url 'kyc_verification' %}" class="badge bg-warning-subtle text-warning-emphasis border border-warning-subtle px-3 py-1 rounded-pill small text-decoration-none">
+                <i class="fas fa-clock me-1"></i> KYC Under Review
+            </a>
+            {% elif request.user.kyc_application.status == 'REJECTED' %}
+            <a href="{% url 'kyc_verification' %}" class="badge bg-danger-subtle text-danger border border-danger-subtle px-3 py-1 rounded-pill small text-decoration-none">
+                <i class="fas fa-times-circle me-1"></i> KYC Rejected - Action Required
+            </a>
+            {% else %}
+            <a href="{% url 'kyc_verification' %}" class="badge bg-danger-subtle text-danger border border-danger-subtle px-3 py-1 rounded-pill small text-decoration-none">
+                <i class="fas fa-exclamation-circle me-1"></i> Verify KYC
+            </a>
+            {% endif %}
+        </div>
+        
+        <!-- Mobile Navigation Toggle (collapsible on mobile so main content is immediately reachable) -->
+        <div class="d-lg-none p-3 border-top" style="background-color: #f8fafc;">
+            <button class="btn btn-navy w-100 py-2 px-3 d-flex align-items-center justify-content-between text-white shadow-sm" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarPortalNav" aria-expanded="false" aria-controls="sidebarPortalNav" style="background-color: #0a192f !important; color: #ffffff !important; border: 1px solid #0a192f !important;">
+                <span class="fw-semibold text-white d-flex align-items-center"><i class="fas fa-bars me-2 text-gold"></i> Account Navigation Menu</span>
+                <i class="fas fa-chevron-down small text-gold"></i>
+            </button>
+        </div>
+
+        <div class="collapse d-lg-block" id="sidebarPortalNav">
+            <div class="list-group list-group-flush border-top">
+                <a href="{% url 'dashboard' %}"
+                    class="list-group-item list-group-item-action py-3 {% if active_page == 'dashboard' %}active bg-navy border-0 text-white fw-semibold{% else %}text-secondary{% endif %}">
+                    <i class="fas fa-th-large me-2 {% if active_page == 'dashboard' %}text-gold{% else %}text-muted{% endif %}"></i> Dashboard Overview
+                </a>
+                <a href="{% url 'kyc_verification' %}" class="list-group-item list-group-item-action py-3 {% if active_page == 'kyc' %}active bg-navy border-0 text-white fw-semibold{% else %}text-secondary{% endif %} d-flex justify-content-between align-items-center">
+                    <div>
+                        <i class="fas fa-id-card me-2 {% if active_page == 'kyc' %}text-gold{% else %}text-muted{% endif %}"></i> KYC Verification
+                    </div>
+                    {% if not request.user.profile.is_kyc_verified %}
+                    <span class="badge bg-danger rounded-pill">Required</span>
+                    {% else %}
+                    <span class="badge bg-success rounded-pill"><i class="fas fa-check"></i></span>
+                    {% endif %}
+                </a>
+                <a href="{% url 'transactions' %}" class="list-group-item list-group-item-action py-3 {% if active_page == 'transactions' %}active bg-navy border-0 text-white fw-semibold{% else %}text-secondary{% endif %}">
+                    <i class="fas fa-exchange-alt me-2 {% if active_page == 'transactions' %}text-gold{% else %}text-muted{% endif %}"></i> Financial Transactions
+                </a>
+                <a href="{% url 'local_transfer' %}" class="list-group-item list-group-item-action py-3 {% if active_page == 'local_transfer' %}active bg-navy border-0 text-white fw-semibold{% else %}text-secondary{% endif %}">
+                    <i class="fas fa-paper-plane me-2 {% if active_page == 'local_transfer' %}text-gold{% else %}text-muted{% endif %}"></i> Local Transfer
+                </a>
+                <a href="{% url 'international_wire' %}" class="list-group-item list-group-item-action py-3 {% if active_page == 'international_wire' %}active bg-navy border-0 text-white fw-semibold{% else %}text-secondary{% endif %}">
+                    <i class="fas fa-globe me-2 {% if active_page == 'international_wire' %}text-gold{% else %}text-muted{% endif %}"></i> International Wire
+                </a>
+                <a href="{% url 'withdraw' %}" class="list-group-item list-group-item-action py-3 {% if active_page == 'withdraw' %}active bg-navy border-0 text-white fw-semibold{% else %}text-secondary{% endif %}">
+                    <i class="fas fa-arrow-circle-up me-2 {% if active_page == 'withdraw' %}text-gold{% else %}text-muted{% endif %}"></i> Withdraw Funds
+                </a>
+                <a href="{% url 'deposit' %}" class="list-group-item list-group-item-action py-3 {% if active_page == 'deposit' %}active bg-navy border-0 text-white fw-semibold{% else %}text-secondary{% endif %}">
+                    <i class="fas fa-plus-circle me-2 {% if active_page == 'deposit' %}text-gold{% else %}text-muted{% endif %}"></i> Deposit Funds
+                </a>
+                <a href="{% url 'loan_request' %}" class="list-group-item list-group-item-action py-3 {% if active_page == 'loan' %}active bg-navy border-0 text-white fw-semibold{% else %}text-secondary{% endif %}">
+                    <i class="fas fa-hand-holding-usd me-2 {% if active_page == 'loan' %}text-gold{% else %}text-muted{% endif %}"></i> Loan Request
+                </a>
+                <a href="{% url 'my_cards' %}" class="list-group-item list-group-item-action py-3 {% if active_page == 'my_cards' %}active bg-navy border-0 text-white fw-semibold{% else %}text-secondary{% endif %}">
+                    <i class="fas fa-credit-card me-2 {% if active_page == 'my_cards' %}text-gold{% else %}text-muted{% endif %}"></i> My Payment Cards
+                </a>
+                <a href="{% url 'submit_claim' %}" class="list-group-item list-group-item-action py-3 {% if active_page == 'submit_claim' %}active bg-navy border-0 text-white fw-semibold{% else %}text-secondary{% endif %}">
+                    <i class="fas fa-shield-alt me-2 {% if active_page == 'submit_claim' %}text-gold{% else %}text-muted{% endif %}"></i> File Claim
+                </a>
+                <a href="{% url 'support' %}" class="list-group-item list-group-item-action py-3 {% if active_page == 'support' %}active bg-navy border-0 text-white fw-semibold{% else %}text-secondary{% endif %}">
+                    <i class="fas fa-headset me-2 {% if active_page == 'support' %}text-gold{% else %}text-muted{% endif %}"></i> Case Support (Email / Phone)
+                </a>
+                <a href="{% url 'settings' %}" class="list-group-item list-group-item-action py-3 {% if active_page == 'settings' %}active bg-navy border-0 text-white fw-semibold{% else %}text-secondary{% endif %}">
+                    <i class="fas fa-cog me-2 {% if active_page == 'settings' %}text-gold{% else %}text-muted{% endif %}"></i> Account Settings
+                </a>
+                {% if request.user.is_staff %}
+                <a href="{% url 'admin:index' %}" class="list-group-item list-group-item-action py-3 text-primary fw-bold">
+                    <i class="fas fa-user-shield me-2"></i> Admin Panel
+                </a>
+                {% endif %}
+                <form action="{% url 'logout' %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="list-group-item list-group-item-action py-3 text-danger border-0 w-100 text-start">
+                        <i class="fas fa-sign-out-alt me-2"></i> Secure Logout
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Specialist Contact Card in Sidebar -->
+    <div class="card border-0 shadow-sm p-3 mb-4" style="border-radius: 14px; background: #f8fafc;">
+        <div class="d-flex align-items-center mb-2">
+            <div class="bg-navy text-gold rounded-circle d-flex align-items-center justify-content-center me-2" style="width: 36px; height: 36px;">
+                <i class="fas fa-user-tie"></i>
+            </div>
+            <div>
+                <div class="small fw-bold text-navy">Assigned Specialist</div>
+                <div class="text-muted" style="font-size: 0.78rem;">{{ assigned_specialist|default:"Senior Forensic Officer" }}</div>
+            </div>
+        </div>
+        <p class="small text-muted mb-2" style="font-size: 0.8rem;">Contact directly via verified email or telephone:</p>
+        <a href="{% url 'support' %}" class="btn btn-outline-navy btn-sm rounded-pill fw-semibold w-100 mb-2">
+            <i class="fas fa-envelope-open-text me-1"></i> Email &amp; Phone Support
+        </a>
+        <div class="small text-muted" style="font-size: 0.75rem;">
+            <div class="text-truncate mb-1"><i class="fas fa-envelope text-primary me-1"></i> support@nexisrecovery.com</div>
+            <div><i class="fas fa-phone text-success me-1"></i> +1 (800) 492-7183</div>
+        </div>
+    </div>
+</div>

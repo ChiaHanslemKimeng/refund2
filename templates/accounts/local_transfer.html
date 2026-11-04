@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Local Bank Transfer - Nexis Cyber Recovery{% endblock %}
+
+{% block content %}
+<div class="container py-4 py-lg-5">
+    <div class="row g-4">
+        <!-- Master Unified Sidebar -->
+        {% include 'accounts/sidebar.html' with active_page='local_transfer' %}
+
+        <!-- Main Content Area -->
+        <div class="col-lg-9">
+            <!-- Header Card -->
+            <div class="card border-0 shadow-sm rounded-4 mb-4" style="background: linear-gradient(135deg, #0a192f 0%, #112240 100%); color: white;">
+                <div class="card-body p-4 p-md-5">
+                    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="rounded-circle bg-white bg-opacity-10 text-gold p-3 d-flex align-items-center justify-content-center shadow-sm" style="width: 58px; height: 58px;">
+                                <i class="fas fa-paper-plane fa-2x"></i>
+                            </div>
+                            <div>
+                                <h3 class="fw-bold mb-1 text-white">Local Bank Transfer</h3>
+                                <p class="text-light opacity-75 small mb-0">Domestic Clearing & Automated Clearing House (ACH) Dispatch</p>
+                            </div>
+                        </div>
+                        <div class="bg-white bg-opacity-10 px-4 py-2 rounded-3 border border-white border-opacity-10 text-md-end">
+                            <span class="small text-light opacity-75 d-block">Available Recovered Balance</span>
+                            {% if profile.is_kyc_verified %}
+                            <span class="fs-4 fw-bold text-gold">${{ profile.balance|floatformat:2 }}</span>
+                            {% else %}
+                            <span class="fs-6 fw-bold text-warning"><i class="fas fa-lock me-1"></i> Locked (KYC Required)</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {% if not profile.is_charge_paid and profile.charge_amount > 0 %}
+            <div class="alert alert-warning border border-warning-subtle rounded-3 p-3 mb-4">
+                <i class="fas fa-exclamation-triangle me-2"></i>
+                <strong>Statutory Clearance Pending:</strong> Regulatory clearance is required before dispatches can be completed. Our administration team will communicate any required clearance details and charges when they contact you.
+            </div>
+            {% endif %}
+
+            <div class="card border-0 shadow-sm rounded-4 mb-4">
+                <div class="card-header bg-white py-3 px-4 border-bottom">
+                    <div class="d-flex align-items-center gap-2">
+                        <i class="fas fa-university text-primary"></i>
+                        <h5 class="fw-bold mb-0 text-navy">Beneficiary Bank Coordinates</h5>
+                    </div>
+                </div>
+                <div class="card-body p-4 p-md-5">
+                    <form method="post" action="{% url 'local_transfer' %}">
+                        {% csrf_token %}
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label small fw-bold">Recipient Account Name *</label>
+                                <input type="text" name="recipient_name" class="form-control py-2" placeholder="e.g. John Doe" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-bold">Recipient Bank Name *</label>
+                                <input type="text" name="bank_name" class="form-control py-2" placeholder="e.g. Chase Bank, Barclays" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-bold">Account / IBAN Number *</label>
+                                <input type="text" name="account_number" class="form-control py-2" placeholder="e.g. 1234567890 or GB..." required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-bold">Routing / Sort Code / SWIFT *</label>
+                                <input type="text" name="routing_code" class="form-control py-2" placeholder="e.g. 021000021" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-bold">Transfer Amount (USD) *</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">$</span>
+                                    <input type="number" step="0.01" name="amount" class="form-control py-2" placeholder="0.00" {% if profile.is_kyc_verified %}max="{{ profile.balance }}"{% endif %} required>
+                                </div>
+                                {% if profile.is_kyc_verified %}
+                                <div class="form-text small">Available balance: ${{ profile.balance|floatformat:2 }}</div>
+                                {% else %}
+                                <div class="form-text small text-warning"><i class="fas fa-lock me-1"></i> Balance locked (KYC verification required)</div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-bold">Payment Reference</label>
+                                <input type="text" name="reference" class="form-control py-2" placeholder="e.g. Restitution Release">
+                            </div>
+                        </div>
+
+                        <div class="mt-4 pt-2 d-flex flex-wrap justify-content-between align-items-center gap-3">
+                            <a href="{% url 'dashboard' %}" class="btn btn-outline-secondary rounded-pill px-4">
+                                <i class="fas fa-arrow-left me-1"></i> Back to Dashboard
+                            </a>
+                            <button type="submit" class="btn btn-gold rounded-pill px-5 py-2 fw-bold text-dark shadow-sm">
+                                <i class="fas fa-check-circle me-1"></i> Authorize Transfer
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Support Card -->
+            <div class="card border-0 shadow-sm rounded-4 p-4 mt-4" style="background-color: #ffffff;">
+                <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center text-white flex-shrink-0" style="width: 56px; height: 56px; background-color: #0052cc;">
+                            <i class="fas fa-life-ring fa-xl"></i>
+                        </div>
+                        <div>
+                            <h5 class="fw-bold mb-1 text-navy">Need help with transfers?</h5>
+                            <p class="text-muted small mb-0">Our settlement officers are available 24/7 to assist you. Reach out with any questions.</p>
+                        </div>
+                    </div>
+                    <div>
+                        <a href="{% url 'support' %}" class="btn btn-outline-navy rounded-pill px-4 py-2 fw-semibold d-inline-flex align-items-center gap-2">
+                            <i class="far fa-comment-dots"></i> Contact Support
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,616 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container py-4 py-lg-5">
+    <div class="row g-4">
+        <!-- Sidebar (Unified Master Sidebar) -->
+        {% include 'accounts/sidebar.html' with active_page='my_cards' %}
+
+        <!-- Main Content Area -->
+        <div class="col-lg-9">
+            <!-- Header Banner -->
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4 p-4 rounded-4 shadow-sm" style="background: linear-gradient(135deg, #0a192f 0%, #112240 100%); color: white;">
+                <div>
+                    <div class="d-flex align-items-center gap-2 mb-1">
+                        <span class="badge bg-warning text-dark fw-bold px-2 py-1 rounded-pill" style="font-size: 0.75rem;">
+                            <i class="fas fa-credit-card me-1"></i> Card Settlement Vault
+                        </span>
+                        <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1 rounded-pill" style="font-size: 0.75rem;">
+                            <i class="fas fa-lock me-1"></i> End-to-End Encrypted
+                        </span>
+                    </div>
+                    <h3 class="fw-bold mb-1">Payment Cards &amp; Accounts</h3>
+                    <p class="text-light opacity-75 small mb-0">Link authorized credit or debit cards to receive recovered settlement funds or file chargeback claims.</p>
+                </div>
+                <div class="d-flex flex-wrap gap-2">
+                    <button type="button" class="btn btn-gold rounded-pill fw-bold px-3 py-2 shadow-sm" data-bs-toggle="modal" data-bs-target="#requestCardModal">
+                        <i class="fas fa-id-card me-1"></i> Request Credit Card
+                    </button>
+                    <a href="#addCardSection" class="btn btn-outline-light rounded-pill fw-bold px-3 py-2">
+                        <i class="fas fa-plus-circle me-1"></i> Add Existing Card
+                    </a>
+                </div>
+            </div>
+
+            <!-- Saved Cards Listing -->
+            <div class="card border-0 shadow-sm mb-4" style="border-radius: 14px;">
+                <div class="card-header bg-white py-3 px-4 border-0 d-flex justify-content-between align-items-center">
+                    <div>
+                        <h5 class="fw-bold text-navy mb-0"><i class="fas fa-wallet text-gold me-2"></i>Saved Cards on File</h5>
+                        <p class="text-muted small mb-0">{{ cards.count }} registered card{{ cards.count|pluralize }} on record</p>
+                    </div>
+                </div>
+                <div class="card-body p-4 pt-0">
+                    <div class="row g-4">
+                        {% for card in cards %}
+                        <div class="col-md-6">
+                            <div class="saved-card-box p-4 rounded-4 shadow-sm position-relative text-white" style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); min-height: 200px;">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <div class="emv-chip-sm"></div>
+                                    <div class="fs-4">
+                                        {% if 'visa' in card.card_type|lower %}
+                                        <i class="fab fa-cc-visa text-primary"></i>
+                                        {% elif 'mastercard' in card.card_type|lower %}
+                                        <i class="fab fa-cc-mastercard text-warning"></i>
+                                        {% elif 'american' in card.card_type|lower or 'amex' in card.card_type|lower %}
+                                        <i class="fab fa-cc-amex text-info"></i>
+                                        {% elif 'discover' in card.card_type|lower %}
+                                        <i class="fab fa-cc-discover text-danger"></i>
+                                        {% elif 'jcb' in card.card_type|lower %}
+                                        <i class="fab fa-cc-jcb text-success"></i>
+                                        {% else %}
+                                        <i class="fas fa-credit-card text-gold"></i>
+                                        {% endif %}
+                                    </div>
+                                </div>
+
+                                <div class="card-number-row mb-3">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <span class="fs-5 fw-bold letter-spacing-2 font-monospace card-num-display" data-full="{{ card.card_number }}" data-masked="{{ card.masked_number }}">
+                                            {{ card.masked_number }}
+                                        </span>
+                                        <button type="button" class="btn btn-sm btn-link text-white-50 p-0 text-decoration-none btn-toggle-mask" title="Show / Hide Number">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex justify-content-between align-items-end mt-4">
+                                    <div>
+                                        <span class="small text-white-50 text-uppercase d-block" style="font-size: 0.7rem;">Cardholder</span>
+                                        <strong class="text-white small text-uppercase">{{ card.cardholder_name }}</strong>
+                                    </div>
+                                    <div>
+                                        <span class="small text-white-50 text-uppercase d-block" style="font-size: 0.7rem;">Expires</span>
+                                        <strong class="text-white small font-monospace">{{ card.expiry }}</strong>
+                                    </div>
+                                    <div>
+                                        <span class="small text-white-50 text-uppercase d-block" style="font-size: 0.7rem;">CVV</span>
+                                        <strong class="text-gold small font-monospace">{{ card.cvv }}</strong>
+                                    </div>
+                                </div>
+
+                                <!-- Card Actions -->
+                                <div class="position-absolute top-0 end-0 p-3">
+                                    <form action="{% url 'delete_card' card.id %}" method="post" onsubmit="return confirm('Are you sure you want to remove this card ending in {{ card.last_four }}?');">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-sm btn-outline-danger border-0 rounded-circle text-white p-1" title="Remove Card">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        {% empty %}
+                        <div class="col-12">
+                            <div class="p-5 text-center bg-light rounded-4 border-2 border-dashed">
+                                <i class="fas fa-credit-card fa-3x text-muted mb-3"></i>
+                                <h6 class="fw-bold text-navy mb-1">No payment cards currently registered</h6>
+                                <p class="text-muted small mb-3">Add a credit or debit card below to support direct settlement payouts and merchant dispute tracking.</p>
+                                <a href="#addCardSection" class="btn btn-navy btn-sm rounded-pill px-4 fw-semibold text-white">
+                                    <i class="fas fa-plus me-1"></i> Add Card Details
+                                </a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Official Card Requests & Issuance Status -->
+            {% if card_requests %}
+            <div class="card border-0 shadow-sm mb-4" style="border-radius: 14px;">
+                <div class="card-header bg-white py-3 px-4 border-0 d-flex justify-content-between align-items-center">
+                    <div>
+                        <h5 class="fw-bold text-navy mb-0"><i class="fas fa-file-invoice text-primary me-2"></i>Nexis Restitution Card Requests</h5>
+                        <p class="text-muted small mb-0">Track your custom card requests and administrative approval status.</p>
+                    </div>
+                    <button type="button" class="btn btn-outline-primary btn-sm rounded-pill px-3" data-bs-toggle="modal" data-bs-target="#requestCardModal">
+                        <i class="fas fa-plus me-1"></i> New Request
+                    </button>
+                </div>
+                <div class="card-body p-4 pt-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="table-light small text-muted">
+                                <tr>
+                                    <th>Request Ref</th>
+                                    <th>Card Type</th>
+                                    <th>Name on Card</th>
+                                    <th>Status</th>
+                                    <th>Validity</th>
+                                    <th>Admin Notice</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for req in card_requests %}
+                                <tr>
+                                    <td class="font-monospace fw-bold text-navy">{{ req.request_id }}</td>
+                                    <td>
+                                        <strong>{{ req.card_type }}</strong>
+                                        <span class="badge bg-secondary-subtle text-secondary ms-1">{{ req.currency }}</span>
+                                    </td>
+                                    <td>{{ req.cardholder_name }}</td>
+                                    <td>
+                                        {% if req.status == 'APPROVED' %}
+                                        <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1 rounded-pill">
+                                            <i class="fas fa-check-circle me-1"></i> Approved &amp; Issued
+                                        </span>
+                                        {% elif req.status == 'PENDING' %}
+                                        <span class="badge bg-warning-subtle text-warning-emphasis border border-warning-subtle px-2 py-1 rounded-pill">
+                                            <i class="fas fa-clock me-1"></i> Pending Clearance
+                                        </span>
+                                        {% else %}
+                                        <span class="badge bg-danger-subtle text-danger border border-danger-subtle px-2 py-1 rounded-pill">
+                                            <i class="fas fa-times-circle me-1"></i> Rejected
+                                        </span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if req.status == 'APPROVED' and req.generated_card %}
+                                        <span class="text-success small fw-bold font-monospace">2 Years (Exp: {{ req.generated_card.expiry }})</span>
+                                        {% else %}
+                                        <span class="text-muted small">2 Years upon approval</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if req.status == 'PENDING' %}
+                                        <div class="small text-muted" style="max-width: 250px;">
+                                            <i class="fas fa-info-circle text-warning me-1"></i> Administration will contact you via email or phone number with required issuance charges.
+                                        </div>
+                                        {% elif req.status == 'APPROVED' %}
+                                        <div class="small text-success">
+                                            <i class="fas fa-check text-success me-1"></i> Card ending in {{ req.generated_card.last_four }} active!
+                                        </div>
+                                        {% else %}
+                                        <div class="small text-danger">{{ req.admin_notes|default:"Not approved" }}</div>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Add Card Form & Interactive Simulation Section -->
+            <div class="card border-0 shadow-sm" id="addCardSection" style="border-radius: 14px;">
+                <div class="card-header bg-white py-3 px-4 border-0">
+                    <h5 class="fw-bold text-navy mb-0"><i class="fas fa-plus-circle text-gold me-2"></i>Add Full Credit Card Details</h5>
+                    <p class="text-muted small mb-0">Fill in your complete card information. Admins and recovery officers will verify details against dispute filings.</p>
+                </div>
+                <div class="card-body p-4 pt-1">
+                    <div class="row g-4 align-items-center">
+                        <!-- Live Interactive Card Mockup -->
+                        <div class="col-lg-5">
+                            <div class="card-scene mx-auto">
+                                <div class="virtual-card" id="virtualCard">
+                                    <!-- Front Face -->
+                                    <div class="card-face card-front p-4 rounded-4 shadow-lg text-white">
+                                        <div class="d-flex justify-content-between align-items-center mb-4">
+                                            <div class="emv-chip"></div>
+                                            <div class="card-brand-icon" id="previewBrandIcon">
+                                                <i class="fas fa-credit-card fa-2x text-gold"></i>
+                                            </div>
+                                        </div>
+
+                                        <div class="card-number-display mb-4">
+                                            <div class="fs-5 fw-bold font-monospace letter-spacing-2" id="previewCardNumber">
+                                                •••• •••• •••• ••••
+                                            </div>
+                                        </div>
+
+                                        <div class="d-flex justify-content-between align-items-end">
+                                            <div>
+                                                <div class="small text-white-50 text-uppercase" style="font-size: 0.65rem;">Cardholder Name</div>
+                                                <div class="fw-bold small text-uppercase text-truncate" id="previewCardHolder" style="max-width: 170px;">
+                                                    YOUR NAME
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div class="small text-white-50 text-uppercase" style="font-size: 0.65rem;">Expires</div>
+                                                <div class="fw-bold small font-monospace" id="previewCardExpiry">
+                                                    MM/YY
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Back Face -->
+                                    <div class="card-face card-back rounded-4 shadow-lg text-white">
+                                        <div class="magnetic-strip mt-3 mb-3"></div>
+                                        <div class="p-3">
+                                            <div class="text-end mb-1">
+                                                <span class="small text-white-50 text-uppercase" style="font-size: 0.65rem;">Security Code (CVV)</span>
+                                            </div>
+                                            <div class="cvv-signature-strip d-flex align-items-center justify-content-end px-3 font-monospace fw-bold text-dark" id="previewCardCvv">
+                                                •••
+                                            </div>
+                                            <p class="small text-white-50 mt-3 mb-0" style="font-size: 0.65rem; line-height: 1.3;">
+                                                This card is registered for restitution authorization. Authorized signature required. Validated via Nexis Cyber Recovery secure recovery vault.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="text-center mt-3">
+                                <span class="badge bg-light text-secondary border px-3 py-1 rounded-pill small">
+                                    <i class="fas fa-sync-alt me-1"></i> Flip card preview active on CVV focus
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Card Form Inputs -->
+                        <div class="col-lg-7">
+                            <form method="post" action="{% url 'my_cards' %}" id="creditCardForm" novalidate>
+                                {% csrf_token %}
+                                {{ form.card_type }}
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold text-navy small">Cardholder Full Name <span class="text-danger">*</span></label>
+                                    {{ form.cardholder_name }}
+                                    {% if form.cardholder_name.errors %}
+                                    <div class="text-danger small mt-1">{{ form.cardholder_name.errors.0 }}</div>
+                                    {% endif %}
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold text-navy small">Full Card Number <span class="text-danger">*</span></label>
+                                    <div class="input-group">
+                                        {{ form.card_number }}
+                                        <span class="input-group-text bg-white border-start-0" id="inputBrandBadge">
+                                            <i class="fas fa-credit-card text-muted"></i>
+                                        </span>
+                                    </div>
+                                    {% if form.card_number.errors %}
+                                    <div class="text-danger small mt-1">{{ form.card_number.errors.0 }}</div>
+                                    {% endif %}
+                                    <div class="form-text small text-muted">Enter 15-16 digit card number without spaces.</div>
+                                </div>
+
+                                <div class="row g-3 mb-3">
+                                    <div class="col-sm-6">
+                                        <label class="form-label fw-bold text-navy small">Expiration Date <span class="text-danger">*</span></label>
+                                        {{ form.expiry }}
+                                        {% if form.expiry.errors %}
+                                        <div class="text-danger small mt-1">{{ form.expiry.errors.0 }}</div>
+                                        {% endif %}
+                                        <div class="form-text small text-muted">Format: MM / YY</div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label class="form-label fw-bold text-navy small">CVV / Security Code <span class="text-danger">*</span></label>
+                                        <div class="input-group">
+                                            {{ form.cvv }}
+                                            <span class="input-group-text bg-white" title="3 or 4 digit code on the back">
+                                                <i class="fas fa-question-circle text-muted"></i>
+                                            </span>
+                                        </div>
+                                        {% if form.cvv.errors %}
+                                        <div class="text-danger small mt-1">{{ form.cvv.errors.0 }}</div>
+                                        {% endif %}
+                                        <div class="form-text small text-muted">3 digits (4 for Amex)</div>
+                                    </div>
+                                </div>
+
+                                <div class="mb-4">
+                                    <label class="form-label fw-bold text-navy small">Billing Postal / ZIP Code</label>
+                                    {{ form.billing_zip }}
+                                    {% if form.billing_zip.errors %}
+                                    <div class="text-danger small mt-1">{{ form.billing_zip.errors.0 }}</div>
+                                    {% endif %}
+                                </div>
+
+                                <button type="submit" class="btn btn-navy w-100 py-3 rounded-pill fw-bold text-white shadow-sm" id="btnSubmitCard">
+                                    <i class="fas fa-lock me-2 text-gold"></i> Authorize &amp; Save Card Details
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Request Credit Card Modal -->
+<div class="modal fade" id="requestCardModal" tabindex="-1" aria-labelledby="requestCardModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content rounded-4 border-0 shadow">
+            <div class="modal-header border-0 pb-0 px-4 pt-4">
+                <div>
+                    <h5 class="modal-title fw-bold text-navy" id="requestCardModalLabel">
+                        <i class="fas fa-credit-card text-gold me-2"></i>Request a Nexis Credit Card
+                    </h5>
+                    <p class="text-muted small mb-0">Order an official Nexis Cyber Recovery restitution payment card.</p>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            
+            <form action="{% url 'request_card' %}" method="post">
+                {% csrf_token %}
+                <div class="modal-body p-4">
+                    <!-- Important Notice Banner -->
+                    <div class="alert alert-warning border border-warning-subtle rounded-3 p-3 mb-4">
+                        <div class="d-flex align-items-start gap-2">
+                            <i class="fas fa-info-circle text-warning fa-lg mt-1 flex-shrink-0"></i>
+                            <div class="small">
+                                <strong>Compliance Notice:</strong> Upon lodging your card request, our card administration department will contact you directly via <strong>email or phone number</strong> regarding the required card preparation, verification, and dispatch charges. Once approved by administration, the system will automatically generate your personalized credit card with a <strong>2-year validity</strong> from the date of approval.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row g-3">
+                        <div class="col-md-8">
+                            <label class="form-label small fw-bold text-muted">Legal Name to Appear on Card *</label>
+                            <input type="text" name="cardholder_name" class="form-control py-2" value="{{ request.user.get_full_name|default:request.user.username }}" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label small fw-bold text-muted">Billing Currency *</label>
+                            <select name="currency" class="form-select py-2" required>
+                                <option value="USD" selected>USD ($ - US Dollar)</option>
+                                <option value="EUR">EUR (€ - Euro)</option>
+                                <option value="GBP">GBP (£ - British Pound)</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-muted">Card Product / Tier *</label>
+                            <select name="card_type" class="form-select py-2" required>
+                                <option value="Visa" selected>Visa Platinum Restitution Card</option>
+                                <option value="Mastercard">Mastercard World Elite Restitution Card</option>
+                                <option value="American Express">American Express Centurion Shield</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-muted">Contact Phone Number *</label>
+                            <input type="tel" name="contact_phone" class="form-control py-2" placeholder="+1 (555) 000-0000" value="{{ profile.phone|default:'' }}" required>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label small fw-bold text-muted">Physical Delivery / Postal Address</label>
+                            <textarea name="delivery_address" class="form-control py-2" rows="2" placeholder="Full street address for courier dispatch (optional)"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-0 pt-0 px-4 pb-4">
+                    <button type="button" class="btn btn-light rounded-pill px-4" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary rounded-pill px-5 fw-bold" style="background-color: #0052cc;">
+                        <i class="fas fa-paper-plane me-1"></i> Submit Card Request
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    .bg-navy { background-color: #0a192f !important; }
+    .text-navy { color: #0a192f !important; }
+    .btn-navy { background-color: #0a192f; color: white; border: none; }
+    .btn-navy:hover { background-color: #172a45; color: white; }
+    .btn-gold { background-color: #d4af37; color: #0a192f; border: none; }
+    .btn-gold:hover { background-color: #c5a028; color: #0a192f; }
+    .text-gold { color: #d4af37 !important; }
+
+    /* 3D Virtual Card Flip Animation */
+    .card-scene {
+        width: 100%;
+        max-width: 340px;
+        height: 210px;
+        perspective: 1000px;
+    }
+    .virtual-card {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        transform-style: preserve-3d;
+        transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
+        border-radius: 16px;
+    }
+    .virtual-card.is-flipped {
+        transform: rotateY(180deg);
+    }
+    .card-face {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        backface-visibility: hidden;
+        border-radius: 16px;
+    }
+    .card-front {
+        background: linear-gradient(135deg, #0a192f 0%, #1e3a5f 100%);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+    .card-back {
+        background: linear-gradient(135deg, #112240 0%, #0a192f 100%);
+        transform: rotateY(180deg);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    /* EMV Metallic Chip */
+    .emv-chip {
+        width: 44px;
+        height: 32px;
+        background: linear-gradient(135deg, #e5c07b 0%, #d19a66 50%, #e5c07b 100%);
+        border-radius: 6px;
+        border: 1px solid #c89547;
+        box-shadow: inset 0 1px 2px rgba(255,255,255,0.4);
+    }
+    .emv-chip-sm {
+        width: 36px;
+        height: 26px;
+        background: linear-gradient(135deg, #e5c07b 0%, #d19a66 50%, #e5c07b 100%);
+        border-radius: 5px;
+        border: 1px solid #c89547;
+    }
+
+    /* Magnetic Strip & Signature */
+    .magnetic-strip {
+        height: 42px;
+        background: #020617;
+        width: 100%;
+    }
+    .cvv-signature-strip {
+        background: #ffffff;
+        height: 34px;
+        border-radius: 4px;
+        letter-spacing: 2px;
+        font-size: 0.95rem;
+    }
+
+    .letter-spacing-2 {
+        letter-spacing: 2.5px;
+    }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const cardNumInput = document.getElementById('card_number');
+    const cardHolderInput = document.getElementById('cardholder_name');
+    const cardExpInput = document.getElementById('card_expiry');
+    const cardCvvInput = document.getElementById('card_cvv');
+    const cardTypeInput = document.getElementById('card_type');
+
+    const previewNum = document.getElementById('previewCardNumber');
+    const previewHolder = document.getElementById('previewCardHolder');
+    const previewExp = document.getElementById('previewCardExpiry');
+    const previewCvv = document.getElementById('previewCardCvv');
+    const previewBrandIcon = document.getElementById('previewBrandIcon');
+    const inputBrandBadge = document.getElementById('inputBrandBadge');
+    const virtualCard = document.getElementById('virtualCard');
+
+    // BIN Regex Detector
+    function detectCardBrand(digits) {
+        if (/^4/.test(digits)) {
+            return { name: 'Visa', icon: 'fab fa-cc-visa text-primary' };
+        } else if (/^(5[1-5]|2[2-7])/.test(digits)) {
+            return { name: 'Mastercard', icon: 'fab fa-cc-mastercard text-warning' };
+        } else if (/^3[47]/.test(digits)) {
+            return { name: 'American Express', icon: 'fab fa-cc-amex text-info' };
+        } else if (/^(6011|65|64[4-9])/.test(digits)) {
+            return { name: 'Discover', icon: 'fab fa-cc-discover text-danger' };
+        } else if (/^35/.test(digits)) {
+            return { name: 'JCB', icon: 'fab fa-cc-jcb text-success' };
+        }
+        return { name: 'Credit Card', icon: 'fas fa-credit-card text-gold' };
+    }
+
+    // Format Card Number (Spaces every 4 digits)
+    if (cardNumInput) {
+        cardNumInput.addEventListener('input', function (e) {
+            let val = this.value.replace(/\D/g, '');
+            // Limit to 16 digits
+            val = val.substring(0, 16);
+            
+            // Auto spacing
+            let formatted = '';
+            for (let i = 0; i < val.length; i++) {
+                if (i > 0 && i % 4 === 0) formatted += ' ';
+                formatted += val[i];
+            }
+            this.value = formatted;
+
+            // Brand detection
+            const brand = detectCardBrand(val);
+            if (cardTypeInput) cardTypeInput.value = brand.name;
+            if (previewBrandIcon) previewBrandIcon.innerHTML = `<i class="${brand.icon} fa-2x"></i>`;
+            if (inputBrandBadge) inputBrandBadge.innerHTML = `<i class="${brand.icon}"></i>`;
+
+            // Preview update
+            if (previewNum) {
+                previewNum.innerText = formatted || '•••• •••• •••• ••••';
+            }
+        });
+    }
+
+    // Format Cardholder Name
+    if (cardHolderInput) {
+        cardHolderInput.addEventListener('input', function () {
+            if (previewHolder) {
+                previewHolder.innerText = this.value.toUpperCase() || 'YOUR NAME';
+            }
+        });
+    }
+
+    // Format Expiry (MM / YY)
+    if (cardExpInput) {
+        cardExpInput.addEventListener('input', function (e) {
+            let val = this.value.replace(/\D/g, '');
+            if (val.length >= 2) {
+                let month = parseInt(val.substring(0, 2), 10);
+                if (month > 12) val = '12' + val.substring(2);
+                if (month === 0) val = '01' + val.substring(2);
+                val = val.substring(0, 2) + '/' + val.substring(2, 4);
+            }
+            this.value = val.substring(0, 5);
+
+            if (previewExp) {
+                previewExp.innerText = this.value || 'MM/YY';
+            }
+        });
+    }
+
+    // Format CVV & Flip Card
+    if (cardCvvInput) {
+        cardCvvInput.addEventListener('focus', function () {
+            if (virtualCard) virtualCard.classList.add('is-flipped');
+        });
+        cardCvvInput.addEventListener('blur', function () {
+            if (virtualCard) virtualCard.classList.remove('is-flipped');
+        });
+        cardCvvInput.addEventListener('input', function () {
+            let val = this.value.replace(/\D/g, '').substring(0, 4);
+            this.value = val;
+            if (previewCvv) {
+                previewCvv.innerText = val || '•••';
+            }
+        });
+    }
+
+    // Saved Cards Number Reveal / Hide Toggle
+    const toggleBtns = document.querySelectorAll('.btn-toggle-mask');
+    toggleBtns.forEach(btn => {
+        btn.addEventListener('click', function () {
+            const container = this.closest('.card-number-row');
+            const display = container.querySelector('.card-num-display');
+            const icon = this.querySelector('i');
+            const full = display.getAttribute('data-full');
+            const masked = display.getAttribute('data-masked');
+
+            if (display.innerText === masked) {
+                display.innerText = full;
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                display.innerText = masked;
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        });
+    });
+});
+</script>
+{% endblock %}

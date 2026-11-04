@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Check Claim Status{% endblock %}
+
+{% block content %}
+<!-- Status Hero Header -->
+<div class="bg-navy py-5 text-white mb-5 position-relative">
+    <div class="container text-center py-4">
+        <span class="badge bg-warning text-dark px-3 py-2 rounded-pill fw-bold text-uppercase mb-3 hero-badge-animate animate-float">
+            <i class="fas fa-search me-1"></i> Real-Time Dossier Verification
+        </span>
+        <h1 class="display-4 fw-bold hero-title-animate">Track Your Claim</h1>
+        <p class="lead opacity-75 hero-text-animate">Enter your Claim Reference ID and Email to inspect the latest recovery progress.</p>
+    </div>
+</div>
+
+<div class="container pb-5">
+    <div class="row justify-content-center pl-5 pr-5">
+        <div class="col-lg-6">
+            <div class="card border-0 shadow-lg p-4 reveal reveal-up">
+                <div class="card-body">
+                    <div class="text-center mb-4">
+                        <i class="fas fa-search fa-3x text-gold mb-3"></i>
+                        <h3 class="fw-bold text-navy">Check Status</h3>
+                    </div>
+
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                        <div class="d-grid mt-4">
+                            <button type="submit" class="btn btn-navy btn-lg fw-bold">View Status</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

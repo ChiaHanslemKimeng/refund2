@@ -1,0 +1,390 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Our Services | Digital Asset Forensics & Restitution Architecture{% endblock %}
+
+{% block content %}
+<!-- Services Hero -->
+<div class="bg-navy py-5 text-white mb-5 position-relative">
+    <div class="container text-center py-4">
+        <span class="badge bg-warning text-dark px-3 py-2 rounded-pill fw-bold text-uppercase mb-3 hero-badge-animate animate-float">
+            <i class="fas fa-layer-group me-1"></i> Multi-Disciplinary Restitution Architecture
+        </span>
+        <h1 class="display-4 fw-bold hero-title-animate">Forensic Recovery Services</h1>
+        <p class="lead opacity-75 mx-auto hero-text-animate" style="max-width: 760px;">
+            Targeted blockchain forensics, cross-border banking dispute arbitration, and statutory asset restitution engineered to intercept, freeze, and repatriate misappropriated capital globally.
+        </p>
+    </div>
+</div>
+
+<div class="container pb-5">
+    <!-- Intro Banner -->
+    <div class="card border-0 shadow-sm p-4 p-lg-5 mb-5 rounded-4 bg-light reveal reveal-up">
+        <div class="row align-items-center g-4">
+            <div class="col-lg-8">
+                <h3 class="fw-bold text-navy mb-2">Architected Specifically For Complex Financial Crime</h3>
+                <p class="text-muted small mb-0 leading-relaxed">
+                    Modern financial fraud exploits the seams between disparate international clearing protocols, decentralized liquidity bridges, and offshore jurisdictions. Recovering capital requires specialized technical intelligence: on-chain UTXO clustering for cryptocurrency; formal pre-arbitration filings under card scheme bylaws; emergency SWIFT MT199 stop-orders for wire diversions; and corporate veil piercing for deceptive merchant rings. Review our specialized recovery, liquidity, and asset settlement mechanisms below:
+                </p>
+            </div>
+            <div class="col-lg-4 text-center text-lg-end">
+                <a href="{% url 'submit_claim' %}" class="btn btn-navy btn-lg rounded-pill px-4 fw-bold shadow-sm">
+                    Initiate Case Intake <i class="fas fa-arrow-right ms-2"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Services Grid (All 8 Core Services + Liquidity & Payout Services) -->
+    <div class="row g-4">
+
+        <!-- 1. Crypto Asset Recovery -->
+        <div class="col-lg-6">
+            <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden">
+                <div style="height: 200px; overflow: hidden;">
+                    <img src="{% static 'img/solution-crypto.jpg' %}?v=20261103" alt="Digital Asset &amp; Crypto Recovery" class="w-100 h-100" style="object-fit: cover;" loading="lazy">
+                </div>
+                <div class="card-body p-4 p-lg-5 d-flex flex-column">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="feature-icon me-3 mb-0 flex-shrink-0">
+                            <i class="fas fa-coins text-gold fa-2x"></i>
+                        </div>
+                        <div>
+                            <span class="badge bg-light text-navy border small">Blockchain Intelligence</span>
+                            <h4 class="fw-bold text-navy mb-0">Digital Asset &amp; Crypto Recovery</h4>
+                        </div>
+                    </div>
+                    <p class="text-muted small leading-relaxed flex-grow-1">
+                        De-anonymizing illicit transactions across Bitcoin, Ethereum, Solana, Polygon, Avalanche, and TRON. We trace tokens through decentralized mixers, cross-chain bridges, and peel chains to identify final deposit accounts at licensed VASPs, where emergency compliance freezing injunctions are served.
+                    </p>
+                    <div class="p-3 bg-light rounded-3 mb-3 small">
+                        <div class="row g-2">
+                            <div class="col-6"><strong><i class="fas fa-check text-gold me-1"></i> Tactic:</strong> Graph Heuristic Clustering</div>
+                            <div class="col-6"><strong><i class="fas fa-clock text-gold me-1"></i> Timeline:</strong> 3–8 Weeks</div>
+                            <div class="col-12"><strong><i class="fas fa-shield-halved text-gold me-1"></i> Scope:</strong> BTC, ETH, USDT/USDC, DeFi Exploits, Liquidity Drains</div>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center pt-3 border-top mt-auto">
+                        <span class="text-muted small">Contingency-Aligned Restitution</span>
+                        <a href="{% url 'submit_claim' %}" class="btn btn-outline-navy btn-sm rounded-pill px-4 fw-bold">Initiate Claim</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. Chargeback Dispute Arbitrations -->
+        <div class="col-lg-6">
+            <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden">
+                <div style="height: 200px; overflow: hidden;">
+                    <img src="{% static 'img/solution-chargeback.jpg' %}?v=20261103" alt="Tier-2 Card Scheme Arbitrations" class="w-100 h-100" style="object-fit: cover;" loading="lazy">
+                </div>
+                <div class="card-body p-4 p-lg-5 d-flex flex-column">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="feature-icon me-3 mb-0 flex-shrink-0">
+                            <i class="fas fa-credit-card text-gold fa-2x"></i>
+                        </div>
+                        <div>
+                            <span class="badge bg-light text-navy border small">Payment Schemes</span>
+                            <h4 class="fw-bold text-navy mb-0">Tier-2 Card Scheme Arbitrations</h4>
+                        </div>
+                    </div>
+                    <p class="text-muted small leading-relaxed flex-grow-1">
+                        When retail issuing banks reject first-level fraud disputes, our former scheme dispute analysts step in. We prepare authoritative briefs under Visa Core Rules Section 11 and Mastercard Dispute Resolution bylaws, forcing acquiring banks to reverse charges and credit the cardholder.
+                    </p>
+                    <div class="p-3 bg-light rounded-3 mb-3 small">
+                        <div class="row g-2">
+                            <div class="col-6"><strong><i class="fas fa-check text-gold me-1"></i> Tactic:</strong> Pre-Arbitration Briefing</div>
+                            <div class="col-6"><strong><i class="fas fa-clock text-gold me-1"></i> Timeline:</strong> 2–6 Weeks</div>
+                            <div class="col-12"><strong><i class="fas fa-shield-halved text-gold me-1"></i> Scope:</strong> Visa, Mastercard, American Express, Discover</div>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center pt-3 border-top mt-auto">
+                        <span class="text-muted small">Rebuttal Filing Guarantee</span>
+                        <a href="{% url 'submit_claim' %}" class="btn btn-outline-navy btn-sm rounded-pill px-4 fw-bold">Initiate Claim</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. Forex & CFD Broker Scams -->
+        <div class="col-lg-6">
+            <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden">
+                <div style="height: 200px; overflow: hidden;">
+                    <img src="{% static 'img/solution-forex.jpg' %}?v=20261103" alt="Rogue Forex &amp; Offshore Brokerages" class="w-100 h-100" style="object-fit: cover;" loading="lazy">
+                </div>
+                <div class="card-body p-4 p-lg-5 d-flex flex-column">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="feature-icon me-3 mb-0 flex-shrink-0">
+                            <i class="fas fa-chart-line text-gold fa-2x"></i>
+                        </div>
+                        <div>
+                            <span class="badge bg-light text-navy border small">Market Regulatory Action</span>
+                            <h4 class="fw-bold text-navy mb-0">Rogue Forex &amp; Offshore Brokerages</h4>
+                        </div>
+                    </div>
+                    <p class="text-muted small leading-relaxed flex-grow-1">
+                        Unregulated offshore brokers frequently employ artificial slippage, simulated trade feeds, and fabricated withdrawal clearance fees. We trace the payment facilitators, PSP aggregators, and clearing banks that service them, serving formal demands that freeze merchant settlement reserves.
+                    </p>
+                    <div class="p-3 bg-light rounded-3 mb-3 small">
+                        <div class="row g-2">
+                            <div class="col-6"><strong><i class="fas fa-check text-gold me-1"></i> Tactic:</strong> PSP Settlement Freezes</div>
+                            <div class="col-6"><strong><i class="fas fa-clock text-gold me-1"></i> Timeline:</strong> 4–10 Weeks</div>
+                            <div class="col-12"><strong><i class="fas fa-shield-halved text-gold me-1"></i> Scope:</strong> Unlicensed CFDs, Binary Portals, Synthetic Forex</div>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center pt-3 border-top mt-auto">
+                        <span class="text-muted small">Multi-Jurisdictional Scope</span>
+                        <a href="{% url 'submit_claim' %}" class="btn btn-outline-navy btn-sm rounded-pill px-4 fw-bold">Initiate Claim</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. Courier & Freight Delivery Fraud -->
+        <div class="col-lg-6">
+            <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden border-start border-warning border-4">
+                <div style="height: 200px; overflow: hidden;">
+                    <img src="{% static 'img/solution-freight.jpg' %}?v=20261103" alt="Logistics &amp; Courier Escrow Fraud" class="w-100 h-100" style="object-fit: cover;" loading="lazy">
+                </div>
+                <div class="card-body p-4 p-lg-5 d-flex flex-column">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="feature-icon me-3 mb-0 flex-shrink-0">
+                            <i class="fas fa-shipping-fast text-gold fa-2x"></i>
+                        </div>
+                        <div>
+                            <span class="badge bg-warning text-dark border small fw-bold">Specialized Logistics Desk</span>
+                            <h4 class="fw-bold text-navy mb-0">Logistics &amp; Courier Escrow Fraud</h4>
+                        </div>
+                    </div>
+                    <p class="text-muted small leading-relaxed flex-grow-1">
+                        Rapid intervention against imposter freight forwarders, cloned carrier tracking domains, fake automotive transport escrow portals, and fraudulent customs clearance demands. We identify recipient bank routing codes, pierce server host infrastructure, and enforce carrier indemnities.
+                    </p>
+                    <div class="p-3 bg-light rounded-3 mb-3 small">
+                        <div class="row g-2">
+                            <div class="col-6"><strong><i class="fas fa-check text-gold me-1"></i> Tactic:</strong> Transport Surety Recovery</div>
+                            <div class="col-6"><strong><i class="fas fa-clock text-gold me-1"></i> Timeline:</strong> 2–5 Weeks</div>
+                            <div class="col-12"><strong><i class="fas fa-shield-halved text-gold me-1"></i> Scope:</strong> Cloned Freight, Vehicle Haulers, False Customs SMS</div>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center pt-3 border-top mt-auto">
+                        <span class="text-muted small">Direct Carrier Interdiction</span>
+                        <a href="{% url 'submit_claim' %}" class="btn btn-gold btn-sm rounded-pill px-4 fw-bold">Initiate Claim</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. Wire Transfer & Recall -->
+        <div class="col-lg-6">
+            <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden">
+                <div style="height: 200px; overflow: hidden;">
+                    <img src="{% static 'img/solution-wire.jpg' %}?v=20261103" alt="Commercial BEC &amp; SWIFT Wire Recall" class="w-100 h-100" style="object-fit: cover;" loading="lazy">
+                </div>
+                <div class="card-body p-4 p-lg-5 d-flex flex-column">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="feature-icon me-3 mb-0 flex-shrink-0">
+                            <i class="fas fa-building-columns text-gold fa-2x"></i>
+                        </div>
+                        <div>
+                            <span class="badge bg-light text-navy border small">Treasury Operations</span>
+                            <h4 class="fw-bold text-navy mb-0">Commercial BEC &amp; SWIFT Wire Recall</h4>
+                        </div>
+                    </div>
+                    <p class="text-muted small leading-relaxed flex-grow-1">
+                        Business Email Compromises (BEC), intercepted real estate conveyance wires, and spoofed vendor banking details demand instant response. We coordinate with sending institutions and intermediary correspondent clearing houses to dispatch urgent MT199/MT299 anti-fraud recall orders.
+                    </p>
+                    <div class="p-3 bg-light rounded-3 mb-3 small">
+                        <div class="row g-2">
+                            <div class="col-6"><strong><i class="fas fa-check text-gold me-1"></i> Tactic:</strong> SWIFT Stop-Payment Dispatch</div>
+                            <div class="col-6"><strong><i class="fas fa-clock text-gold me-1"></i> Timeline:</strong> 1–3 Weeks</div>
+                            <div class="col-12"><strong><i class="fas fa-shield-halved text-gold me-1"></i> Scope:</strong> Domestic Fedwire, SEPA Instant, Target2, SWIFT</div>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center pt-3 border-top mt-auto">
+                        <span class="text-muted small">High-Value Commercial Priority</span>
+                        <a href="{% url 'submit_claim' %}" class="btn btn-outline-navy btn-sm rounded-pill px-4 fw-bold">Initiate Claim</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 6. E-Commerce & Merchant Disputes -->
+        <div class="col-lg-6">
+            <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden">
+                <div style="height: 200px; overflow: hidden;">
+                    <img src="{% static 'img/solution-ecommerce.jpg' %}?v=20261103" alt="B2B Commercial &amp; Merchant Disputes" class="w-100 h-100" style="object-fit: cover;" loading="lazy">
+                </div>
+                <div class="card-body p-4 p-lg-5 d-flex flex-column">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="feature-icon me-3 mb-0 flex-shrink-0">
+                            <i class="fas fa-bag-shopping text-gold fa-2x"></i>
+                        </div>
+                        <div>
+                            <span class="badge bg-light text-navy border small">Consumer Protection</span>
+                            <h4 class="fw-bold text-navy mb-0">B2B Commercial &amp; Merchant Disputes</h4>
+                        </div>
+                    </div>
+                    <p class="text-muted small leading-relaxed flex-grow-1">
+                        Ghost supplier storefronts, uncontracted recurring billing loops, counterfeit industrial parts, and failure to fulfill high-ticket goods. We assert commercial consumer protection statutes and target payment processors holding merchant rolling reserves to disburse restitution.
+                    </p>
+                    <div class="p-3 bg-light rounded-3 mb-3 small">
+                        <div class="row g-2">
+                            <div class="col-6"><strong><i class="fas fa-check text-gold me-1"></i> Tactic:</strong> Gateway Reserve Clawbacks</div>
+                            <div class="col-6"><strong><i class="fas fa-clock text-gold me-1"></i> Timeline:</strong> 2–5 Weeks</div>
+                            <div class="col-12"><strong><i class="fas fa-shield-halved text-gold me-1"></i> Scope:</strong> Shopify, Stripe, Adyen, Global Payment Gateways</div>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center pt-3 border-top mt-auto">
+                        <span class="text-muted small">Statutory Restitution</span>
+                        <a href="{% url 'submit_claim' %}" class="btn btn-outline-navy btn-sm rounded-pill px-4 fw-bold">Initiate Claim</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 7. Phishing & Account Takeover -->
+        <div class="col-lg-6">
+            <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden">
+                <div style="height: 200px; overflow: hidden;">
+                    <img src="{% static 'img/solution-phishing.jpg' %}?v=20261103" alt="Credential Theft &amp; Account Takeover" class="w-100 h-100" style="object-fit: cover;" loading="lazy">
+                </div>
+                <div class="card-body p-4 p-lg-5 d-flex flex-column">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="feature-icon me-3 mb-0 flex-shrink-0">
+                            <i class="fas fa-user-lock text-gold fa-2x"></i>
+                        </div>
+                        <div>
+                            <span class="badge bg-light text-navy border small">Cyber Defense</span>
+                            <h4 class="fw-bold text-navy mb-0">Credential Theft &amp; Account Takeover</h4>
+                        </div>
+                    </div>
+                    <p class="text-muted small leading-relaxed flex-grow-1">
+                        When cyber criminals execute SIM swaps, session hijacking, or automated credential harvesting to compromise online banking portals, financial institutions often cite gross negligence. We demonstrate authentication vulnerabilities and enforce statutory indemnity protections.
+                    </p>
+                    <div class="p-3 bg-light rounded-3 mb-3 small">
+                        <div class="row g-2">
+                            <div class="col-6"><strong><i class="fas fa-check text-gold me-1"></i> Tactic:</strong> Authentication Audit Rebuttal</div>
+                            <div class="col-6"><strong><i class="fas fa-clock text-gold me-1"></i> Timeline:</strong> 2–6 Weeks</div>
+                            <div class="col-12"><strong><i class="fas fa-shield-halved text-gold me-1"></i> Scope:</strong> Corporate Treasury, FinTech Wallets, Retail Banking</div>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center pt-3 border-top mt-auto">
+                        <span class="text-muted small">Banking Indemnity Enforcement</span>
+                        <a href="{% url 'submit_claim' %}" class="btn btn-outline-navy btn-sm rounded-pill px-4 fw-bold">Initiate Claim</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 8. Forensic Accounting & Embezzlement -->
+        <div class="col-lg-6">
+            <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden">
+                <div style="height: 200px; overflow: hidden;">
+                    <img src="{% static 'img/solution-accounting.jpg' %}?v=20261103" alt="Court-Admissible Forensic Auditing" class="w-100 h-100" style="object-fit: cover;" loading="lazy">
+                </div>
+                <div class="card-body p-4 p-lg-5 d-flex flex-column">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="feature-icon me-3 mb-0 flex-shrink-0">
+                            <i class="fas fa-calculator text-gold fa-2x"></i>
+                        </div>
+                        <div>
+                            <span class="badge bg-light text-navy border small">Audit Intelligence</span>
+                            <h4 class="fw-bold text-navy mb-0">Court-Admissible Forensic Auditing</h4>
+                        </div>
+                    </div>
+                    <p class="text-muted small leading-relaxed flex-grow-1">
+                        Rigorous forensic examination to trace siphoned corporate capital, untangle multi-layered nominee structures, and document partner embezzlement or fraudulent escrow manipulation for legal proceedings, arbitration hearings, and mediation.
+                    </p>
+                    <div class="p-3 bg-light rounded-3 mb-3 small">
+                        <div class="row g-2">
+                            <div class="col-6"><strong><i class="fas fa-check text-gold me-1"></i> Tactic:</strong> Entity &amp; Flow Link Analysis</div>
+                            <div class="col-6"><strong><i class="fas fa-clock text-gold me-1"></i> Timeline:</strong> 4–10 Weeks</div>
+                            <div class="col-12"><strong><i class="fas fa-shield-halved text-gold me-1"></i> Scope:</strong> Corporate Books, Offshore Nominees, Disputed Escrow</div>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center pt-3 border-top mt-auto">
+                        <span class="text-muted small">Subpoena-Ready Dossiers</span>
+                        <a href="{% url 'submit_claim' %}" class="btn btn-outline-navy btn-sm rounded-pill px-4 fw-bold">Initiate Claim</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 9. Pre-Settlement Capital Advance & Recovery Loans -->
+        <div class="col-lg-6">
+            <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden border-start border-warning border-4">
+                <div class="card-body p-4 p-lg-5 d-flex flex-column">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="feature-icon me-3 mb-0 flex-shrink-0">
+                            <i class="fas fa-hand-holding-dollar text-gold fa-2x"></i>
+                        </div>
+                        <div>
+                            <span class="badge bg-warning text-dark border small fw-bold">Liquidity Desk</span>
+                            <h4 class="fw-bold text-navy mb-0">Pre-Settlement Capital Bridge Loans</h4>
+                        </div>
+                    </div>
+                    <p class="text-muted small leading-relaxed flex-grow-1">
+                        While multi-jurisdictional recoveries proceed through formal banking clearance, our Capital Bridge Desk provides immediate liquidity from $1,000 to $250,000 backed directly by verified claim dossiers. Enables businesses and individuals to maintain liquidity without upfront capital strain.
+                    </p>
+                    <div class="p-3 bg-light rounded-3 mb-3 small">
+                        <div class="row g-2">
+                            <div class="col-6"><strong><i class="fas fa-check text-gold me-1"></i> Facility:</strong> $1,000 – $250,000</div>
+                            <div class="col-6"><strong><i class="fas fa-clock text-gold me-1"></i> Underwriting:</strong> 24–48 Hours</div>
+                            <div class="col-12"><strong><i class="fas fa-shield-halved text-gold me-1"></i> Security:</strong> Non-Recourse Claim Assignment</div>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center pt-3 border-top mt-auto">
+                        <span class="text-muted small">Rates from 3.5% Fixed APR</span>
+                        <a href="{% url 'loan_request' %}" class="btn btn-gold btn-sm rounded-pill px-4 fw-bold">Apply for Capital</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 10. Restitution Payment Cards & Vault Accounts -->
+        <div class="col-lg-6">
+            <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden border-start border-primary border-4">
+                <div class="card-body p-4 p-lg-5 d-flex flex-column">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="feature-icon me-3 mb-0 flex-shrink-0">
+                            <i class="fas fa-credit-card text-gold fa-2x"></i>
+                        </div>
+                        <div>
+                            <span class="badge bg-primary text-white border small fw-bold">Repatriation Channel</span>
+                            <h4 class="fw-bold text-navy mb-0">Nexis Restitution Payment Cards</h4>
+                        </div>
+                    </div>
+                    <p class="text-muted small leading-relaxed flex-grow-1">
+                        Receive cleared restitution payouts directly onto an encrypted, PCI-DSS compliant Nexis payment card. Available as instant virtual credentials or premium physical debit cards shipped worldwide. Enjoy zero foreign exchange conversions and dedicated cryptographic fraud monitoring.
+                    </p>
+                    <div class="p-3 bg-light rounded-3 mb-3 small">
+                        <div class="row g-2">
+                            <div class="col-6"><strong><i class="fas fa-check text-gold me-1"></i> Network:</strong> Visa &amp; Mastercard</div>
+                            <div class="col-6"><strong><i class="fas fa-clock text-gold me-1"></i> Issuance:</strong> Instant Virtual / 3-5d Physical</div>
+                            <div class="col-12"><strong><i class="fas fa-shield-halved text-gold me-1"></i> Security:</strong> AES-256 Vault Protection</div>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center pt-3 border-top mt-auto">
+                        <span class="text-muted small">Multi-Currency (USD/EUR/GBP)</span>
+                        <a href="{% url 'my_cards' %}" class="btn btn-outline-navy btn-sm rounded-pill px-4 fw-bold">Request Card</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Bottom Case Screening CTA -->
+    <div class="card border-0 bg-navy text-white p-5 text-center mt-5 shadow-lg rounded-4">
+        <h3 class="fw-bold mb-3">Not Sure Which Recovery Strategy Fits Your Loss?</h3>
+        <p class="lead opacity-75 mb-4 mx-auto" style="max-width: 680px;">
+            Submit your transaction identifiers, wallet hashes, or dispute history. Our case assessment team will review your file and deliver an objective feasibility report within 24 hours.
+        </p>
+        <div>
+            <a href="{% url 'submit_claim' %}" class="btn btn-gold btn-lg px-5 py-3 fw-bold rounded-pill shadow-sm">
+                Submit Your Claim for Free Assessment <i class="fas fa-arrow-right ms-2"></i>
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

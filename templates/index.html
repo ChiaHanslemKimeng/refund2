@@ -1,0 +1,1115 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<!-- Hero Section / Carousel -->
+<div id="heroCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active" aria-current="true"
+            aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+    </div>
+    <div class="carousel-inner">
+        <!-- Slide 1 -->
+        <div class="carousel-item active hero-section d-flex align-items-center"
+            style="background: linear-gradient(135deg, rgba(8, 14, 26, 0.78) 0%, rgba(10, 25, 47, 0.68) 50%, rgba(6, 182, 212, 0.25) 100%), url('{% static 'img/hero-bg.jpg' %}?v=20261103') no-repeat center center/cover;">
+            <div class="container text-center">
+                <div class="row justify-content-center">
+                    <div class="col-lg-9">
+                        <span class="badge bg-warning text-dark px-3 py-2 rounded-pill fw-bold text-uppercase mb-3 hero-badge-animate animate-float">
+                            <i class="fas fa-fingerprint me-1"></i> Nexis Cyber Asset Restitution &amp; Intelligence
+                        </span>
+                        <h1 class="display-3 fw-bold mb-4 text-white hero-title-animate">De-Anonymize. Intercept. Restitute.</h1>
+                        <p class="lead mb-5 opacity-90 text-white mx-auto hero-text-animate" style="max-width: 780px;">
+                            Enterprise-grade blockchain intelligence, inter-bank SWIFT dispute arbitration, and court-admissible forensic accounting. We trace illicit transaction chains and enforce capital repatriation across 70+ sovereign jurisdictions.
+                        </p>
+                        <div class="d-grid gap-3 d-sm-flex justify-content-sm-center hero-btn-animate">
+                            <a href="{% url 'submit_claim' %}" class="btn btn-gold btn-lg px-5 py-3 fw-bold rounded-pill shadow-sm">
+                                Start Case Review <i class="fas fa-arrow-right ms-2"></i>
+                            </a>
+                            <a href="{% url 'services' %}" class="btn btn-outline-light btn-lg px-5 py-3 rounded-pill">Our Forensic Solutions</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Slide 2 -->
+        <div class="carousel-item hero-section d-flex align-items-center"
+            style="background: linear-gradient(135deg, rgba(8, 14, 26, 0.78) 0%, rgba(10, 25, 47, 0.68) 50%, rgba(6, 182, 212, 0.25) 100%), url('{% static 'img/office-meeting.jpg' %}?v=20261103') no-repeat center center/cover;">
+            <div class="container text-center">
+                <div class="row justify-content-center">
+                    <div class="col-lg-9">
+                        <span class="badge bg-warning text-dark px-3 py-2 rounded-pill fw-bold text-uppercase mb-3 hero-badge-animate animate-float">
+                            <i class="fas fa-microchip me-1"></i> Certified Forensic Taskforce
+                        </span>
+                        <h1 class="display-3 fw-bold mb-4 text-white hero-title-animate">Precision Forensics &amp; Banking Dispute Interdiction</h1>
+                        <p class="lead mb-5 opacity-90 text-white mx-auto hero-text-animate" style="max-width: 780px;">
+                            Our multidisciplinary taskforce of certified fraud examiners, chain-analysis specialists, and cross-border dispute litigators builds unassailable evidentiary dossiers to compel financial institutions and rogue platforms to release your funds.
+                        </p>
+                        <div class="d-grid gap-3 d-sm-flex justify-content-sm-center hero-btn-animate">
+                            <a href="{% url 'contact' %}" class="btn btn-gold btn-lg px-5 py-3 fw-bold rounded-pill">Consult an Investigator</a>
+                            <a href="{% url 'about' %}" class="btn btn-outline-light btn-lg px-5 py-3 rounded-pill">Our Track Record</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+
+<!-- Floating Impact Stats -->
+<section class="bg-white py-5 shadow-sm position-relative reveal reveal-up" style="z-index: 10; margin-top: -50px; border-radius: 12px; margin-left: 15px; margin-right: 15px;">
+    <div class="container">
+        <div class="row text-center g-4">
+            <div class="col-md-3 col-6 reveal reveal-up delay-100">
+                <div class="p-3">
+                    <i class="fas fa-crosshairs fa-3x text-gold mb-3 animate-float"></i>
+                    <h2 class="fw-bold text-navy">99.4%</h2>
+                    <p class="text-muted mb-0 small text-uppercase fw-bold">Forensic Attribution Rate</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-6 reveal reveal-up delay-200">
+                <div class="p-3">
+                    <i class="fas fa-vault fa-3x text-gold mb-3 animate-float"></i>
+                    <h2 class="fw-bold text-navy">$68.5M+</h2>
+                    <p class="text-muted mb-0 small text-uppercase fw-bold">Restituted Capital</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-6 reveal reveal-up delay-300">
+                <div class="p-3">
+                    <i class="fas fa-file-shield fa-3x text-gold mb-3 animate-float"></i>
+                    <h2 class="fw-bold text-navy">14,800+</h2>
+                    <p class="text-muted mb-0 small text-uppercase fw-bold">Claims Investigated</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-6 reveal reveal-up delay-400">
+                <div class="p-3">
+                    <i class="fas fa-network-wired fa-3x text-gold mb-3 animate-float"></i>
+                    <h2 class="fw-bold text-navy">72</h2>
+                    <p class="text-muted mb-0 small text-uppercase fw-bold">Sovereign Jurisdictions</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Trust & Security Badges Bar -->
+<section class="py-4 bg-light border-bottom reveal reveal-up delay-150">
+    <div class="container">
+        <div class="row text-center align-items-center g-3 text-muted small">
+            <div class="col-md-3 col-6">
+                <i class="fas fa-lock text-gold me-2"></i><strong>256-Bit SSL</strong> Case Vault
+            </div>
+            <div class="col-md-3 col-6">
+                <i class="fas fa-shield-halved text-gold me-2"></i><strong>FinCEN &amp; AML</strong> Compliant
+            </div>
+            <div class="col-md-3 col-6">
+                <i class="fas fa-certificate text-gold me-2"></i><strong>ISO/IEC 27001</strong> Security
+            </div>
+            <div class="col-md-3 col-6">
+                <i class="fas fa-scale-balanced text-gold me-2"></i><strong>Segregated Escrow</strong> Restitution
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Specialized Recovery Solutions (SWIPER) -->
+<section class="section-padding bg-white position-relative">
+    <div class="container">
+        <div class="d-flex flex-wrap justify-content-between align-items-end mb-4">
+            <div>
+                <span class="badge bg-light text-navy border px-3 py-2 rounded-pill fw-bold text-uppercase mb-2">
+                    <i class="fas fa-layer-group text-gold me-1"></i> Core Expertise
+                </span>
+                <h2 class="display-5 fw-bold text-navy mb-1">Specialized Recovery Solutions</h2>
+                <p class="text-muted mb-0">Swipe through our specialized investigative and dispute recovery sectors.</p>
+            </div>
+            <!-- Swiper Controls -->
+            <div class="d-flex gap-2 mt-3 mt-md-0">
+                <button type="button" class="btn btn-outline-navy rounded-circle solutions-prev d-flex align-items-center justify-content-center" style="width: 44px; height: 44px;">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <button type="button" class="btn btn-outline-navy rounded-circle solutions-next d-flex align-items-center justify-content-center" style="width: 44px; height: 44px;">
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Solutions Swiper Slider -->
+        <div class="swiper solutionsSwiper">
+            <div class="swiper-wrapper">
+                <!-- Slide 1: Crypto -->
+                <div class="swiper-slide">
+                    <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden">
+                        <div class="position-relative" style="height: 170px; overflow: hidden;">
+                            <img src="{% static 'img/solution-crypto.jpg' %}?v=20261103" alt="Digital Asset &amp; Blockchain Forensics" class="w-100 h-100" style="object-fit: cover;" loading="lazy">
+                            <span class="position-absolute top-0 start-0 m-3 badge bg-navy text-gold p-2 rounded-circle shadow">
+                                <i class="fas fa-coins fa-lg"></i>
+                            </span>
+                        </div>
+                        <div class="card-body p-4 d-flex flex-column">
+                            <h5 class="card-title fw-bold mb-2 text-navy">Digital Asset &amp; Blockchain Forensics</h5>
+                            <p class="card-text text-muted small leading-relaxed flex-grow-1">
+                                Multi-chain graph clustering, UTXO heuristic tracking, and cross-chain bridge de-anonymization to isolate illicit wallets and trigger emergency freeze requests with custodial VASPs.
+                            </p>
+                            <div class="pt-3 border-top mt-auto">
+                                <a href="{% url 'services' %}" class="text-decoration-none fw-bold text-gold small">Explore Solution <i class="fas fa-arrow-right ms-1"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 2: Chargebacks -->
+                <div class="swiper-slide">
+                    <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden">
+                        <div class="position-relative" style="height: 170px; overflow: hidden;">
+                            <img src="{% static 'img/solution-chargeback.jpg' %}?v=20261103" alt="Tier-2 Card Network Arbitrations" class="w-100 h-100" style="object-fit: cover;" loading="lazy">
+                            <span class="position-absolute top-0 start-0 m-3 badge bg-navy text-gold p-2 rounded-circle shadow">
+                                <i class="fas fa-credit-card fa-lg"></i>
+                            </span>
+                        </div>
+                        <div class="card-body p-4 d-flex flex-column">
+                            <h5 class="card-title fw-bold mb-2 text-navy">Tier-2 Card Network Arbitrations</h5>
+                            <p class="card-text text-muted small leading-relaxed flex-grow-1">
+                                Technical dispute dossiers submitted under Visa Core Rules and Mastercard Dispute Resolution Guides to overturn unjustified merchant acquirer denials and compel immediate restitution.
+                            </p>
+                            <div class="pt-3 border-top mt-auto">
+                                <a href="{% url 'services' %}" class="text-decoration-none fw-bold text-gold small">Explore Solution <i class="fas fa-arrow-right ms-1"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 3: Forex & Broker Scams -->
+                <div class="swiper-slide">
+                    <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden">
+                        <div class="position-relative" style="height: 170px; overflow: hidden;">
+                            <img src="{% static 'img/solution-forex.jpg' %}?v=20261103" alt="Rogue Forex &amp; Offshore Brokerages" class="w-100 h-100" style="object-fit: cover;" loading="lazy">
+                            <span class="position-absolute top-0 start-0 m-3 badge bg-navy text-gold p-2 rounded-circle shadow">
+                                <i class="fas fa-chart-line fa-lg"></i>
+                            </span>
+                        </div>
+                        <div class="card-body p-4 d-flex flex-column">
+                            <h5 class="card-title fw-bold mb-2 text-navy">Rogue Forex &amp; Offshore Brokerages</h5>
+                            <p class="card-text text-muted small leading-relaxed flex-grow-1">
+                                Piercing nominee corporate shells and targeting the regulated clearing houses, settlement gateways, and merchant processing channels utilized by unlicensed trading platforms.
+                            </p>
+                            <div class="pt-3 border-top mt-auto">
+                                <a href="{% url 'services' %}" class="text-decoration-none fw-bold text-gold small">Explore Solution <i class="fas fa-arrow-right ms-1"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 4: Courier & Freight Delivery Fraud -->
+                <div class="swiper-slide">
+                    <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden border-start border-warning border-4">
+                        <div class="position-relative" style="height: 170px; overflow: hidden;">
+                            <img src="{% static 'img/solution-freight.jpg' %}?v=20261103" alt="Freight &amp; Courier Escrow Fraud" class="w-100 h-100" style="object-fit: cover;" loading="lazy">
+                            <span class="position-absolute top-0 start-0 m-3 badge bg-navy text-gold p-2 rounded-circle shadow">
+                                <i class="fas fa-shipping-fast fa-lg"></i>
+                            </span>
+                        </div>
+                        <div class="card-body p-4 d-flex flex-column">
+                            <h5 class="card-title fw-bold mb-2 text-navy">Freight &amp; Courier Escrow Fraud</h5>
+                            <p class="card-text text-muted small leading-relaxed flex-grow-1">
+                                Urgent legal and technical interdiction for cloned freight tracking websites, imposter delivery clearance fees, stolen commercial consignments, and fraudulent transport escrow schemes.
+                            </p>
+                            <div class="pt-3 border-top mt-auto">
+                                <a href="{% url 'services' %}" class="text-decoration-none fw-bold text-gold small">Explore Solution <i class="fas fa-arrow-right ms-1"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 5: Wire Fraud -->
+                <div class="swiper-slide">
+                    <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden">
+                        <div class="position-relative" style="height: 170px; overflow: hidden;">
+                            <img src="{% static 'img/solution-wire.jpg' %}?v=20261103" alt="Commercial BEC &amp; SWIFT Wire Recall" class="w-100 h-100" style="object-fit: cover;" loading="lazy">
+                            <span class="position-absolute top-0 start-0 m-3 badge bg-navy text-gold p-2 rounded-circle shadow">
+                                <i class="fas fa-building-columns fa-lg"></i>
+                            </span>
+                        </div>
+                        <div class="card-body p-4 d-flex flex-column">
+                            <h5 class="card-title fw-bold mb-2 text-navy">Commercial BEC &amp; SWIFT Wire Recall</h5>
+                            <p class="card-text text-muted small leading-relaxed flex-grow-1">
+                                Rapid dispatch of MT199/MT299 anti-fraud recall notices, direct coordination with receiving banks' AML fraud teams, and asset freeze injunctions for business email compromises.
+                            </p>
+                            <div class="pt-3 border-top mt-auto">
+                                <a href="{% url 'services' %}" class="text-decoration-none fw-bold text-gold small">Explore Solution <i class="fas fa-arrow-right ms-1"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 6: E-Commerce Disputes -->
+                <div class="swiper-slide">
+                    <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden">
+                        <div class="position-relative" style="height: 170px; overflow: hidden;">
+                            <img src="{% static 'img/solution-ecommerce.jpg' %}?v=20261103" alt="B2B Commercial &amp; Merchant Disputes" class="w-100 h-100" style="object-fit: cover;" loading="lazy">
+                            <span class="position-absolute top-0 start-0 m-3 badge bg-navy text-gold p-2 rounded-circle shadow">
+                                <i class="fas fa-bag-shopping fa-lg"></i>
+                            </span>
+                        </div>
+                        <div class="card-body p-4 d-flex flex-column">
+                            <h5 class="card-title fw-bold mb-2 text-navy">B2B Commercial &amp; Merchant Disputes</h5>
+                            <p class="card-text text-muted small leading-relaxed flex-grow-1">
+                                Enforcing statutory restitution and contract terms against deceptive supplier rings, counterfeit industrial goods, non-delivery of high-ticket items, and unauthorized recurring billing.
+                            </p>
+                            <div class="pt-3 border-top mt-auto">
+                                <a href="{% url 'services' %}" class="text-decoration-none fw-bold text-gold small">Explore Solution <i class="fas fa-arrow-right ms-1"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 7: Phishing & Identity Thefts -->
+                <div class="swiper-slide">
+                    <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden">
+                        <div class="position-relative" style="height: 170px; overflow: hidden;">
+                            <img src="{% static 'img/solution-phishing.jpg' %}?v=20261103" alt="Credential Theft &amp; Account Takeover" class="w-100 h-100" style="object-fit: cover;" loading="lazy">
+                            <span class="position-absolute top-0 start-0 m-3 badge bg-navy text-gold p-2 rounded-circle shadow">
+                                <i class="fas fa-user-lock fa-lg"></i>
+                            </span>
+                        </div>
+                        <div class="card-body p-4 d-flex flex-column">
+                            <h5 class="card-title fw-bold mb-2 text-navy">Credential Theft &amp; Account Takeover</h5>
+                            <p class="card-text text-muted small leading-relaxed flex-grow-1">
+                                Forensic incident reconstruction for unauthorized session hijacking, mobile SIM-swap intercepts, and compromised corporate treasury logins with statutory bank indemnities.
+                            </p>
+                            <div class="pt-3 border-top mt-auto">
+                                <a href="{% url 'services' %}" class="text-decoration-none fw-bold text-gold small">Explore Solution <i class="fas fa-arrow-right ms-1"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 8: Forensic Accounting -->
+                <div class="swiper-slide">
+                    <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden">
+                        <div class="position-relative" style="height: 170px; overflow: hidden;">
+                            <img src="{% static 'img/solution-accounting.jpg' %}?v=20261103" alt="Court-Admissible Forensic Auditing" class="w-100 h-100" style="object-fit: cover;" loading="lazy">
+                            <span class="position-absolute top-0 start-0 m-3 badge bg-navy text-gold p-2 rounded-circle shadow">
+                                <i class="fas fa-calculator fa-lg"></i>
+                            </span>
+                        </div>
+                        <div class="card-body p-4 d-flex flex-column">
+                            <h5 class="card-title fw-bold mb-2 text-navy">Court-Admissible Forensic Auditing</h5>
+                            <p class="card-text text-muted small leading-relaxed flex-grow-1">
+                                Comprehensive evidentiary dossiers meeting stringent standards for national prosecutors, civil asset recovery attorneys, and international financial ombudsmen.
+                            </p>
+                            <div class="pt-3 border-top mt-auto">
+                                <a href="{% url 'services' %}" class="text-decoration-none fw-bold text-gold small">Explore Solution <i class="fas fa-arrow-right ms-1"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Pagination dots -->
+            <div class="swiper-pagination solutions-pagination mt-4"></div>
+        </div>
+    </div>
+</section>
+
+<!-- The 4-Phase Recovery Blueprint -->
+<section class="section-padding bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <span class="badge bg-white text-navy border px-3 py-2 rounded-pill fw-bold text-uppercase mb-2">
+                <i class="fas fa-stream text-gold me-1"></i> Proven Workflow
+            </span>
+            <h2 class="display-5 fw-bold text-navy">Our 4-Phase Restitution Protocol</h2>
+            <p class="lead text-muted mx-auto" style="max-width: 680px;">
+                Methodical, legally enforceable, and engineered to trace, freeze, and repatriate your misappropriated capital.
+            </p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-lg-3 col-md-6">
+                <div class="card border-0 shadow-sm p-4 h-100 rounded-4 text-center position-relative">
+                    <div class="badge bg-navy text-gold rounded-pill fs-5 p-3 mx-auto mb-3" style="width: 55px; height: 55px; line-height: 25px;">01</div>
+                    <h5 class="fw-bold text-navy">Forensic Intake &amp; Triage</h5>
+                    <p class="text-muted small mb-0">Rapid algorithmic review of blockchain hashes, SWIFT wires, server logs, and merchant descriptors to verify viability and identify relevant jurisdictions.</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="card border-0 shadow-sm p-4 h-100 rounded-4 text-center position-relative">
+                    <div class="badge bg-navy text-gold rounded-pill fs-5 p-3 mx-auto mb-3" style="width: 55px; height: 55px; line-height: 25px;">02</div>
+                    <h5 class="fw-bold text-navy">Ledger Graphing &amp; Mapping</h5>
+                    <p class="text-muted small mb-0">Our analysts map transaction paths across inter-bank clearing networks and blockchain ledgers to identify holding accounts and beneficial owners.</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="card border-0 shadow-sm p-4 h-100 rounded-4 text-center position-relative">
+                    <div class="badge bg-navy text-gold rounded-pill fs-5 p-3 mx-auto mb-3" style="width: 55px; height: 55px; line-height: 25px;">03</div>
+                    <h5 class="fw-bold text-navy">Injunction &amp; Dispute Filing</h5>
+                    <p class="text-muted small mb-0">We submit structured statutory notices, merchant dispute dossiers, and regulatory freeze notices to compel payment gateways and banks to freeze assets.</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="card border-0 shadow-sm p-4 h-100 rounded-4 text-center position-relative">
+                    <div class="badge bg-navy text-gold rounded-pill fs-5 p-3 mx-auto mb-3" style="width: 55px; height: 55px; line-height: 25px;">04</div>
+                    <h5 class="fw-bold text-navy">Settlement &amp; Repatriation</h5>
+                    <p class="text-muted small mb-0">Once the recovery is granted, funds are safely repatriated back into your verified institutional account or authorized segregated custodial wallet.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-5">
+            <a href="{% url 'how_it_works' %}" class="btn btn-gold px-4 py-2 rounded-pill fw-bold">Deep Dive Into The Recovery Process</a>
+        </div>
+    </div>
+</section>
+
+<!-- Comparative Matrix: Nexis Cyber Recovery vs Alternatives -->
+<section class="section-padding bg-white">
+    <div class="container">
+        <div class="text-center mb-5">
+            <span class="badge bg-light text-navy border px-3 py-2 rounded-pill fw-bold text-uppercase mb-2">
+                <i class="fas fa-check-double text-gold me-1"></i> The Strategic Advantage
+            </span>
+            <h2 class="display-5 fw-bold text-navy">Why Choose Nexis Cyber Recovery?</h2>
+            <p class="text-muted mx-auto" style="max-width: 680px;">
+                Traditional law firms lack digital asset forensics. Retail banks prioritize their own liability. Here is how Nexis Cyber Recovery delivers decisive results:
+            </p>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover align-middle shadow-sm rounded-4 overflow-hidden">
+                <thead class="bg-navy text-white text-center">
+                    <tr>
+                        <th class="py-3 text-start ps-4" style="width: 34%;">Capability &amp; Approach</th>
+                        <th class="py-3 bg-warning text-dark fw-bold" style="width: 22%;"><i class="fas fa-shield-alt me-1"></i> Nexis Cyber Recovery</th>
+                        <th class="py-3" style="width: 22%;">Standard Law Firms</th>
+                        <th class="py-3" style="width: 22%;">Direct Bank Disputes</th>
+                    </tr>
+                </thead>
+                <tbody class="small">
+                    <tr>
+                        <td class="ps-4 fw-bold text-navy">Advanced On-Chain Blockchain Forensics</td>
+                        <td class="text-center bg-light text-success fw-bold"><i class="fas fa-check-circle me-1"></i> Proprietary Multi-Chain Tracing</td>
+                        <td class="text-center text-muted"><i class="fas fa-times-circle text-danger me-1"></i> Rarely Available</td>
+                        <td class="text-center text-muted"><i class="fas fa-times-circle text-danger me-1"></i> Completely Unsupported</td>
+                    </tr>
+                    <tr>
+                        <td class="ps-4 fw-bold text-navy">Tier-2 Card Scheme Arbitration Filing</td>
+                        <td class="text-center bg-light text-success fw-bold"><i class="fas fa-check-circle me-1"></i> Visa &amp; Mastercard Bylaw Experts</td>
+                        <td class="text-center text-muted"><i class="fas fa-minus-circle text-warning me-1"></i> Generic Contract Law</td>
+                        <td class="text-center text-muted"><i class="fas fa-times-circle text-danger me-1"></i> Easily Dismissed</td>
+                    </tr>
+                    <tr>
+                        <td class="ps-4 fw-bold text-navy">Fee Model &amp; Contingency Alignment</td>
+                        <td class="text-center bg-light text-success fw-bold"><i class="fas fa-check-circle me-1"></i> Performance-Driven Restitution</td>
+                        <td class="text-center text-muted"><i class="fas fa-times-circle text-danger me-1"></i> Expensive Hourly Retainers</td>
+                        <td class="text-center text-muted"><i class="fas fa-minus-circle text-warning me-1"></i> High Administrative Friction</td>
+                    </tr>
+                    <tr>
+                        <td class="ps-4 fw-bold text-navy">Average Resolution Timeline</td>
+                        <td class="text-center bg-light text-success fw-bold"><i class="fas fa-bolt text-gold me-1"></i> 2 to 8 Weeks Average</td>
+                        <td class="text-center text-muted"><i class="fas fa-clock text-warning me-1"></i> 6 to 24 Months</td>
+                        <td class="text-center text-muted"><i class="fas fa-clock text-danger me-1"></i> Often Stalled Indefinitely</td>
+                    </tr>
+                    <tr>
+                        <td class="ps-4 fw-bold text-navy">Cross-Border Banking &amp; VASP Channels</td>
+                        <td class="text-center bg-light text-success fw-bold"><i class="fas fa-check-circle me-1"></i> Global PSP &amp; Intermediary Reach</td>
+                        <td class="text-center text-muted"><i class="fas fa-minus-circle text-warning me-1"></i> Single-Jurisdiction Boundary</td>
+                        <td class="text-center text-muted"><i class="fas fa-times-circle text-danger me-1"></i> Zero Direct Intermediary Access</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<!-- Verified Case Resolution Log (SWIPER - 15 CASES) -->
+<section class="py-5 bg-navy text-white position-relative">
+    <div class="container">
+        <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+            <div>
+                <span class="badge bg-warning text-dark px-3 py-1 rounded-pill fw-bold text-uppercase mb-2">
+                    <i class="fas fa-broadcast-tower me-1"></i> Live Resolution Stream
+                </span>
+                <h3 class="fw-bold mb-1">Verified Case Resolution Log</h3>
+                <p class="text-white-50 small mb-0">Showing 15 recently finalized recovery claims across our investigative units.</p>
+            </div>
+            <!-- Swiper Controls -->
+            <div class="d-flex gap-2 mt-3 mt-md-0">
+                <button type="button" class="btn btn-outline-light rounded-circle cases-prev d-flex align-items-center justify-content-center" style="width: 44px; height: 44px;">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button type="button" class="btn btn-outline-light rounded-circle cases-next d-flex align-items-center justify-content-center" style="width: 44px; height: 44px;">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Cases Swiper -->
+        <div class="swiper casesSwiper">
+            <div class="swiper-wrapper">
+                <!-- Case 1 -->
+                <div class="swiper-slide">
+                    <div class="p-4 bg-secondary bg-opacity-25 rounded-4 border border-secondary h-100 d-flex flex-column justify-content-between">
+                        <div>
+                            <div class="d-flex justify-content-between text-gold small mb-2">
+                                <span class="fw-bold"><i class="fas fa-shield-alt me-1"></i> NCR-9412</span>
+                                <span>26 Days</span>
+                            </div>
+                            <div class="fw-bold fs-4 text-white mb-2">$78,400 Recovered</div>
+                            <p class="text-white-50 small mb-0">Cross-Chain bridge exploitation and custodial VASP wallet freeze.</p>
+                        </div>
+                        <div class="mt-3 pt-2 border-top border-secondary small text-gold">
+                            <i class="fas fa-check-circle me-1"></i> Full Capital Repatriated
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Case 2 -->
+                <div class="swiper-slide">
+                    <div class="p-4 bg-secondary bg-opacity-25 rounded-4 border border-secondary h-100 d-flex flex-column justify-content-between">
+                        <div>
+                            <div class="d-flex justify-content-between text-gold small mb-2">
+                                <span class="fw-bold"><i class="fas fa-shield-alt me-1"></i> NCR-9230</span>
+                                <span>18 Days</span>
+                            </div>
+                            <div class="fw-bold fs-4 text-white mb-2">€32,600 Recovered</div>
+                            <p class="text-white-50 small mb-0">Visa Core Rules Section 11 second-level pre-arbitration reversal.</p>
+                        </div>
+                        <div class="mt-3 pt-2 border-top border-secondary small text-gold">
+                            <i class="fas fa-check-circle me-1"></i> Cardholder Credited
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Case 3 -->
+                <div class="swiper-slide">
+                    <div class="p-4 bg-secondary bg-opacity-25 rounded-4 border border-secondary h-100 d-flex flex-column justify-content-between">
+                        <div>
+                            <div class="d-flex justify-content-between text-gold small mb-2">
+                                <span class="fw-bold"><i class="fas fa-shield-alt me-1"></i> NCR-8914</span>
+                                <span>41 Days</span>
+                            </div>
+                            <div class="fw-bold fs-4 text-white mb-2">$115,000 Recovered</div>
+                            <p class="text-white-50 small mb-0">Commercial BEC vendor impersonation and SWIFT MT199 emergency recall.</p>
+                        </div>
+                        <div class="mt-3 pt-2 border-top border-secondary small text-gold">
+                            <i class="fas fa-check-circle me-1"></i> Intermediary Wire Reversed
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Case 4 -->
+                <div class="swiper-slide">
+                    <div class="p-4 bg-secondary bg-opacity-25 rounded-4 border border-secondary h-100 d-flex flex-column justify-content-between">
+                        <div>
+                            <div class="d-flex justify-content-between text-gold small mb-2">
+                                <span class="fw-bold"><i class="fas fa-shield-alt me-1"></i> NCR-8762</span>
+                                <span>15 Days</span>
+                            </div>
+                            <div class="fw-bold fs-4 text-white mb-2">£14,200 Recovered</div>
+                            <p class="text-white-50 small mb-0">Cloned freight portal and fraudulent maritime escrow deposit clawback.</p>
+                        </div>
+                        <div class="mt-3 pt-2 border-top border-secondary small text-gold">
+                            <i class="fas fa-check-circle me-1"></i> Escrow Funds Disbursed
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Case 5 -->
+                <div class="swiper-slide">
+                    <div class="p-4 bg-secondary bg-opacity-25 rounded-4 border border-secondary h-100 d-flex flex-column justify-content-between">
+                        <div>
+                            <div class="d-flex justify-content-between text-gold small mb-2">
+                                <span class="fw-bold"><i class="fas fa-shield-alt me-1"></i> NCR-8501</span>
+                                <span>27 Days</span>
+                            </div>
+                            <div class="fw-bold fs-4 text-white mb-2">$54,800 Recovered</div>
+                            <p class="text-white-50 small mb-0">Offshore synthetic CFD brokerage withdrawal freeze broken via clearing gateway.</p>
+                        </div>
+                        <div class="mt-3 pt-2 border-top border-secondary small text-gold">
+                            <i class="fas fa-check-circle me-1"></i> Settlement Executed
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Case 6 -->
+                <div class="swiper-slide">
+                    <div class="p-4 bg-secondary bg-opacity-25 rounded-4 border border-secondary h-100 d-flex flex-column justify-content-between">
+                        <div>
+                            <div class="d-flex justify-content-between text-gold small mb-2">
+                                <span class="fw-bold"><i class="fas fa-shield-alt me-1"></i> NCR-8349</span>
+                                <span>12 Days</span>
+                            </div>
+                            <div class="fw-bold fs-4 text-white mb-2">€19,400 Recovered</div>
+                            <p class="text-white-50 small mb-0">Imposter courier service customs fee skimming payment processor dispute.</p>
+                        </div>
+                        <div class="mt-3 pt-2 border-top border-secondary small text-gold">
+                            <i class="fas fa-check-circle me-1"></i> Acquirer Clawback Issued
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Case 7 -->
+                <div class="swiper-slide">
+                    <div class="p-4 bg-secondary bg-opacity-25 rounded-4 border border-secondary h-100 d-flex flex-column justify-content-between">
+                        <div>
+                            <div class="d-flex justify-content-between text-gold small mb-2">
+                                <span class="fw-bold"><i class="fas fa-shield-alt me-1"></i> NCR-8120</span>
+                                <span>9 Days</span>
+                            </div>
+                            <div class="fw-bold fs-4 text-white mb-2">$46,500 Recovered</div>
+                            <p class="text-white-50 small mb-0">Executive BEC vendor redirection wire intercept across correspondent rails.</p>
+                        </div>
+                        <div class="mt-3 pt-2 border-top border-secondary small text-gold">
+                            <i class="fas fa-check-circle me-1"></i> Treasury Account Restored
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Case 8 -->
+                <div class="swiper-slide">
+                    <div class="p-4 bg-secondary bg-opacity-25 rounded-4 border border-secondary h-100 d-flex flex-column justify-content-between">
+                        <div>
+                            <div class="d-flex justify-content-between text-gold small mb-2">
+                                <span class="fw-bold"><i class="fas fa-shield-alt me-1"></i> NCR-7935</span>
+                                <span>36 Days</span>
+                            </div>
+                            <div class="fw-bold fs-4 text-white mb-2">$92,000 Recovered</div>
+                            <p class="text-white-50 small mb-0">High-yield staking pool scam traced to Tier-1 exchange and frozen.</p>
+                        </div>
+                        <div class="mt-3 pt-2 border-top border-secondary small text-gold">
+                            <i class="fas fa-check-circle me-1"></i> Restitution Transferred
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Case 9 -->
+                <div class="swiper-slide">
+                    <div class="p-4 bg-secondary bg-opacity-25 rounded-4 border border-secondary h-100 d-flex flex-column justify-content-between">
+                        <div>
+                            <div class="d-flex justify-content-between text-gold small mb-2">
+                                <span class="fw-bold"><i class="fas fa-shield-alt me-1"></i> NCR-7711</span>
+                                <span>21 Days</span>
+                            </div>
+                            <div class="fw-bold fs-4 text-white mb-2">AU$38,000 Recovered</div>
+                            <p class="text-white-50 small mb-0">Heavy machinery transport escrow fraud portal dismantled in Australia.</p>
+                        </div>
+                        <div class="mt-3 pt-2 border-top border-secondary small text-gold">
+                            <i class="fas fa-check-circle me-1"></i> Deposit Reimbursed
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Case 10 -->
+                <div class="swiper-slide">
+                    <div class="p-4 bg-secondary bg-opacity-25 rounded-4 border border-secondary h-100 d-flex flex-column justify-content-between">
+                        <div>
+                            <div class="d-flex justify-content-between text-gold small mb-2">
+                                <span class="fw-bold"><i class="fas fa-shield-alt me-1"></i> NCR-7540</span>
+                                <span>11 Days</span>
+                            </div>
+                            <div class="fw-bold fs-4 text-white mb-2">€8,900 Recovered</div>
+                            <p class="text-white-50 small mb-0">Ghost luxury electronics vendor chargeback under EU consumer statutory rights.</p>
+                        </div>
+                        <div class="mt-3 pt-2 border-top border-secondary small text-gold">
+                            <i class="fas fa-check-circle me-1"></i> Reversal Completed
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Case 11 -->
+                <div class="swiper-slide">
+                    <div class="p-4 bg-secondary bg-opacity-25 rounded-4 border border-secondary h-100 d-flex flex-column justify-content-between">
+                        <div>
+                            <div class="d-flex justify-content-between text-gold small mb-2">
+                                <span class="fw-bold"><i class="fas fa-shield-alt me-1"></i> NCR-7322</span>
+                                <span>29 Days</span>
+                            </div>
+                            <div class="fw-bold fs-4 text-white mb-2">$63,000 Recovered</div>
+                            <p class="text-white-50 small mb-0">SIM-swap account takeover unauthorized transaction banking indemnity enforced.</p>
+                        </div>
+                        <div class="mt-3 pt-2 border-top border-secondary small text-gold">
+                            <i class="fas fa-check-circle me-1"></i> Bank Indemnity Granted
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Case 12 -->
+                <div class="swiper-slide">
+                    <div class="p-4 bg-secondary bg-opacity-25 rounded-4 border border-secondary h-100 d-flex flex-column justify-content-between">
+                        <div>
+                            <div class="d-flex justify-content-between text-gold small mb-2">
+                                <span class="fw-bold"><i class="fas fa-shield-alt me-1"></i> NCR-7108</span>
+                                <span>24 Days</span>
+                            </div>
+                            <div class="fw-bold fs-4 text-white mb-2">£27,500 Recovered</div>
+                            <p class="text-white-50 small mb-0">Specialized cargo forwarding escrow bond extortion resolved under CMR protocol.</p>
+                        </div>
+                        <div class="mt-3 pt-2 border-top border-secondary small text-gold">
+                            <i class="fas fa-check-circle me-1"></i> Bond Restitution Paid
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Case 13 -->
+                <div class="swiper-slide">
+                    <div class="p-4 bg-secondary bg-opacity-25 rounded-4 border border-secondary h-100 d-flex flex-column justify-content-between">
+                        <div>
+                            <div class="d-flex justify-content-between text-gold small mb-2">
+                                <span class="fw-bold"><i class="fas fa-shield-alt me-1"></i> NCR-6940</span>
+                                <span>6 Days</span>
+                            </div>
+                            <div class="fw-bold fs-4 text-white mb-2">$135,000 Recovered</div>
+                            <p class="text-white-50 small mb-0">Real estate conveyance wire diversion emergency interdiction within 4 hours.</p>
+                        </div>
+                        <div class="mt-3 pt-2 border-top border-secondary small text-gold">
+                            <i class="fas fa-check-circle me-1"></i> 100% Capital Restored
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Case 14 -->
+                <div class="swiper-slide">
+                    <div class="p-4 bg-secondary bg-opacity-25 rounded-4 border border-secondary h-100 d-flex flex-column justify-content-between">
+                        <div>
+                            <div class="d-flex justify-content-between text-gold small mb-2">
+                                <span class="fw-bold"><i class="fas fa-shield-alt me-1"></i> NCR-6715</span>
+                                <span>33 Days</span>
+                            </div>
+                            <div class="fw-bold fs-4 text-white mb-2">CHF 52,000 Recovered</div>
+                            <p class="text-white-50 small mb-0">Algorithmic crypto yield pool drain traced through mixer to verified account.</p>
+                        </div>
+                        <div class="mt-3 pt-2 border-top border-secondary small text-gold">
+                            <i class="fas fa-check-circle me-1"></i> Exchange Freeze Executed
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Case 15 -->
+                <div class="swiper-slide">
+                    <div class="p-4 bg-secondary bg-opacity-25 rounded-4 border border-secondary h-100 d-flex flex-column justify-content-between">
+                        <div>
+                            <div class="d-flex justify-content-between text-gold small mb-2">
+                                <span class="fw-bold"><i class="fas fa-shield-alt me-1"></i> NCR-6502</span>
+                                <span>19 Days</span>
+                            </div>
+                            <div class="fw-bold fs-4 text-white mb-2">CAD 41,500 Recovered</div>
+                            <p class="text-white-50 small mb-0">Freight brokerage transport deposit extortion resolved with full restitution.</p>
+                        </div>
+                        <div class="mt-3 pt-2 border-top border-secondary small text-gold">
+                            <i class="fas fa-check-circle me-1"></i> Full Release &amp; Refund
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Pagination dots -->
+            <div class="swiper-pagination cases-pagination mt-4"></div>
+        </div>
+    </div>
+</section>
+
+<!-- What Our Clients Say (SWIPER - 9 REVIEWS) -->
+<section class="section-padding bg-light position-relative">
+    <div class="container">
+        <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+            <div>
+                <span class="badge bg-white text-navy border px-3 py-2 rounded-pill fw-bold text-uppercase mb-2">
+                    <i class="fas fa-star text-gold me-1"></i> Client Sentiment
+                </span>
+                <h2 class="display-5 fw-bold text-navy mb-1">What Our Clients Say</h2>
+                <p class="text-muted mb-0">Verified client feedback from successful fund restitution proceedings.</p>
+            </div>
+            <!-- Swiper Controls -->
+            <div class="d-flex gap-2 mt-3 mt-md-0">
+                <button type="button" class="btn btn-outline-navy rounded-circle testimonials-prev d-flex align-items-center justify-content-center" style="width: 44px; height: 44px;">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button type="button" class="btn btn-outline-navy rounded-circle testimonials-next d-flex align-items-center justify-content-center" style="width: 44px; height: 44px;">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Testimonials Swiper -->
+        <div class="swiper testimonialsSwiper">
+            <div class="swiper-wrapper">
+                <!-- Review 1 -->
+                <div class="swiper-slide">
+                    <div class="card h-100 p-4 border-0 shadow-sm rounded-4">
+                        <div class="card-body d-flex flex-column">
+                            <div class="mb-3 text-warning">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                                <span class="ms-1 fw-bold text-dark small">5.0</span>
+                            </div>
+                            <h6 class="fw-bold text-navy mb-2">"Decrypted multi-hop bridge routing and froze assets"</h6>
+                            <p class="card-text text-muted small flex-grow-1">"I lost 2.4 BTC to an elaborate fake staking node protocol. Nexis deployed proprietary heuristic clustering that tracked the transaction trail into European exchange deposit addresses, recovering $78,400."</p>
+                            <div class="d-flex align-items-center pt-3 border-top mt-auto">
+                                <img src="{% static 'img/avatar-1.jpg' %}?v=20261103" alt="Julian Sterling" class="rounded-circle shadow-sm me-3 flex-shrink-0" style="width: 46px; height: 46px; object-fit: cover; border: 2px solid #06b6d4;">
+                                <div>
+                                    <h6 class="fw-bold mb-0 text-navy">Julian Sterling</h6>
+                                    <small class="text-muted"><i class="fas fa-map-marker-alt text-gold me-1"></i>Geneva, Switzerland</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 2 -->
+                <div class="swiper-slide">
+                    <div class="card h-100 p-4 border-0 shadow-sm rounded-4">
+                        <div class="card-body d-flex flex-column">
+                            <div class="mb-3 text-warning">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                                <span class="ms-1 fw-bold text-dark small">5.0</span>
+                            </div>
+                            <h6 class="fw-bold text-navy mb-2">"Overturned card issuer refusal under Visa Core Rules"</h6>
+                            <p class="card-text text-muted small flex-grow-1">"My credit card provider summarily rejected my chargeback after a deceptive vendor billed recurring consulting fees. Nexis drafted a formal rebuttal citing Visa Core bylaws and secured €16,400 back."</p>
+                            <div class="d-flex align-items-center pt-3 border-top mt-auto">
+                                <img src="{% static 'img/avatar-2.jpg' %}?v=20261103" alt="Beatrice Fontaine" class="rounded-circle shadow-sm me-3 flex-shrink-0" style="width: 46px; height: 46px; object-fit: cover; border: 2px solid #06b6d4;">
+                                <div>
+                                    <h6 class="fw-bold mb-0 text-navy">Beatrice Fontaine</h6>
+                                    <small class="text-muted"><i class="fas fa-map-marker-alt text-gold me-1"></i>Lyon, France</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 3 -->
+                <div class="swiper-slide">
+                    <div class="card h-100 p-4 border-0 shadow-sm rounded-4">
+                        <div class="card-body d-flex flex-column">
+                            <div class="mb-3 text-warning">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                                <span class="ms-1 fw-bold text-dark small">5.0</span>
+                            </div>
+                            <h6 class="fw-bold text-navy mb-2">"Court-ready forensic blockchain dossier accepted"</h6>
+                            <p class="card-text text-muted small flex-grow-1">"When local authorities said cryptocurrency was untraceable, Nexis produced a 28-page forensic audit showing UTXO flow and off-ramp IP attributions. The subpoena based on their report recovered £54,200."</p>
+                            <div class="d-flex align-items-center pt-3 border-top mt-auto">
+                                <img src="{% static 'img/avatar-3.jpg' %}?v=20261103" alt="Alistair Vance" class="rounded-circle shadow-sm me-3 flex-shrink-0" style="width: 46px; height: 46px; object-fit: cover; border: 2px solid #06b6d4;">
+                                <div>
+                                    <h6 class="fw-bold mb-0 text-navy">Alistair Vance</h6>
+                                    <small class="text-muted"><i class="fas fa-map-marker-alt text-gold me-1"></i>Edinburgh, United Kingdom</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 4 -->
+                <div class="swiper-slide">
+                    <div class="card h-100 p-4 border-0 shadow-sm rounded-4">
+                        <div class="card-body d-flex flex-column">
+                            <div class="mb-3 text-warning">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                                <span class="ms-1 fw-bold text-dark small">5.0</span>
+                            </div>
+                            <h6 class="fw-bold text-navy mb-2">"Cloned heavy machinery freight portal dismantled"</h6>
+                            <p class="card-text text-muted small flex-grow-1">"I paid a logistics escrow deposit for industrial equipment via a website imitating a prominent global carrier. Nexis uncovered the server hosting infrastructure and recovered my £11,200 deposit in full."</p>
+                            <div class="d-flex align-items-center pt-3 border-top mt-auto">
+                                <img src="{% static 'img/avatar-4.jpg' %}?v=20261103" alt="Hamish MacIntyre" class="rounded-circle shadow-sm me-3 flex-shrink-0" style="width: 46px; height: 46px; object-fit: cover; border: 2px solid #06b6d4;">
+                                <div>
+                                    <h6 class="fw-bold mb-0 text-navy">Hamish MacIntyre</h6>
+                                    <small class="text-muted"><i class="fas fa-map-marker-alt text-gold me-1"></i>Aberdeen, United Kingdom</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 5 -->
+                <div class="swiper-slide">
+                    <div class="card h-100 p-4 border-0 shadow-sm rounded-4">
+                        <div class="card-body d-flex flex-column">
+                            <div class="mb-3 text-warning">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                                <span class="ms-1 fw-bold text-dark small">5.0</span>
+                            </div>
+                            <h6 class="fw-bold text-navy mb-2">"Targeted clearing house of unlicensed broker"</h6>
+                            <p class="card-text text-muted small flex-grow-1">"An offshore entity posing as an authorized CFD brokerage locked my principal balance. Nexis located the EU-based payment intermediary they used to process incoming wires and recovered €86,000."</p>
+                            <div class="d-flex align-items-center pt-3 border-top mt-auto">
+                                <img src="{% static 'img/avatar-5.jpg' %}?v=20261103" alt="Maximilian Weber" class="rounded-circle shadow-sm me-3 flex-shrink-0" style="width: 46px; height: 46px; object-fit: cover; border: 2px solid #06b6d4;">
+                                <div>
+                                    <h6 class="fw-bold mb-0 text-navy">Maximilian Weber</h6>
+                                    <small class="text-muted"><i class="fas fa-map-marker-alt text-gold me-1"></i>Frankfurt, Germany</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 6 -->
+                <div class="swiper-slide">
+                    <div class="card h-100 p-4 border-0 shadow-sm rounded-4">
+                        <div class="card-body d-flex flex-column">
+                            <div class="mb-3 text-warning">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                                <span class="ms-1 fw-bold text-dark small">5.0</span>
+                            </div>
+                            <h6 class="fw-bold text-navy mb-2">"Emergency SWIFT MT199 recall intercepted wire"</h6>
+                            <p class="card-text text-muted small flex-grow-1">"A business email compromise redirected our $145,000 down payment. Nexis intervened within three hours, collaborating with correspondent banking fraud desks to freeze the transfer before domestic disbursement."</p>
+                            <div class="d-flex align-items-center pt-3 border-top mt-auto">
+                                <img src="{% static 'img/avatar-6.jpg' %}?v=20261103" alt="Garrick Henderson" class="rounded-circle shadow-sm me-3 flex-shrink-0" style="width: 46px; height: 46px; object-fit: cover; border: 2px solid #06b6d4;">
+                                <div>
+                                    <h6 class="fw-bold mb-0 text-navy">Garrick Henderson</h6>
+                                    <small class="text-muted"><i class="fas fa-map-marker-alt text-gold me-1"></i>Chicago, Illinois, USA</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 7 -->
+                <div class="swiper-slide">
+                    <div class="card h-100 p-4 border-0 shadow-sm rounded-4">
+                        <div class="card-body d-flex flex-column">
+                            <div class="mb-3 text-warning">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                                <span class="ms-1 fw-bold text-dark small">5.0</span>
+                            </div>
+                            <h6 class="fw-bold text-navy mb-2">"Intercepted fraudulent auto-transport escrow"</h6>
+                            <p class="card-text text-muted small flex-grow-1">"We were purchasing a classic vehicle across state lines through what looked like an accredited carrier escrow. Nexis froze the payment processor and retrieved our $15,800."</p>
+                            <div class="d-flex align-items-center pt-3 border-top mt-auto">
+                                <img src="{% static 'img/avatar-7.jpg' %}?v=20261103" alt="Cassandra Mills" class="rounded-circle shadow-sm me-3 flex-shrink-0" style="width: 46px; height: 46px; object-fit: cover; border: 2px solid #06b6d4;">
+                                <div>
+                                    <h6 class="fw-bold mb-0 text-navy">Cassandra Mills</h6>
+                                    <small class="text-muted"><i class="fas fa-map-marker-alt text-gold me-1"></i>Phoenix, Arizona, USA</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 8 -->
+                <div class="swiper-slide">
+                    <div class="card h-100 p-4 border-0 shadow-sm rounded-4">
+                        <div class="card-body d-flex flex-column">
+                            <div class="mb-3 text-warning">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                                <span class="ms-1 fw-bold text-dark small">5.0</span>
+                            </div>
+                            <h6 class="fw-bold text-navy mb-2">"Wholesale electronics counterfeit scheme clawback"</h6>
+                            <p class="card-text text-muted small flex-grow-1">"We procured a bulk order of tech that delivered counterfeit non-functional clones. Nexis located the acquiring bank holding the seller's settlement reserves and obtained a full €18,900 clawback."</p>
+                            <div class="d-flex align-items-center pt-3 border-top mt-auto">
+                                <img src="{% static 'img/avatar-8.jpg' %}?v=20261103" alt="Sebastian Cruz" class="rounded-circle shadow-sm me-3 flex-shrink-0" style="width: 46px; height: 46px; object-fit: cover; border: 2px solid #06b6d4;">
+                                <div>
+                                    <h6 class="fw-bold mb-0 text-navy">Sebastian Cruz</h6>
+                                    <small class="text-muted"><i class="fas fa-map-marker-alt text-gold me-1"></i>Barcelona, Spain</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 9 -->
+                <div class="swiper-slide">
+                    <div class="card h-100 p-4 border-0 shadow-sm rounded-4">
+                        <div class="card-body d-flex flex-column">
+                            <div class="mb-3 text-warning">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                                <span class="ms-1 fw-bold text-dark small">5.0</span>
+                            </div>
+                            <h6 class="fw-bold text-navy mb-2">"Second-level Mastercard arbitration won"</h6>
+                            <p class="card-text text-muted small flex-grow-1">"A luxury travel aggregator cancelled our corporate reservations and refused to credit the account. Nexis structured our claim directly for Mastercard arbitration, recovering $24,800."</p>
+                            <div class="d-flex align-items-center pt-3 border-top mt-auto">
+                                <img src="{% static 'img/avatar-9.jpg' %}?v=20261103" alt="Franklin Pierce" class="rounded-circle shadow-sm me-3 flex-shrink-0" style="width: 46px; height: 46px; object-fit: cover; border: 2px solid #06b6d4;">
+                                <div>
+                                    <h6 class="fw-bold mb-0 text-navy">Franklin Pierce</h6>
+                                    <small class="text-muted"><i class="fas fa-map-marker-alt text-gold me-1"></i>Boston, Massachusetts, USA</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Pagination dots -->
+            <div class="swiper-pagination testimonials-pagination mt-4"></div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section class="bg-navy py-5 text-center text-white position-relative">
+    <div class="container py-4">
+        <span class="badge bg-warning text-dark px-3 py-2 rounded-pill fw-bold text-uppercase mb-3 hero-badge-animate animate-float">
+            <i class="fas fa-lock me-1"></i> Confidential &amp; Time-Critical
+        </span>
+        <h2 class="display-5 fw-bold mb-3">Time Is Critical In Financial Recovery</h2>
+        <p class="lead opacity-75 mx-auto mb-4" style="max-width: 680px;">
+            The faster an investigation is initiated, the higher the probability of freezing the capital before fraudsters dissipate funds through mixers or foreign shell entities.
+        </p>
+        <div class="d-flex flex-wrap justify-content-center gap-3">
+            <a href="{% url 'submit_claim' %}" class="btn btn-gold btn-lg px-5 py-3 fw-bold rounded-pill shadow-sm">
+                Initiate Rapid Assessment <i class="fas fa-arrow-right ms-2"></i>
+            </a>
+            <a href="{% url 'contact' %}" class="btn btn-outline-light btn-lg px-5 py-3 rounded-pill">Speak with an Investigator</a>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ Teaser -->
+<section class="section-padding bg-white">
+    <div class="container">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-5">
+                <span class="badge bg-light text-navy border px-3 py-2 rounded-pill fw-bold text-uppercase mb-2">
+                    <i class="fas fa-circle-question text-gold me-1"></i> Common Questions
+                </span>
+                <h2 class="display-6 fw-bold text-navy mb-3">Have Questions About How Fund Restitution Works?</h2>
+                <p class="text-muted mb-4">
+                    Explore our comprehensive guide on investigative timelines, evidence requirements, fee structures, and cross-border regulatory authorities.
+                </p>
+                <a href="{% url 'faq' %}" class="btn btn-navy px-4 py-2 rounded-pill fw-bold">View Full Knowledgebase</a>
+            </div>
+            <div class="col-lg-7">
+                <div class="accordion" id="indexFaq">
+                    <div class="accordion-item border-0 mb-3 shadow-sm rounded-3 overflow-hidden">
+                        <h2 class="accordion-header" id="hOne">
+                            <button class="accordion-button fw-bold text-navy" type="button" data-bs-toggle="collapse" data-bs-target="#cOne" aria-expanded="true" aria-controls="cOne">
+                                How can stolen cryptocurrency be traced and recovered?
+                            </button>
+                        </h2>
+                        <div id="cOne" class="accordion-collapse collapse show" aria-labelledby="hOne" data-bs-parent="#indexFaq">
+                            <div class="accordion-body text-muted small leading-relaxed">
+                                While public blockchains are pseudonymous, they are immutable. Nexis utilizes proprietary clustering heuristics and graph intelligence to track asset hops across bridges, mixers, and decentralized protocols until funds hit regulated centralized exchanges (VASPs) with mandatory KYC, where legal freeze injunctions are served.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item border-0 mb-3 shadow-sm rounded-3 overflow-hidden">
+                        <h2 class="accordion-header" id="hTwo">
+                            <button class="accordion-button collapsed fw-bold text-navy" type="button" data-bs-toggle="collapse" data-bs-target="#cTwo" aria-expanded="false" aria-controls="cTwo">
+                                What if my bank or card issuer has already rejected my dispute?
+                            </button>
+                        </h2>
+                        <div id="cTwo" class="accordion-collapse collapse" aria-labelledby="hTwo" data-bs-parent="#indexFaq">
+                            <div class="accordion-body text-muted small leading-relaxed">
+                                Most retail branch personnel evaluate disputes using simplified automated scripts. Our specialists escalate cases to second-level arbitration under Visa Core Rules Section 11 and Mastercard Dispute Resolution bylaws, presenting forensic audit trails that compel issuing banks to reverse wrongful denials.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item border-0 shadow-sm rounded-3 overflow-hidden">
+                        <h2 class="accordion-header" id="hThree">
+                            <button class="accordion-button collapsed fw-bold text-navy" type="button" data-bs-toggle="collapse" data-bs-target="#cThree" aria-expanded="false" aria-controls="cThree">
+                                What is the typical fee structure for case engagement?
+                            </button>
+                        </h2>
+                        <div id="cThree" class="accordion-collapse collapse" aria-labelledby="hThree" data-bs-parent="#indexFaq">
+                            <div class="accordion-body text-muted small leading-relaxed">
+                                We operate on a transparent performance-oriented model. Following a complimentary forensic viability review, accepted claims incur an upfront investigation docket fee followed by a success-contingent recovery percentage once your capital is safely returned to your control.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // 1. Specialized Recovery Solutions Swiper
+    new Swiper('.solutionsSwiper', {
+        slidesPerView: 1,
+        spaceBetween: 24,
+        loop: true,
+        autoplay: {
+            delay: 4500,
+            disableOnInteraction: false,
+            pauseOnMouseEnter: true
+        },
+        pagination: {
+            el: '.solutions-pagination',
+            clickable: true
+        },
+        navigation: {
+            nextEl: '.solutions-next',
+            prevEl: '.solutions-prev'
+        },
+        breakpoints: {
+            640: {
+                slidesPerView: 2,
+                spaceBetween: 20
+            },
+            1024: {
+                slidesPerView: 3,
+                spaceBetween: 24
+            },
+            1280: {
+                slidesPerView: 4,
+                spaceBetween: 24
+            }
+        }
+    });
+
+    // 2. Verified Case Resolution Log Swiper (15 cases)
+    new Swiper('.casesSwiper', {
+        slidesPerView: 1,
+        spaceBetween: 20,
+        loop: true,
+        autoplay: {
+            delay: 3500,
+            disableOnInteraction: false,
+            pauseOnMouseEnter: true
+        },
+        pagination: {
+            el: '.cases-pagination',
+            clickable: true
+        },
+        navigation: {
+            nextEl: '.cases-next',
+            prevEl: '.cases-prev'
+        },
+        breakpoints: {
+            640: {
+                slidesPerView: 2,
+                spaceBetween: 20
+            },
+            1024: {
+                slidesPerView: 3,
+                spaceBetween: 24
+            }
+        }
+    });
+
+    // 3. What Our Clients Say Swiper (9 reviews)
+    new Swiper('.testimonialsSwiper', {
+        slidesPerView: 1,
+        spaceBetween: 24,
+        loop: true,
+        autoplay: {
+            delay: 5000,
+            disableOnInteraction: false,
+            pauseOnMouseEnter: true
+        },
+        pagination: {
+            el: '.testimonials-pagination',
+            clickable: true
+        },
+        navigation: {
+            nextEl: '.testimonials-next',
+            prevEl: '.testimonials-prev'
+        },
+        breakpoints: {
+            768: {
+                slidesPerView: 2,
+                spaceBetween: 24
+            },
+            1024: {
+                slidesPerView: 3,
+                spaceBetween: 24
+            }
+        }
+    });
+});
+</script>
+{% endblock %}
