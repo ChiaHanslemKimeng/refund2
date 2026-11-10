@@ -1,16 +1,22 @@
 {% extends "admin/base.html" %}
-{% load static %}
+{% load static i18n log %}
 
 {% block title %}Nexis Cyber Recovery Admin | Case Management & Restitution Portal{% endblock %}
 
+{% block responsive %}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <link rel="stylesheet" href="{% static "admin/css/responsive.css" %}" {% csp_nonce_attr %}>
+    {% if LANGUAGE_BIDI %}<link rel="stylesheet" href="{% static "admin/css/responsive_rtl.css" %}" {% csp_nonce_attr %}>{% endif %}
+{% endblock %}
+
 {% block branding %}
-<div id="site-name" style="display: flex; align-items: center; gap: 12px; padding: 6px 0;">
-    <img src="{% static 'img/nexis_logo.svg' %}" alt="Nexis Logo" style="height: 38px; width: auto; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.25);">
-    <div style="line-height: 1.2;">
-        <a href="{% url 'admin:index' %}" style="font-weight: 800; color: #ffffff; text-decoration: none; font-size: 17px; letter-spacing: 0.8px;">
+<div id="site-name" class="nexis-branding">
+    <img src="{% static 'img/nexis_logo.svg' %}" alt="Nexis Logo" class="nexis-brand-logo">
+    <div class="nexis-brand-text">
+        <a href="{% url 'admin:index' %}" class="nexis-brand-title">
             NEXIS CYBER RECOVERY
         </a>
-        <div style="font-size: 11px; color: #00f2fe; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 700; margin-top: 2px;">
+        <div class="nexis-brand-subtitle">
             Executive Compliance &amp; Restitution Gateway
         </div>
     </div>
@@ -25,15 +31,51 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Nexis Admin">
-<meta name="theme-color" content="#06b6d4">
+<meta name="theme-color" content="#080c14">
 <link rel="apple-touch-icon" href="{% static 'img/nexis_logo.svg' %}">
 
 <style>
-  /* Header styling and push control bar */
+  /* ==========================================================================
+     DESKTOP & SHARED BRANDING / PUSH CONTROLS
+     ========================================================================== */
   #header {
       background: linear-gradient(135deg, #080c14 0%, #0f172a 100%) !important;
       border-bottom: 2px solid #00f2fe !important;
   }
+  .nexis-branding {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 6px 0;
+  }
+  .nexis-brand-logo {
+      height: 38px;
+      width: auto;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+      flex-shrink: 0;
+  }
+  .nexis-brand-text {
+      line-height: 1.2;
+      min-width: 0;
+  }
+  .nexis-brand-title {
+      font-weight: 800;
+      color: #ffffff !important;
+      text-decoration: none;
+      font-size: 17px;
+      letter-spacing: 0.8px;
+      display: block;
+  }
+  .nexis-brand-subtitle {
+      font-size: 11px;
+      color: #00f2fe;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      font-weight: 700;
+      margin-top: 2px;
+  }
+
   .push-control-wrapper {
       display: inline-flex;
       align-items: center;
@@ -58,7 +100,7 @@
       text-decoration: none !important;
   }
   .btn-push-subscribe:hover {
-      background: #003e99;
+      background: #0284c7;
       transform: translateY(-1px);
   }
   .btn-ios-push {
@@ -105,6 +147,7 @@
   .btn-test-alert:hover {
       background: rgba(255,255,255,0.25);
   }
+
   /* iOS instructions modal */
   .ios-modal-overlay {
       position: fixed;
@@ -158,6 +201,914 @@
       font-weight: bold;
       flex-shrink: 0;
   }
+
+  /* Hidden on Desktop */
+  .mobile-bottom-nav,
+  .mobile-sheet-backdrop,
+  .mobile-bottom-sheet {
+      display: none;
+  }
+
+  /* ==========================================================================
+     MOBILE APP EXPERIENCE (<= 768px)
+     ========================================================================== */
+  @media (max-width: 768px) {
+      html, body {
+          overflow-x: clip;
+          -webkit-tap-highlight-color: transparent;
+      }
+
+      body.mobile-sheet-open {
+          overflow: hidden !important;
+      }
+
+      /* Hide desktop left sidebar completely; replaced by bottom Menu sheet */
+      #nav-sidebar,
+      #toggle-nav-sidebar {
+          display: none !important;
+      }
+
+      /* Sticky Sleek Mobile App Top Bar */
+      #header {
+          position: sticky;
+          top: 0;
+          z-index: 950;
+          display: flex !important;
+          flex-direction: row !important;
+          align-items: center !important;
+          justify-content: space-between !important;
+          gap: 10px;
+          padding: calc(10px + env(safe-area-inset-top)) 14px 10px !important;
+          border-bottom: 1.5px solid rgba(0, 242, 254, 0.4) !important;
+          box-shadow: 0 4px 18px rgba(0, 0, 0, 0.28);
+      }
+
+      #branding {
+          min-width: 0;
+          flex: 1 1 auto;
+      }
+
+      #site-name.nexis-branding {
+          margin: 0 !important;
+          padding: 0 !important;
+          gap: 10px;
+      }
+
+      .nexis-brand-logo {
+          height: 32px;
+          border-radius: 8px;
+      }
+
+      .nexis-brand-title {
+          font-size: 13px !important;
+          letter-spacing: 0.6px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+      }
+
+      .nexis-brand-subtitle {
+          font-size: 9px !important;
+          letter-spacing: 1px;
+          margin-top: 1px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+      }
+
+      /* Move desktop header tools out of top bar (embedded in bottom More sheet) */
+      #user-tools {
+          margin: 0 !important;
+          padding: 0 !important;
+          font-size: 0 !important;
+          line-height: 1 !important;
+          flex-shrink: 0;
+          display: flex !important;
+          align-items: center;
+          justify-content: flex-end;
+      }
+
+      #user-tools > a,
+      #user-tools > strong,
+      #user-tools > form,
+      #user-tools > button,
+      #user-tools > .theme-toggle {
+          display: none !important;
+      }
+
+      #user-tools .push-control-wrapper {
+          display: inline-flex !important;
+          margin: 0 !important;
+          font-size: 11px !important;
+      }
+
+      #user-tools .btn-push-subscribe,
+      #user-tools .btn-ios-push {
+          padding: 5px 10px !important;
+          font-size: 11px !important;
+          border-radius: 999px !important;
+          white-space: nowrap;
+      }
+
+      #user-tools .push-active-badge {
+          padding: 4px 8px !important;
+          font-size: 10px !important;
+          white-space: nowrap;
+      }
+
+      #user-tools .btn-test-alert {
+          display: none !important;
+      }
+
+      /* Breadcrumbs as compact horizontally-scrollable app bar */
+      div.breadcrumbs {
+          padding: 8px 14px !important;
+          font-size: 12px !important;
+          overflow-x: auto;
+          white-space: nowrap;
+          scrollbar-width: none;
+          border-bottom: 1px solid var(--hairline-color);
+      }
+      div.breadcrumbs::-webkit-scrollbar {
+          display: none;
+      }
+
+      /* Main content spacing above embedded bottom navigation bar */
+      #container {
+          padding-bottom: calc(88px + env(safe-area-inset-bottom)) !important;
+          min-height: 100dvh;
+      }
+
+      #content {
+          padding: 14px 12px 24px !important;
+      }
+
+      .titles-and-tools {
+          gap: 10px;
+          margin-bottom: 12px;
+      }
+
+      .titles-and-tools h1 {
+          font-size: 1.25rem !important;
+          font-weight: 800;
+          line-height: 1.25;
+      }
+
+      .object-tools {
+          margin: 0 !important;
+          display: flex;
+          flex-wrap: wrap;
+          gap: 8px;
+      }
+
+      .object-tools li {
+          float: none !important;
+          margin: 0 !important;
+          height: auto !important;
+      }
+
+      .object-tools a,
+      .object-tools a.addlink {
+          display: inline-flex !important;
+          align-items: center;
+          gap: 6px;
+          padding: 8px 14px !important;
+          border-radius: 999px !important;
+          background: linear-gradient(135deg, #06b6d4, #0284c7) !important;
+          color: #ffffff !important;
+          font-weight: 700 !important;
+          font-size: 12px !important;
+          box-shadow: 0 4px 12px rgba(6, 182, 212, 0.25);
+          text-transform: none !important;
+          letter-spacing: 0.2px;
+      }
+
+      /* Messages / Alerts */
+      ul.messagelist {
+          margin: 10px 12px 0 !important;
+      }
+      ul.messagelist li {
+          border-radius: 12px !important;
+          padding: 12px 14px 12px 38px !important;
+          margin-bottom: 8px !important;
+          font-size: 13px;
+      }
+
+      /* App-style Cards for Modules, Fieldsets, Filters & Recent Actions */
+      .module,
+      #changelist-filter,
+      #content-related .module,
+      .inline-group {
+          border-radius: 16px !important;
+          overflow: hidden;
+          border: 1px solid var(--hairline-color) !important;
+          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+          margin-bottom: 16px !important;
+      }
+
+      .module h2,
+      .module caption,
+      .inline-group h2,
+      #changelist-filter h2 {
+          background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%) !important;
+          color: #f8fafc !important;
+          padding: 12px 16px !important;
+          font-size: 12px !important;
+          font-weight: 800 !important;
+          letter-spacing: 0.7px;
+      }
+
+      .module caption a.section {
+          color: #00f2fe !important;
+      }
+
+      /* Dashboard App List rows */
+      .dashboard .module table th,
+      .dashboard .module table td {
+          padding: 12px 14px !important;
+          vertical-align: middle;
+      }
+
+      .dashboard .module table th a {
+          font-weight: 600;
+          font-size: 14px;
+          display: block;
+          padding: 2px 0;
+      }
+
+      .dashboard .module table td a.addlink,
+      .dashboard .module table td a.changelink,
+      .dashboard .module table td a.viewlink {
+          display: inline-flex;
+          align-items: center;
+          padding: 5px 10px 5px 22px !important;
+          border-radius: 999px;
+          background-color: var(--darkened-bg);
+          border: 1px solid var(--hairline-color);
+          font-size: 12px !important;
+          font-weight: 600;
+          background-position: 7px center !important;
+      }
+
+      /* Changelist Search & Actions */
+      #toolbar {
+          border-radius: 16px !important;
+          padding: 12px !important;
+          margin-bottom: 12px !important;
+          border: 1px solid var(--hairline-color) !important;
+      }
+
+      #toolbar form #searchbar {
+          height: 40px !important;
+          border-radius: 12px !important;
+          padding: 0 12px !important;
+          font-size: 16px !important;
+      }
+
+      #toolbar form input[type="submit"] {
+          height: 40px !important;
+          border-radius: 12px !important;
+          padding: 0 16px !important;
+          font-weight: 700 !important;
+      }
+
+      .actions {
+          border-radius: 14px !important;
+          padding: 10px 12px !important;
+          margin-bottom: 10px !important;
+          border: 1px solid var(--hairline-color) !important;
+      }
+
+      .actions select,
+      .actions button[type="submit"] {
+          min-height: 40px !important;
+          border-radius: 10px !important;
+          font-size: 14px !important;
+      }
+
+      #changelist .results {
+          overflow-x: auto !important;
+          -webkit-overflow-scrolling: touch;
+          border-radius: 14px;
+          border: 1px solid var(--hairline-color);
+      }
+
+      #result_list td,
+      #result_list th {
+          padding: 11px 10px !important;
+          white-space: nowrap;
+      }
+
+      .paginator {
+          border-radius: 14px !important;
+          padding: 12px !important;
+          margin-top: 12px !important;
+          border: 1px solid var(--hairline-color) !important;
+      }
+
+      /* Forms & Inputs (16px prevents iOS auto-zoom) */
+      .aligned .form-row {
+          padding: 14px !important;
+      }
+
+      input[type="text"],
+      input[type="password"],
+      input[type="email"],
+      input[type="url"],
+      input[type="number"],
+      input[type="search"],
+      input[type="tel"],
+      textarea,
+      select {
+          font-size: 16px !important;
+          border-radius: 10px !important;
+      }
+
+      .submit-row {
+          border-radius: 16px !important;
+          padding: 12px !important;
+          gap: 8px !important;
+          border: 1px solid var(--hairline-color) !important;
+      }
+
+      .submit-row input,
+      .submit-row a.deletelink {
+          min-height: 44px !important;
+          border-radius: 12px !important;
+          font-weight: 700 !important;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          margin: 0 !important;
+      }
+
+      /* Login Screen Polish on Mobile */
+      body.login #container {
+          padding-bottom: 24px !important;
+          margin: 16px auto !important;
+          width: calc(100% - 24px) !important;
+          max-width: 420px;
+          border-radius: 20px !important;
+          overflow: hidden;
+      }
+
+      /* ======================================================================
+         EMBEDDED BOTTOM APP NAVIGATION BAR
+         ====================================================================== */
+      .mobile-bottom-nav {
+          display: flex;
+          align-items: center;
+          justify-content: space-around;
+          position: fixed;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          z-index: 9900;
+          padding: 6px 8px calc(8px + env(safe-area-inset-bottom));
+          background: rgba(8, 12, 20, 0.95);
+          backdrop-filter: blur(20px);
+          -webkit-backdrop-filter: blur(20px);
+          border-top: 1px solid rgba(0, 242, 254, 0.25);
+          box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.45);
+      }
+
+      .mobile-nav-item {
+          flex: 1 1 0;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          gap: 3px;
+          padding: 5px 4px;
+          color: #94a3b8 !important;
+          text-decoration: none !important;
+          background: transparent;
+          border: none;
+          cursor: pointer;
+          font-family: inherit;
+          font-size: 10.5px;
+          font-weight: 600;
+          letter-spacing: 0.2px;
+          transition: color 0.18s ease, transform 0.12s ease;
+          position: relative;
+          min-width: 0;
+      }
+
+      .mobile-nav-item:active {
+          transform: scale(0.92);
+      }
+
+      .mobile-nav-item svg {
+          width: 21px;
+          height: 21px;
+          stroke: currentColor;
+          fill: none;
+          stroke-width: 2;
+          stroke-linecap: round;
+          stroke-linejoin: round;
+          transition: transform 0.18s ease;
+      }
+
+      .mobile-nav-item.is-active {
+          color: #00f2fe !important;
+      }
+
+      .mobile-nav-item.is-active::after {
+          content: "";
+          position: absolute;
+          top: 0;
+          width: 22px;
+          height: 2.5px;
+          border-radius: 999px;
+          background: #00f2fe;
+          box-shadow: 0 0 8px rgba(0, 242, 254, 0.8);
+      }
+
+      .mobile-nav-label {
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          max-width: 100%;
+      }
+
+      /* Center Elevated Menu Button */
+      .mobile-nav-item--center {
+          flex: 0 0 auto;
+          padding: 0 6px;
+          margin-top: -18px;
+          color: #ffffff !important;
+      }
+
+      .mobile-nav-center-btn {
+          width: 50px;
+          height: 50px;
+          border-radius: 18px;
+          background: linear-gradient(135deg, #06b6d4 0%, #0284c7 100%);
+          border: 2px solid rgba(0, 242, 254, 0.65);
+          box-shadow: 0 6px 20px rgba(6, 182, 212, 0.45), 0 0 0 4px rgba(8, 12, 20, 0.95);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: #ffffff;
+          transition: transform 0.18s ease, box-shadow 0.18s ease;
+      }
+
+      .mobile-nav-item--center.is-active .mobile-nav-center-btn {
+          background: linear-gradient(135deg, #00f2fe 0%, #06b6d4 100%);
+          color: #080c14;
+          box-shadow: 0 8px 24px rgba(0, 242, 254, 0.55), 0 0 0 4px rgba(8, 12, 20, 0.95);
+      }
+
+      .mobile-nav-item--center.is-active::after {
+          display: none;
+      }
+
+      .mobile-nav-item--center .mobile-nav-label {
+          margin-top: 3px;
+          color: #e2e8f0;
+          font-weight: 700;
+      }
+
+      /* ======================================================================
+         SLIDE-UP BOTTOM SHEETS (MENU & ACCOUNT/REST)
+         ====================================================================== */
+      .mobile-sheet-backdrop {
+          display: block;
+          position: fixed;
+          inset: 0;
+          z-index: 9910;
+          background: rgba(2, 6, 23, 0.65);
+          backdrop-filter: blur(4px);
+          -webkit-backdrop-filter: blur(4px);
+          opacity: 0;
+          pointer-events: none;
+          transition: opacity 0.24s ease;
+      }
+
+      .mobile-sheet-backdrop.is-open {
+          opacity: 1;
+          pointer-events: auto;
+      }
+
+      .mobile-bottom-sheet {
+          display: flex;
+          flex-direction: column;
+          position: fixed;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          z-index: 9920;
+          max-height: 85dvh;
+          background: var(--body-bg);
+          color: var(--body-fg);
+          border-top-left-radius: 24px;
+          border-top-right-radius: 24px;
+          border-top: 1px solid rgba(0, 242, 254, 0.35);
+          box-shadow: 0 -16px 48px rgba(0, 0, 0, 0.45);
+          transform: translateY(105%);
+          transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+          padding-bottom: calc(16px + env(safe-area-inset-bottom));
+          overflow: hidden;
+      }
+
+      .mobile-bottom-sheet.is-open {
+          transform: translateY(0);
+      }
+
+      .mobile-sheet-handle-wrap {
+          padding: 10px 0 4px;
+          display: flex;
+          justify-content: center;
+          cursor: grab;
+          flex-shrink: 0;
+      }
+
+      .mobile-sheet-handle {
+          width: 42px;
+          height: 4.5px;
+          border-radius: 999px;
+          background: var(--border-color);
+          opacity: 0.7;
+      }
+
+      .mobile-sheet-header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 8px 18px 12px;
+          border-bottom: 1px solid var(--hairline-color);
+          flex-shrink: 0;
+      }
+
+      .mobile-sheet-title {
+          font-size: 16px;
+          font-weight: 800;
+          letter-spacing: 0.2px;
+          margin: 0;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+      }
+
+      .mobile-sheet-title-dot {
+          width: 9px;
+          height: 9px;
+          border-radius: 50%;
+          background: #06b6d4;
+          box-shadow: 0 0 8px rgba(6, 182, 212, 0.75);
+      }
+
+      .mobile-sheet-close {
+          width: 34px;
+          height: 34px;
+          border-radius: 50%;
+          border: 1px solid var(--hairline-color);
+          background: var(--darkened-bg);
+          color: var(--body-fg);
+          font-size: 20px;
+          line-height: 1;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+      }
+
+      .mobile-sheet-body {
+          padding: 14px 16px 20px;
+          overflow-y: auto;
+          -webkit-overflow-scrolling: touch;
+          flex: 1 1 auto;
+      }
+
+      /* Menu Sheet Search */
+      .mobile-menu-search-wrap {
+          position: relative;
+          margin-bottom: 14px;
+      }
+
+      .mobile-menu-search-wrap svg {
+          position: absolute;
+          left: 12px;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 17px;
+          height: 17px;
+          stroke: var(--body-quiet-color);
+          fill: none;
+          stroke-width: 2;
+          pointer-events: none;
+      }
+
+      .mobile-menu-search {
+          width: 100%;
+          box-sizing: border-box;
+          padding: 10px 14px 10px 38px !important;
+          border-radius: 14px !important;
+          border: 1px solid var(--border-color) !important;
+          background: var(--darkened-bg) !important;
+          color: var(--body-fg) !important;
+          font-size: 16px !important;
+      }
+
+      /* Quick Shortcut Grid */
+      .mobile-quick-grid {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 8px;
+          margin-bottom: 18px;
+      }
+
+      .mobile-quick-chip {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          text-align: center;
+          gap: 5px;
+          padding: 10px 6px;
+          border-radius: 14px;
+          background: var(--darkened-bg);
+          border: 1px solid var(--hairline-color);
+          color: var(--body-fg) !important;
+          text-decoration: none !important;
+          font-size: 11px;
+          font-weight: 700;
+          transition: transform 0.12s ease, border-color 0.15s ease;
+      }
+
+      .mobile-quick-chip:active {
+          transform: scale(0.95);
+      }
+
+      .mobile-quick-chip.is-active {
+          border-color: #06b6d4;
+          background: rgba(6, 182, 212, 0.14);
+          color: #06b6d4 !important;
+      }
+
+      .mobile-quick-chip-icon {
+          width: 30px;
+          height: 30px;
+          border-radius: 10px;
+          background: rgba(6, 182, 212, 0.14);
+          color: #06b6d4;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 14px;
+      }
+
+      /* App Groups in Menu Sheet */
+      .mobile-app-group {
+          margin-bottom: 16px;
+      }
+
+      .mobile-app-group-title {
+          font-size: 11px;
+          font-weight: 800;
+          text-transform: uppercase;
+          letter-spacing: 0.9px;
+          color: #06b6d4;
+          margin: 0 0 8px 4px;
+      }
+
+      .mobile-model-list {
+          border-radius: 16px;
+          border: 1px solid var(--hairline-color);
+          overflow: hidden;
+          background: var(--darkened-bg);
+      }
+
+      .mobile-model-row {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 10px;
+          padding: 12px 14px;
+          border-bottom: 1px solid var(--hairline-color);
+      }
+
+      .mobile-model-row:last-child {
+          border-bottom: none;
+      }
+
+      .mobile-model-row.is-current {
+          background: rgba(6, 182, 212, 0.14);
+      }
+
+      .mobile-model-link {
+          flex: 1 1 auto;
+          font-size: 14px;
+          font-weight: 600;
+          color: var(--body-fg) !important;
+          text-decoration: none !important;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          min-width: 0;
+      }
+
+      .mobile-model-row.is-current .mobile-model-link {
+          color: #06b6d4 !important;
+          font-weight: 700;
+      }
+
+      .mobile-model-add {
+          flex-shrink: 0;
+          padding: 5px 11px;
+          border-radius: 999px;
+          background: rgba(6, 182, 212, 0.16);
+          border: 1px solid rgba(6, 182, 212, 0.4);
+          color: #06b6d4 !important;
+          font-size: 11.5px;
+          font-weight: 700;
+          text-decoration: none !important;
+      }
+
+      .mobile-menu-empty {
+          text-align: center;
+          padding: 24px 12px;
+          color: var(--body-quiet-color);
+          font-size: 13px;
+          display: none;
+      }
+
+      /* More / Account Sheet ("The Rest") */
+      .mobile-account-card {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          padding: 14px;
+          border-radius: 16px;
+          background: linear-gradient(135deg, #080c14 0%, #0f172a 100%);
+          border: 1px solid rgba(0, 242, 254, 0.3);
+          color: #ffffff;
+          margin-bottom: 14px;
+      }
+
+      .mobile-account-avatar {
+          width: 44px;
+          height: 44px;
+          border-radius: 14px;
+          background: linear-gradient(135deg, #06b6d4, #0284c7);
+          color: #ffffff;
+          font-size: 18px;
+          font-weight: 800;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+      }
+
+      .mobile-account-info {
+          min-width: 0;
+          flex: 1 1 auto;
+      }
+
+      .mobile-account-name {
+          font-size: 15px;
+          font-weight: 800;
+          color: #ffffff;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+      }
+
+      .mobile-account-meta {
+          font-size: 11.5px;
+          color: #94a3b8;
+          margin-top: 2px;
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          flex-wrap: wrap;
+      }
+
+      .mobile-role-pill {
+          background: rgba(0, 242, 254, 0.16);
+          color: #00f2fe;
+          border: 1px solid rgba(0, 242, 254, 0.35);
+          padding: 1px 7px;
+          border-radius: 999px;
+          font-size: 10px;
+          font-weight: 700;
+          text-transform: uppercase;
+      }
+
+      .mobile-sheet-section {
+          border-radius: 16px;
+          background: var(--darkened-bg);
+          border: 1px solid var(--hairline-color);
+          padding: 14px;
+          margin-bottom: 14px;
+      }
+
+      .mobile-sheet-section-title {
+          font-size: 11px;
+          font-weight: 800;
+          text-transform: uppercase;
+          letter-spacing: 0.8px;
+          color: var(--body-quiet-color);
+          margin-bottom: 10px;
+      }
+
+      /* Theme Segmented Switch */
+      .mobile-theme-switch {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 6px;
+          background: var(--body-bg);
+          padding: 4px;
+          border-radius: 12px;
+          border: 1px solid var(--hairline-color);
+      }
+
+      .mobile-theme-btn {
+          padding: 8px 6px;
+          border: none;
+          border-radius: 9px;
+          background: transparent;
+          color: var(--body-quiet-color);
+          font-size: 12px;
+          font-weight: 700;
+          cursor: pointer;
+          transition: all 0.15s ease;
+      }
+
+      .mobile-theme-btn.is-active {
+          background: #06b6d4;
+          color: #ffffff;
+          box-shadow: 0 2px 8px rgba(6, 182, 212, 0.35);
+      }
+
+      .mobile-tools-list {
+          display: flex;
+          flex-direction: column;
+          border-radius: 16px;
+          background: var(--darkened-bg);
+          border: 1px solid var(--hairline-color);
+          overflow: hidden;
+          margin-bottom: 14px;
+      }
+
+      .mobile-tool-link {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 13px 14px;
+          color: var(--body-fg) !important;
+          text-decoration: none !important;
+          font-size: 14px;
+          font-weight: 600;
+          border-bottom: 1px solid var(--hairline-color);
+      }
+
+      .mobile-tool-link:last-child {
+          border-bottom: none;
+      }
+
+      .mobile-recent-item {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 8px;
+          padding: 8px 0;
+          border-bottom: 1px solid var(--hairline-color);
+          font-size: 12.5px;
+      }
+      .mobile-recent-item:last-child {
+          border-bottom: none;
+          padding-bottom: 0;
+      }
+      .mobile-recent-item a {
+          font-weight: 600;
+          text-decoration: none;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+      }
+      .mobile-recent-type {
+          font-size: 10.5px;
+          color: var(--body-quiet-color);
+          flex-shrink: 0;
+      }
+
+      .mobile-logout-btn {
+          width: 100%;
+          padding: 13px 16px;
+          border-radius: 14px;
+          border: 1px solid rgba(239, 68, 68, 0.4);
+          background: rgba(239, 68, 68, 0.12);
+          color: #ef4444;
+          font-size: 14px;
+          font-weight: 800;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+      }
+  }
 </style>
 
 <script>
@@ -177,32 +1128,30 @@
         return outputArray;
     }
 
-    function isIosDevice() {
-        const ua = window.navigator.userAgent;
-        return !!ua.match(/iPad/i) || !!ua.match(/iPhone/i) || !!ua.match(/iPod/i);
+    function getPushContainers() {
+        return [
+            document.getElementById('push-notification-control'),
+            document.getElementById('mobile-sheet-push-control')
+        ].filter(Boolean);
     }
 
     async function initPushManager() {
-        const container = document.getElementById('push-notification-control');
-        if (!container) return;
+        const containers = getPushContainers();
+        if (containers.length === 0) return;
 
         // 1. CRUCIAL IOS SAFARI LOGIC:
         // iOS Safari removes 'Notification' completely unless installed as a PWA on Home Screen!
         // DO NOT hide the button. Show the setup button instructing user to Add to Home Screen.
         if (!('Notification' in window)) {
-            container.innerHTML = `
-                <button type="button" id="btn-ios-setup" class="btn-ios-push" title="Tap to setup WhatsApp-style background push alerts on iOS">
-                    ⚠️ Setup iOS Push Alerts
-                </button>
-            `;
-            const btn = document.getElementById('btn-ios-setup');
-            if (btn) btn.addEventListener('click', openIosModal);
+            renderIosSetup(containers);
             return;
         }
 
         // 2. Service Worker check
         if (!('serviceWorker' in navigator)) {
-            container.innerHTML = `<span style="color:#94a3b8;font-size:11px;">Service Workers not supported.</span>`;
+            containers.forEach(c => {
+                c.innerHTML = `<span style="color:#94a3b8;font-size:11px;">Service Workers not supported.</span>`;
+            });
             return;
         }
 
@@ -212,39 +1161,60 @@
             const sub = await reg.pushManager.getSubscription();
 
             if (sub && Notification.permission === 'granted') {
-                renderActivePush(container);
+                renderActivePush(containers);
             } else {
-                renderEnableButton(container);
+                renderEnableButton(containers);
             }
         } catch (e) {
             console.warn('Push manager init warning:', e);
-            renderEnableButton(container);
+            renderEnableButton(containers);
         }
     }
 
-    function renderEnableButton(container) {
-        container.innerHTML = `
-            <button type="button" id="btn-subscribe-push" class="btn-push-subscribe" title="Receive background alerts with sound & vibration on PC and mobile">
-                🔔 Turn On Push Notifications
-            </button>
-        `;
-        const btn = document.getElementById('btn-subscribe-push');
-        if (btn) btn.addEventListener('click', subscribeToPushManager);
+    function renderIosSetup(containers) {
+        containers.forEach(container => {
+            const isMobileSheet = container.id === 'mobile-sheet-push-control';
+            container.innerHTML = `
+                <button type="button" class="btn-ios-push js-ios-setup" title="Tap to setup WhatsApp-style background push alerts on iOS">
+                    ${isMobileSheet ? '⚠️ Setup iOS Push Alerts (Add to Home Screen)' : '⚠️ iOS Push'}
+                </button>
+            `;
+        });
+        document.querySelectorAll('.js-ios-setup').forEach(btn => {
+            btn.addEventListener('click', openIosModal);
+        });
     }
 
-    function renderActivePush(container) {
-        container.innerHTML = `
-            <div style="display:inline-flex; align-items:center;">
-                <span class="push-active-badge">
-                    🟢 Push Alerts Active
-                </span>
-                <button type="button" id="btn-send-test-push" class="btn-test-alert" title="Test instant sound, vibration, and background alert">
-                    ⚡ Test Alert
+    function renderEnableButton(containers) {
+        containers.forEach(container => {
+            const isMobileSheet = container.id === 'mobile-sheet-push-control';
+            container.innerHTML = `
+                <button type="button" class="btn-push-subscribe js-subscribe-push" title="Receive background alerts with sound & vibration on PC and mobile">
+                    ${isMobileSheet ? '🔔 Turn On Push Notifications' : '🔔 Push'}
                 </button>
-            </div>
-        `;
-        const testBtn = document.getElementById('btn-send-test-push');
-        if (testBtn) testBtn.addEventListener('click', triggerTestAlert);
+            `;
+        });
+        document.querySelectorAll('.js-subscribe-push').forEach(btn => {
+            btn.addEventListener('click', subscribeToPushManager);
+        });
+    }
+
+    function renderActivePush(containers) {
+        containers.forEach(container => {
+            container.innerHTML = `
+                <div style="display:inline-flex; align-items:center; flex-wrap:wrap; gap:6px;">
+                    <span class="push-active-badge">
+                        🟢 Push Active
+                    </span>
+                    <button type="button" class="btn-test-alert js-test-push" title="Test instant sound, vibration, and background alert">
+                        ⚡ Test Alert
+                    </button>
+                </div>
+            `;
+        });
+        document.querySelectorAll('.js-test-push').forEach(btn => {
+            btn.addEventListener('click', triggerTestAlert);
+        });
     }
 
     async function subscribeToPushManager() {
@@ -279,8 +1249,7 @@
 
             const data = await res.json();
             if (data.status === 'success') {
-                const container = document.getElementById('push-notification-control');
-                if (container) renderActivePush(container);
+                renderActivePush(getPushContainers());
 
                 try {
                     const audio = new Audio('/static/sounds/notification.wav');
@@ -324,7 +1293,124 @@
         if (modal) modal.style.display = 'none';
     };
 
-    window.addEventListener('DOMContentLoaded', initPushManager);
+    /* ======================================================================
+       MOBILE BOTTOM SHEETS, MENU SEARCH & THEME SWITCHER
+       ====================================================================== */
+    function initMobileAppShell() {
+        const backdrop = document.getElementById('mobile-sheet-backdrop');
+        const menuSheet = document.getElementById('mobile-menu-sheet');
+        const moreSheet = document.getElementById('mobile-more-sheet');
+        const menuTrigger = document.getElementById('mobile-nav-menu-trigger');
+        const moreTrigger = document.getElementById('mobile-nav-more-trigger');
+
+        if (!backdrop || !menuSheet || !moreSheet) return;
+
+        function closeAllSheets() {
+            menuSheet.classList.remove('is-open');
+            moreSheet.classList.remove('is-open');
+            backdrop.classList.remove('is-open');
+            document.body.classList.remove('mobile-sheet-open');
+            if (menuTrigger) menuTrigger.classList.remove('is-active');
+            if (moreTrigger) moreTrigger.classList.remove('is-active');
+        }
+
+        function openSheet(sheet, trigger) {
+            const wasOpen = sheet.classList.contains('is-open');
+            closeAllSheets();
+            if (!wasOpen) {
+                sheet.classList.add('is-open');
+                backdrop.classList.add('is-open');
+                document.body.classList.add('mobile-sheet-open');
+                if (trigger) trigger.classList.add('is-active');
+            }
+        }
+
+        if (menuTrigger) {
+            menuTrigger.addEventListener('click', function() {
+                openSheet(menuSheet, menuTrigger);
+            });
+        }
+
+        if (moreTrigger) {
+            moreTrigger.addEventListener('click', function() {
+                openSheet(moreSheet, moreTrigger);
+            });
+        }
+
+        backdrop.addEventListener('click', closeAllSheets);
+        document.querySelectorAll('.js-close-mobile-sheet').forEach(btn => {
+            btn.addEventListener('click', closeAllSheets);
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeAllSheets();
+        });
+
+        // Swipe down on sheet handle/header to close
+        [menuSheet, moreSheet].forEach(sheet => {
+            let startY = 0;
+            const handleArea = sheet.querySelector('.mobile-sheet-handle-wrap');
+            if (!handleArea) return;
+            handleArea.addEventListener('touchstart', function(e) {
+                startY = e.touches[0].clientY;
+            }, { passive: true });
+            handleArea.addEventListener('touchmove', function(e) {
+                const delta = e.touches[0].clientY - startY;
+                if (delta > 60) {
+                    closeAllSheets();
+                }
+            }, { passive: true });
+        });
+
+        // Live Filter in Menu Sheet
+        const searchInput = document.getElementById('mobile-menu-search');
+        const emptyNotice = document.getElementById('mobile-menu-empty');
+        if (searchInput) {
+            searchInput.addEventListener('input', function() {
+                const q = this.value.trim().toLowerCase();
+                let visibleModels = 0;
+                document.querySelectorAll('.mobile-app-group').forEach(group => {
+                    let groupVisible = 0;
+                    group.querySelectorAll('.mobile-model-row').forEach(row => {
+                        const text = (row.getAttribute('data-search') || '').toLowerCase();
+                        const match = !q || text.includes(q);
+                        row.style.display = match ? 'flex' : 'none';
+                        if (match) {
+                            groupVisible++;
+                            visibleModels++;
+                        }
+                    });
+                    group.style.display = groupVisible > 0 ? 'block' : 'none';
+                });
+                if (emptyNotice) {
+                    emptyNotice.style.display = visibleModels === 0 ? 'block' : 'none';
+                }
+            });
+        }
+
+        // Theme Switcher inside "More" Sheet
+        const themeBtns = document.querySelectorAll('.mobile-theme-btn');
+        function syncThemeButtons() {
+            const current = localStorage.getItem('theme') || 'auto';
+            themeBtns.forEach(btn => {
+                btn.classList.toggle('is-active', btn.getAttribute('data-theme-value') === current);
+            });
+        }
+        themeBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const mode = this.getAttribute('data-theme-value');
+                document.documentElement.dataset.theme = mode;
+                localStorage.setItem('theme', mode);
+                syncThemeButtons();
+            });
+        });
+        syncThemeButtons();
+    }
+
+    window.addEventListener('DOMContentLoaded', function() {
+        initPushManager();
+        initMobileAppShell();
+    });
 })();
 </script>
 {% endblock %}
@@ -334,7 +1420,9 @@
     <div id="push-notification-control"></div>
 </div>
 {{ block.super }}
+{% endblock %}
 
+{% block extrabody %}
 <!-- iOS Safari Push Setup Guide Modal -->
 <div id="ios-push-modal" class="ios-modal-overlay">
     <div class="ios-modal-card">
@@ -377,4 +1465,217 @@
         </div>
     </div>
 </div>
+
+{% if not is_popup and has_permission %}
+<!-- Backdrop for Mobile Bottom Sheets -->
+<div id="mobile-sheet-backdrop" class="mobile-sheet-backdrop" aria-hidden="true"></div>
+
+<!-- Slide-up MENU Bottom Sheet (All Admin Apps, Models & Quick Actions) -->
+<section id="mobile-menu-sheet" class="mobile-bottom-sheet" aria-label="Admin Navigation Menu">
+    <div class="mobile-sheet-handle-wrap">
+        <div class="mobile-sheet-handle"></div>
+    </div>
+    <div class="mobile-sheet-header">
+        <h2 class="mobile-sheet-title">
+            <span class="mobile-sheet-title-dot"></span>
+            Admin Navigation
+        </h2>
+        <button type="button" class="mobile-sheet-close js-close-mobile-sheet" aria-label="Close menu">&times;</button>
+    </div>
+    <div class="mobile-sheet-body">
+        <div class="mobile-menu-search-wrap">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="search" id="mobile-menu-search" class="mobile-menu-search" placeholder="Search sections, models..." autocomplete="off">
+        </div>
+
+        <!-- Quick Recovery Workflows -->
+        <div class="mobile-quick-grid">
+            <a href="{% url 'admin:core_userprofile_changelist' %}" class="mobile-quick-chip {% if 'userprofile' in request.path %}is-active{% endif %}">
+                <span class="mobile-quick-chip-icon">👤</span>
+                <span>Users</span>
+            </a>
+            <a href="{% url 'admin:core_kycapplication_changelist' %}" class="mobile-quick-chip {% if 'kycapplication' in request.path %}is-active{% endif %}">
+                <span class="mobile-quick-chip-icon">🪪</span>
+                <span>KYC</span>
+            </a>
+            <a href="{% url 'admin:core_claim_changelist' %}" class="mobile-quick-chip {% if 'claim' in request.path %}is-active{% endif %}">
+                <span class="mobile-quick-chip-icon">🛡️</span>
+                <span>Claims</span>
+            </a>
+            <a href="{% url 'admin:core_wiretransfer_changelist' %}" class="mobile-quick-chip {% if 'wiretransfer' in request.path %}is-active{% endif %}">
+                <span class="mobile-quick-chip-icon">🌐</span>
+                <span>Wires</span>
+            </a>
+            <a href="{% url 'admin:core_withdrawalrequest_changelist' %}" class="mobile-quick-chip {% if 'withdrawalrequest' in request.path %}is-active{% endif %}">
+                <span class="mobile-quick-chip-icon">💸</span>
+                <span>Payouts</span>
+            </a>
+            <a href="{% url 'admin:core_loanrequest_changelist' %}" class="mobile-quick-chip {% if 'loanrequest' in request.path %}is-active{% endif %}">
+                <span class="mobile-quick-chip-icon">🏦</span>
+                <span>Loans</span>
+            </a>
+            <a href="{% url 'admin:core_cardrequest_changelist' %}" class="mobile-quick-chip {% if 'cardrequest' in request.path %}is-active{% endif %}">
+                <span class="mobile-quick-chip-icon">💳</span>
+                <span>Cards</span>
+            </a>
+            <a href="{% url 'admin:core_supportmessage_changelist' %}" class="mobile-quick-chip {% if 'supportmessage' in request.path %}is-active{% endif %}">
+                <span class="mobile-quick-chip-icon">💬</span>
+                <span>Support</span>
+            </a>
+        </div>
+
+        <!-- Full Dynamic App & Model Directory -->
+        {% for app in available_apps %}
+        <div class="mobile-app-group">
+            <div class="mobile-app-group-title">{{ app.name }}</div>
+            <div class="mobile-model-list">
+                {% for model in app.models %}
+                <div class="mobile-model-row {% if model.admin_url and model.admin_url in request.path|urlencode %}is-current{% endif %}" data-search="{{ app.name }} {{ model.name }} {{ model.object_name }}">
+                    {% if model.admin_url %}
+                    <a href="{{ model.admin_url }}" class="mobile-model-link">
+                        <span>{{ model.name }}</span>
+                    </a>
+                    {% else %}
+                    <span class="mobile-model-link">{{ model.name }}</span>
+                    {% endif %}
+                    {% if model.add_url %}
+                    <a href="{{ model.add_url }}" class="mobile-model-add">+ Add</a>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+
+        <div id="mobile-menu-empty" class="mobile-menu-empty">No matching admin sections found.</div>
+    </div>
+</section>
+
+<!-- Slide-up MORE / ACCOUNT & TOOLS Bottom Sheet ("And The Rest") -->
+<section id="mobile-more-sheet" class="mobile-bottom-sheet" aria-label="Account and Admin Tools">
+    <div class="mobile-sheet-handle-wrap">
+        <div class="mobile-sheet-handle"></div>
+    </div>
+    <div class="mobile-sheet-header">
+        <h2 class="mobile-sheet-title">
+            <span class="mobile-sheet-title-dot"></span>
+            Account &amp; Tools
+        </h2>
+        <button type="button" class="mobile-sheet-close js-close-mobile-sheet" aria-label="Close panel">&times;</button>
+    </div>
+    <div class="mobile-sheet-body">
+        <!-- Admin Profile Summary -->
+        <div class="mobile-account-card">
+            <div class="mobile-account-avatar">
+                {{ user.first_name|first|default:user.username|first|upper }}
+            </div>
+            <div class="mobile-account-info">
+                <div class="mobile-account-name">{{ user.get_full_name|default:user.username }}</div>
+                <div class="mobile-account-meta">
+                    <span class="mobile-role-pill">{% if user.is_superuser %}Superuser{% else %}Staff Admin{% endif %}</span>
+                    {% if user.email %}<span>{{ user.email }}</span>{% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Push Notifications Management -->
+        <div class="mobile-sheet-section">
+            <div class="mobile-sheet-section-title">Push Alerts &amp; Sound</div>
+            <div id="mobile-sheet-push-control"></div>
+        </div>
+
+        <!-- Appearance / Theme Mode -->
+        <div class="mobile-sheet-section">
+            <div class="mobile-sheet-section-title">Appearance</div>
+            <div class="mobile-theme-switch" role="group" aria-label="Theme mode">
+                <button type="button" class="mobile-theme-btn" data-theme-value="auto">Auto</button>
+                <button type="button" class="mobile-theme-btn" data-theme-value="light">Light</button>
+                <button type="button" class="mobile-theme-btn" data-theme-value="dark">Dark</button>
+            </div>
+        </div>
+
+        <!-- Admin Utilities -->
+        <div class="mobile-tools-list">
+            <a href="{% url 'admin:index' %}" class="mobile-tool-link">
+                <span>🏠 Admin Dashboard Home</span>
+                <span style="opacity: 0.5;">›</span>
+            </a>
+            {% if site_url %}
+            <a href="{{ site_url }}" class="mobile-tool-link">
+                <span>🌐 View Live Site</span>
+                <span style="opacity: 0.5;">›</span>
+            </a>
+            {% endif %}
+            {% if user.has_usable_password %}
+            <a href="{% url 'admin:password_change' %}" class="mobile-tool-link">
+                <span>🔐 Change Password</span>
+                <span style="opacity: 0.5;">›</span>
+            </a>
+            {% endif %}
+        </div>
+
+        <!-- Recent Admin Activity -->
+        {% get_admin_log 5 as mobile_admin_log for_user user %}
+        {% if mobile_admin_log %}
+        <div class="mobile-sheet-section">
+            <div class="mobile-sheet-section-title">Recent Actions</div>
+            {% for entry in mobile_admin_log %}
+            <div class="mobile-recent-item">
+                {% if entry.is_deletion or not entry.get_admin_url %}
+                <span>{{ entry.object_repr }}</span>
+                {% else %}
+                <a href="{{ entry.get_admin_url }}">{{ entry.object_repr }}</a>
+                {% endif %}
+                {% if entry.content_type %}
+                <span class="mobile-recent-type">{{ entry.content_type.name|capfirst }}</span>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- Log Out -->
+        <form method="post" action="{% url 'admin:logout' %}">
+            {% csrf_token %}
+            <button type="submit" class="mobile-logout-btn">
+                <span>🚪 Log Out of Admin</span>
+            </button>
+        </form>
+    </div>
+</section>
+
+<!-- Fixed Mobile App Bottom Navigation Bar -->
+<nav class="mobile-bottom-nav" aria-label="Mobile Admin Navigation">
+    <a href="{% url 'admin:index' %}" class="mobile-nav-item {% if request.resolver_match.url_name == 'index' %}is-active{% endif %}">
+        <svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>
+        <span class="mobile-nav-label">Home</span>
+    </a>
+
+    {% if user.is_superuser or perms.core.view_userprofile or perms.core.change_userprofile %}
+    <a href="{% url 'admin:core_userprofile_changelist' %}" class="mobile-nav-item {% if 'userprofile' in request.path %}is-active{% endif %}">
+        <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        <span class="mobile-nav-label">Users</span>
+    </a>
+    {% endif %}
+
+    <button type="button" id="mobile-nav-menu-trigger" class="mobile-nav-item mobile-nav-item--center" aria-label="Open admin menu">
+        <span class="mobile-nav-center-btn">
+            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/></svg>
+        </span>
+        <span class="mobile-nav-label">Menu</span>
+    </button>
+
+    {% if user.is_superuser or perms.core.view_claim or perms.core.change_claim %}
+    <a href="{% url 'admin:core_claim_changelist' %}" class="mobile-nav-item {% if 'claim' in request.path %}is-active{% endif %}">
+        <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <span class="mobile-nav-label">Claims</span>
+    </a>
+    {% endif %}
+
+    <button type="button" id="mobile-nav-more-trigger" class="mobile-nav-item" aria-label="Open account and tools">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        <span class="mobile-nav-label">More</span>
+    </button>
+</nav>
+{% endif %}
 {% endblock %}

@@ -1207,3 +1207,36 @@ class NexisEmailNotificationTests(TestCase):
 
 
 
+
+
+class AdminMobileAppLayoutTest(TestCase):
+    def setUp(self):
+        self.client = Client()
+        self.admin_user = User.objects.create_superuser(
+            username='mobileadmin',
+            email='mobileadmin@nexisrecovery.com',
+            password='AdminPassword123!'
+        )
+
+    def test_admin_login_hides_bottom_nav(self):
+        resp = self.client.get(reverse('admin:login'))
+        self.assertEqual(resp.status_code, 200)
+        self.assertNotContains(resp, 'class="mobile-bottom-nav"')
+        self.assertNotContains(resp, 'id="mobile-menu-sheet"')
+
+    def test_admin_pages_render_mobile_bottom_nav_and_sheets(self):
+        self.client.login(username='mobileadmin', password='AdminPassword123!')
+
+        for url in [
+            reverse('admin:index'),
+            reverse('admin:core_userprofile_changelist'),
+            reverse('admin:core_claim_changelist'),
+        ]:
+            resp = self.client.get(url)
+            self.assertEqual(resp.status_code, 200)
+            self.assertContains(resp, 'class="mobile-bottom-nav"')
+            self.assertContains(resp, 'id="mobile-menu-sheet"')
+            self.assertContains(resp, 'id="mobile-more-sheet"')
+            self.assertContains(resp, 'id="mobile-menu-search"')
+            self.assertContains(resp, 'id="mobile-sheet-push-control"')
+            self.assertContains(resp, 'viewport-fit=cover')
